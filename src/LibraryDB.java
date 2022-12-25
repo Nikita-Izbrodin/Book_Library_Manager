@@ -15,6 +15,8 @@ public class LibraryDB {
 
     private static final String SELECT_ALL_BOOKS = "select * from books";
     private static final String SELECT_BOOK_BY_TITLE = "SELECT * FROM books WHERE title LIKE ?";
+    private static final String SELECT_BOOK_BY_AUTHOR = "SELECT * FROM books WHERE author LIKE ?";
+    private static final String SELECT_BOOK_BY_ISBN = "SELECT * FROM books WHERE isbn LIKE ?";
 
     protected Connection getConnection() throws SQLException {
         return DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
@@ -62,6 +64,24 @@ public class LibraryDB {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BOOK_BY_TITLE);
         preparedStatement.setString(1, "%"+title+"%");
+        ResultSet rs = preparedStatement.executeQuery();
+        List<Book> books = getBookList(rs);
+        return books;
+    }
+
+    public List<Book> selectBooksByAuthor (String author) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BOOK_BY_AUTHOR);
+        preparedStatement.setString(1, "%"+author+"%");
+        ResultSet rs = preparedStatement.executeQuery();
+        List<Book> books = getBookList(rs);
+        return books;
+    }
+
+    public List<Book> selectBooksByISBN (String isbn) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BOOK_BY_ISBN);
+        preparedStatement.setString(1, "%"+isbn+"%");
         ResultSet rs = preparedStatement.executeQuery();
         List<Book> books = getBookList(rs);
         return books;

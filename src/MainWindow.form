@@ -45,12 +45,13 @@
                   <text value="Search by"/>
                 </properties>
               </component>
-              <component id="999c7" class="javax.swing.JComboBox" binding="comboBox1" default-binding="true">
+              <component id="999c7" class="javax.swing.JComboBox" binding="searchByComboBox">
                 <constraints/>
                 <properties>
                   <model>
-                    <item value="example1"/>
-                    <item value="example2"/>
+                    <item value="Title"/>
+                    <item value="Author"/>
+                    <item value="ISBN"/>
                   </model>
                 </properties>
               </component>

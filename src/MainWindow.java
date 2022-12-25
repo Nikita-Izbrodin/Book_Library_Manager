@@ -1,5 +1,4 @@
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
 import java.sql.SQLException;
 import java.util.List;
@@ -12,7 +11,7 @@ public class MainWindow {
     private JComboBox menuComboBox;
     private JPanel mainPanel;
     private JButton addNewButton;
-    private JComboBox comboBox1;
+    private JComboBox searchByComboBox;
     private JTextField textField1;
     private JButton searchButton;
     private JList<Book> bookList;
@@ -95,17 +94,43 @@ public class MainWindow {
         textField1.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                super.keyTyped(e);
-                System.out.println("type");
+                //super.keyTyped(e); // not sure why this line was added. might remove
+                selectBooksBy();
             }
         });
 
-        searchButton.addActionListener(new ActionListener() {
+        searchByComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Test");
+                selectBooksBy();
             }
         });
+    }
+
+    private void selectBooksBy() {
+        LibraryDB db = new LibraryDB();
+        List<Book> booksList = null;
+        String searchBy = searchByComboBox.getSelectedItem().toString();
+
+        try {
+            if (searchBy.equals("Title")) {
+                booksList = db.selectBooksByTitle(textField1.getText());
+
+            } else if (searchBy.equals("Author")) {
+                booksList = db.selectBooksByAuthor(textField1.getText());
+
+            } else if (searchBy.equals("ISBN")) {
+                booksList = db.selectBooksByISBN(textField1.getText());
+
+            }
+
+            Book[] booksArray = booksList.toArray(new Book[booksList.size()]);
+            bookList.setListData(booksArray);
+            bookList.setCellRenderer(new BookCellRenderer());
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void showAllBooks() {
@@ -118,8 +143,6 @@ public class MainWindow {
             Book[] booksArray = booksList.toArray(new Book[booksList.size()]);
             bookList.setListData(booksArray);
             bookList.setCellRenderer(new BookCellRenderer());
-
-            // TODO: filter JList with Text Field
 
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);

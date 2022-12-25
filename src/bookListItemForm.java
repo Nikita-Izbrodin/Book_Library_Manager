@@ -2,8 +2,8 @@ import javax.swing.*;
 
 public class bookListItemForm {
     private JPanel bookItemPanel;
-    private JLabel authorLabel;
     private JLabel titleLabel;
+    private JLabel authorLabel;
     private JLabel isbnLabel;
     private JLabel quantityLabel;
 
@@ -12,8 +12,8 @@ public class bookListItemForm {
     }
 
     public void SetData(Book entry) {
-        authorLabel.setText("Author: "+ entry.getAuthor());
         titleLabel.setText("Title: "+ entry.getTitle());
+        authorLabel.setText("Author: "+ entry.getAuthor());
         isbnLabel.setText("ISBN: "+ entry.getIsbn());
         quantityLabel.setText("Quantity: "+ entry.getQuantity());
     }
