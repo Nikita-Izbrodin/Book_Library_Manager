@@ -9,28 +9,26 @@ public class LibraryDB {
     private String jdbcPassword = "manager7349";
 
     private static final String SELECT_ALL_STAFF = "select * from staff";
-
     private static final String INSERT_USER = "INSERT INTO staff" + " (username, full_name, password) VALUES " + " (?,?,?);";
-    private static final String INSERT_BOOK = "INSERT INTO books" + " (title, author, isbn, quantity) VALUES " + " (?,?,?,?);";
 
     private static final String SELECT_ALL_BOOKS = "select * from books";
     private static final String SELECT_BOOK_BY_TITLE = "SELECT * FROM books WHERE title LIKE ?";
     private static final String SELECT_BOOK_BY_AUTHOR = "SELECT * FROM books WHERE author LIKE ?";
     private static final String SELECT_BOOK_BY_ISBN = "SELECT * FROM books WHERE isbn LIKE ?";
+    private static final String INSERT_BOOK = "INSERT INTO books" + " (title, author, isbn, quantity) VALUES " + " (?,?,?,?);";
+    private static final String UPDATE_BOOK = "UPDATE books SET title = ?, author = ?, isbn = ?, quantity = ? WHERE title = ? AND author = ? AND isbn = ? AND quantity = ?";
 
     protected Connection getConnection() throws SQLException {
         return DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
     }
 
     public boolean noStaff() throws SQLException {
-
         try (Connection connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_STAFF)) {
             ResultSet rs = preparedStatement.executeQuery();
             boolean isEmptyResultSet = !rs.next();
             return isEmptyResultSet;
         }
-
     }
 
     public void createUser(User user) throws SQLException {
@@ -85,6 +83,21 @@ public class LibraryDB {
         ResultSet rs = preparedStatement.executeQuery();
         List<Book> books = getBookList(rs);
         return books;
+    }
+
+    public void updateBook(String newTitle, String newAuthor, String newISBN, String newQuantity,
+                           String oldTitle, String oldAuthor, String oldISBN, String oldQuantity) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_BOOK);
+        preparedStatement.setString(1, newTitle);
+        preparedStatement.setString(2, newAuthor);
+        preparedStatement.setString(3, newISBN);
+        preparedStatement.setString(4, newQuantity);
+        preparedStatement.setString(5, oldTitle);
+        preparedStatement.setString(6, oldAuthor);
+        preparedStatement.setString(7, oldISBN);
+        preparedStatement.setString(8, oldQuantity);
+        preparedStatement.executeUpdate();
     }
 
     private static List<Book> getBookList(ResultSet rs) throws SQLException {
