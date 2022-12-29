@@ -58,7 +58,7 @@ public class MainWindow {
 
     public MainWindow() {
         LibraryDB db = new LibraryDB();
-        selectBooksBy();
+        selectBooksBy(); // to display all books
 
         // start of actionlisteners
         addNewButton.addActionListener(new ActionListener() {
@@ -83,16 +83,15 @@ public class MainWindow {
         editBookButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (bookList.getSelectedValue() == null) {
+                if (titleLabel.getText().isEmpty()) { // if nothing is selected
                     return;
                 }
-
-                BookDialog bookDialog = new BookDialog("edit", bookList.getSelectedValue().getTitle(), bookList.getSelectedValue().getAuthor(), String.valueOf(bookList.getSelectedValue().getIsbn()), String.valueOf(bookList.getSelectedValue().getQuantity()));
+                BookDialog bookDialog = new BookDialog("edit", titleLabel.getText(), authorLabel.getText(), isbnLabel.getText(), quantityLabel.getText());
                 bookDialog.pack();
                 bookDialog.show();
                 Book editedBook = bookDialog.getBook();
-                if (editedBook.getTitle().isEmpty() || editedBook.getAuthor().isEmpty() || String.valueOf(bookList.getSelectedValue().getIsbn()).isEmpty() || String.valueOf(bookList.getSelectedValue().getQuantity()).isEmpty()) {
-                    return; // does not belong here
+                if (editedBook == null) { // if cancel pressed
+                    return;
                 }
                 try {
                     db.updateBook(editedBook.getTitle(), editedBook.getAuthor(), String.valueOf(editedBook.getIsbn()), String.valueOf(editedBook.getQuantity()), bookList.getSelectedValue().getTitle(), bookList.getSelectedValue().getAuthor(), String.valueOf(bookList.getSelectedValue().getIsbn()), String.valueOf(bookList.getSelectedValue().getQuantity()));
@@ -113,9 +112,6 @@ public class MainWindow {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 // TODO: make selected item highlighted
-
-                System.out.println(authorLabel.getText());
-
                 titleLabel.setText(bookList.getSelectedValue().getTitle());
                 authorLabel.setText(bookList.getSelectedValue().getAuthor());
                 isbnLabel.setText(String.valueOf(bookList.getSelectedValue().getIsbn()));
