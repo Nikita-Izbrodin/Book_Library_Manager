@@ -4,7 +4,7 @@ import java.util.List;
 
 public class LibraryDB {
 
-    private String jdbcURL = "jdbc:mysql://localhost:3306/booklibrary?useSSL=false";
+    private String jdbcURL = "jdbc:mysql://localhost:3306/booklibrary?allowPublicKeyRetrieval=true&useSSL=false";
     private String jdbcUsername = "dbmanager";
     private String jdbcPassword = "manager7349";
 

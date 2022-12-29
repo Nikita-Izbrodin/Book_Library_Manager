@@ -57,7 +57,7 @@
               </component>
             </children>
           </grid>
-          <component id="fadcf" class="javax.swing.JTextField" binding="textField1" default-binding="true">
+          <component id="fadcf" class="javax.swing.JTextField" binding="searchTextField">
             <constraints border-constraint="Center"/>
             <properties>
               <preferredSize width="250" height="30"/>

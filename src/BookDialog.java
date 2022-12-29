@@ -1,28 +1,28 @@
 import javax.swing.*;
 import java.awt.event.*;
 
-public class CreateBookDialog extends JDialog {
+public class BookDialog extends JDialog {
     private JPanel contentPane;
-    private JButton buttonOK;
-    private JButton buttonCancel;
+    private JButton leftButton;
+    private JButton rightButton;
     private JTextField quantityField;
     private JTextField titleField;
     private JTextField authorField;
     private JTextField isbnField;
     private Book newBook;
 
-    public CreateBookDialog() {
+    public BookDialog() {
         setContentPane(contentPane);
         setModal(true);
-        getRootPane().setDefaultButton(buttonOK);
+        getRootPane().setDefaultButton(leftButton);
 
-        buttonOK.addActionListener(new ActionListener() {
+        leftButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onOK();
             }
         });
 
-        buttonCancel.addActionListener(new ActionListener() {
+        rightButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
             }

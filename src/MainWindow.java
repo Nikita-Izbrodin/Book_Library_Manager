@@ -12,7 +12,7 @@ public class MainWindow {
     private JPanel mainPanel;
     private JButton addNewButton;
     private JComboBox searchByComboBox;
-    private JTextField textField1;
+    private JTextField searchTextField;
     private JList<Book> bookList;
     private JScrollBar scrollBar1;
     private JPanel allContentsPanel;
@@ -59,7 +59,7 @@ public class MainWindow {
     }
 
     private static void showMainWindow() {
-        JFrame frame = new JFrame("MainWindow");
+        JFrame frame = new JFrame("Book Library Manager");
         MainWindow mainWindow = new MainWindow();
         frame.setContentPane(mainWindow.mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -69,34 +69,36 @@ public class MainWindow {
 
     public MainWindow() {
         LibraryDB db = new LibraryDB();
-        showAllBooks();
+        selectBooksBy();
 
         // start of actionlisteners
-        addNewButton.addActionListener(new ActionListener() {
+        addNewButton.addActionListener(new ActionListener() { // TODO: add books using a child card JPanel
             @Override
             public void actionPerformed(ActionEvent e) {
-                CreateBookDialog createBookDialog = new CreateBookDialog();
-                createBookDialog.pack();
-                createBookDialog.show();
-                Book newBook = createBookDialog.getNewBook();
+                BookDialog bookDialog = new BookDialog();
+
+                bookDialog.pack();
+                bookDialog.show();
+                Book newBook = bookDialog.getNewBook();
                 if (newBook == null) {
-                    // exit from the application
-                    return;
+                    return; // exit from the application
                 }
                 try {
                     db.createBook(newBook);
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
                 }
+                selectBooksBy(); // updates list after book is added
             }
         });
 
-        bookList.addMouseListener(new MouseAdapter() {
+        bookList.addMouseListener(new MouseAdapter() { // when item in list is selected
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                //System.out.println(bookList.getSelectedValue());
                 // TODO: make selected item highlighted
+
+                System.out.println(authorLabel.getText());
 
                 titleLabel.setText("Title: "+bookList.getSelectedValue().getTitle());
                 authorLabel.setText("Author: "+bookList.getSelectedValue().getAuthor());
@@ -105,7 +107,7 @@ public class MainWindow {
             }
         });
 
-        textField1.addKeyListener(new KeyAdapter() {
+        searchTextField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
                 //super.keyTyped(e); // not sure why this line was added. might remove
@@ -137,12 +139,19 @@ public class MainWindow {
             }
         });
 
-        editBookButton.addActionListener(new ActionListener() {
+        editBookButton.addActionListener(new ActionListener() { // TODO: maybe change into dialog
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (bookList.getSelectedValue() == null) {
                     return;
                 }
+
+                // prevents user from changing selected index in booklist // TODO: maybe change into method
+                searchTextField.setEnabled(false);
+                menuComboBox.setEnabled(false);
+                addNewButton.setEnabled(false);
+                searchByComboBox.setEnabled(false);
+
                 selectedParentCardPanel.removeAll();
                 selectedParentCardPanel.add(bookEditCardPanel);
 
@@ -163,6 +172,12 @@ public class MainWindow {
                 selectedParentCardPanel.add(bookCardPanel);
                 selectedParentCardPanel.repaint();
                 selectedParentCardPanel.revalidate();
+
+                searchTextField.setEnabled(true);
+                menuComboBox.setEnabled(true);
+                addNewButton.setEnabled(true);
+                searchByComboBox.setEnabled(true);
+                bookList.setEnabled(true);
             }
         });
 
@@ -170,7 +185,7 @@ public class MainWindow {
             @Override
             public void actionPerformed(ActionEvent e) {
                 LibraryDB db = new LibraryDB();
-                try { // TODO: maybe change edit book into joptionpane so that search can't be used
+                try {
                     db.updateBook(editTitleTextField.getText(), editAuthorTextField.getText(), editISBNTextField.getText(), editQuantityTextField.getText(),
                                   bookList.getSelectedValue().getTitle(), bookList.getSelectedValue().getAuthor(), String.valueOf(bookList.getSelectedValue().getIsbn()), String.valueOf(bookList.getSelectedValue().getQuantity()));
                     JOptionPane.showMessageDialog(null, "Book updated successfully.", "Book update", JOptionPane.INFORMATION_MESSAGE);
@@ -180,17 +195,22 @@ public class MainWindow {
                 selectedParentCardPanel.removeAll();
                 selectedParentCardPanel.add(bookCardPanel);
 
-                // to update info on bookCardPanel
                 titleLabel.setText("Title: "+editTitleTextField.getText());
                 authorLabel.setText("Author: "+editAuthorTextField.getText());
-                isbnLabel.setText("ISBN: "+String.valueOf(editISBNTextField.getText()));
-                quantityLabel.setText("Quantity: "+String.valueOf(editQuantityTextField.getText()));
+                isbnLabel.setText("ISBN: "+(editISBNTextField.getText()));
+                quantityLabel.setText("Quantity: "+(editQuantityTextField.getText()));
 
                 selectedParentCardPanel.repaint();
                 selectedParentCardPanel.revalidate();
                 int index = bookList.getSelectedIndex();
                 selectBooksBy(); // to update list after changes
                 bookList.setSelectedIndex(index);
+
+                searchTextField.setEnabled(true);
+                menuComboBox.setEnabled(true);
+                addNewButton.setEnabled(true);
+                searchByComboBox.setEnabled(true);
+                bookList.setEnabled(true);
             }
         });
         // end of actionlisteners
@@ -202,27 +222,15 @@ public class MainWindow {
         String searchBy = searchByComboBox.getSelectedItem().toString();
         try {
             if (searchBy.equals("Title")) {
-                booksList = db.selectBooksByTitle(textField1.getText());
+                booksList = db.selectBooksByTitle(searchTextField.getText());
 
             } else if (searchBy.equals("Author")) {
-                booksList = db.selectBooksByAuthor(textField1.getText());
+                booksList = db.selectBooksByAuthor(searchTextField.getText());
 
             } else if (searchBy.equals("ISBN")) {
-                booksList = db.selectBooksByISBN(textField1.getText());
+                booksList = db.selectBooksByISBN(searchTextField.getText());
 
             }
-            Book[] booksArray = booksList.toArray(new Book[booksList.size()]);
-            bookList.setListData(booksArray);
-            bookList.setCellRenderer(new BookCellRenderer());
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    private void showAllBooks() {
-        LibraryDB db = new LibraryDB();
-        try {
-            List<Book> booksList = db.selectAllBooks();
             Book[] booksArray = booksList.toArray(new Book[booksList.size()]);
             bookList.setListData(booksArray);
             bookList.setCellRenderer(new BookCellRenderer());
