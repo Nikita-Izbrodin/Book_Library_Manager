@@ -26,6 +26,7 @@
               <component id="14e5c" class="javax.swing.JComboBox" binding="menuComboBox">
                 <constraints/>
                 <properties>
+                  <focusable value="false"/>
                   <model>
                     <item value="Books"/>
                     <item value="Members"/>
@@ -36,6 +37,7 @@
               <component id="daa7c" class="javax.swing.JButton" binding="addNewButton" default-binding="true">
                 <constraints/>
                 <properties>
+                  <focusable value="false"/>
                   <text value="Add new"/>
                 </properties>
               </component>
@@ -48,6 +50,7 @@
               <component id="999c7" class="javax.swing.JComboBox" binding="searchByComboBox">
                 <constraints/>
                 <properties>
+                  <focusable value="false"/>
                   <model>
                     <item value="Title"/>
                     <item value="Author"/>
@@ -129,6 +132,7 @@
                     </constraints>
                     <properties>
                       <background color="-3467756"/>
+                      <focusable value="false"/>
                       <text value="Delete Book"/>
                     </properties>
                   </component>
@@ -137,39 +141,44 @@
                       <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
+                      <focusable value="false"/>
                       <text value="Edit Book"/>
                     </properties>
                   </component>
                   <component id="97bd0" class="javax.swing.JLabel">
                     <constraints>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
+                      <focusable value="false"/>
                       <text value="Title:"/>
                     </properties>
                   </component>
                   <component id="c4440" class="javax.swing.JLabel">
                     <constraints>
-                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
+                      <focusable value="false"/>
                       <text value="Author:"/>
                     </properties>
                   </component>
                   <component id="7c4fb" class="javax.swing.JLabel">
                     <constraints>
-                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
+                      <focusable value="false"/>
                       <text value="ISBN:"/>
                     </properties>
                   </component>
                   <component id="656d4" class="javax.swing.JLabel">
                     <constraints>
-                      <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <text value="Label:"/>
+                      <focusable value="false"/>
+                      <text value="Quantity:"/>
                     </properties>
                   </component>
                 </children>

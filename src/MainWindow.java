@@ -83,7 +83,7 @@ public class MainWindow {
         editBookButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (titleLabel.getText().isEmpty()) { // if nothing is selected
+                if (titleLabel.getText().isBlank()) { // if nothing is selected
                     return;
                 }
                 BookDialog bookDialog = new BookDialog("edit", titleLabel.getText(), authorLabel.getText(), isbnLabel.getText(), quantityLabel.getText());
@@ -94,7 +94,7 @@ public class MainWindow {
                     return;
                 }
                 try {
-                    db.updateBook(editedBook.getTitle(), editedBook.getAuthor(), String.valueOf(editedBook.getIsbn()), String.valueOf(editedBook.getQuantity()), bookList.getSelectedValue().getTitle(), bookList.getSelectedValue().getAuthor(), String.valueOf(bookList.getSelectedValue().getIsbn()), String.valueOf(bookList.getSelectedValue().getQuantity()));
+                    db.updateBook(editedBook.getTitle(), editedBook.getAuthor(), String.valueOf(editedBook.getIsbn()), String.valueOf(editedBook.getQuantity()), titleLabel.getText(), authorLabel.getText(), isbnLabel.getText(), quantityLabel.getText());
                     JOptionPane.showMessageDialog(null, "Book updated successfully.", "Book update", JOptionPane.INFORMATION_MESSAGE);
                     titleLabel.setText(editedBook.getTitle());
                     authorLabel.setText(editedBook.getAuthor());
@@ -104,6 +104,29 @@ public class MainWindow {
                     JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
                 }
                 selectBooksBy(); // to update displayed list of books
+            }
+        });
+
+        deleteBookButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (titleLabel.getText().isBlank()) { // if nothing is selected
+                    return;
+                }
+                int answer = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this book?\nTitle: "+titleLabel.getText()+"\nAuthor: "+authorLabel.getText()+"\nISBN: "+isbnLabel.getText()+"\nQuantity: "+quantityLabel.getText(), "Delete book", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+                if (answer == -1 || answer == 1) { // if cross pressed or if "no" pressed
+                    return;
+                }
+                try {
+                    db.deleteBook(titleLabel.getText(), authorLabel.getText(), isbnLabel.getText(), quantityLabel.getText());
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                selectBooksBy(); // to update displayed list of books
+                titleLabel.setText("");
+                authorLabel.setText("");
+                isbnLabel.setText("");
+                quantityLabel.setText("");
             }
         });
 

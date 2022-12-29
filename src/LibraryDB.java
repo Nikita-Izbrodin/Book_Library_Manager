@@ -17,6 +17,7 @@ public class LibraryDB {
     private static final String SELECT_BOOK_BY_ISBN = "SELECT * FROM books WHERE isbn LIKE ?";
     private static final String INSERT_BOOK = "INSERT INTO books" + " (title, author, isbn, quantity) VALUES " + " (?,?,?,?);";
     private static final String UPDATE_BOOK = "UPDATE books SET title = ?, author = ?, isbn = ?, quantity = ? WHERE title = ? AND author = ? AND isbn = ? AND quantity = ?";
+    private static final String DELETE_BOOK = "DELETE FROM books WHERE title = ? AND author = ? AND isbn = ? AND quantity = ?";
 
     protected Connection getConnection() throws SQLException {
         return DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
@@ -97,6 +98,16 @@ public class LibraryDB {
         preparedStatement.setString(6, oldAuthor);
         preparedStatement.setString(7, oldISBN);
         preparedStatement.setString(8, oldQuantity);
+        preparedStatement.executeUpdate();
+    }
+
+    public void deleteBook(String title, String author, String isbn, String quantity) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(DELETE_BOOK);
+        preparedStatement.setString(1, title);
+        preparedStatement.setString(2, author);
+        preparedStatement.setString(3, isbn);
+        preparedStatement.setString(4, quantity);
         preparedStatement.executeUpdate();
     }
 

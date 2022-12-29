@@ -10,7 +10,7 @@ public class BookDialog extends JDialog {
     private JTextField authorField;
     private JTextField isbnField;
     private JPanel buttonsPanel;
-    private Book newBook;
+    private Book book;
 
     public BookDialog(String type, String title, String author, String isbn, String quantity) {
         setContentPane(contentPane);
@@ -56,14 +56,14 @@ public class BookDialog extends JDialog {
     }
 
     private void onOK() {
-        if (titleField.getText().isEmpty() || authorField.getText().isEmpty() || isbnField.getText().isEmpty() || quantityField.getText().isEmpty()) {
+        if (titleField.getText().isBlank() || authorField.getText().isBlank() || isbnField.getText().isBlank() || quantityField.getText().isBlank()) {
             return;
         }
         String title = titleField.getText();
         String author = authorField.getText();
         int isbn = Integer.parseInt(isbnField.getText());
         int quantity = Integer.parseInt(quantityField.getText());
-        newBook = new Book(title, author, isbn, quantity);
+        book = new Book(title, author, isbn, quantity);
         dispose();
     }
 
@@ -72,7 +72,7 @@ public class BookDialog extends JDialog {
     }
 
     public Book getBook() {
-        return this.newBook;
+        return this.book;
     }
 
 }
