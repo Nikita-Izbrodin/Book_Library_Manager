@@ -4,17 +4,28 @@ import java.awt.event.*;
 public class BookDialog extends JDialog {
     private JPanel contentPane;
     private JButton leftButton;
-    private JButton rightButton;
+    private JButton cancelButton;
     private JTextField quantityField;
     private JTextField titleField;
     private JTextField authorField;
     private JTextField isbnField;
+    private JPanel buttonsPanel;
     private Book newBook;
 
-    public BookDialog() {
+    public BookDialog(String type, String title, String author, String isbn, String quantity) {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(leftButton);
+
+        if (type.equals("create")) {
+            leftButton.setText("Create");
+        } else if (type.equals("edit")) {
+            leftButton.setText("Save");
+            titleField.setText(title);
+            authorField.setText(author);
+            isbnField.setText(isbn);
+            quantityField.setText(quantity);
+        }
 
         leftButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -22,7 +33,7 @@ public class BookDialog extends JDialog {
             }
         });
 
-        rightButton.addActionListener(new ActionListener() {
+        cancelButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
             }
@@ -63,7 +74,7 @@ public class BookDialog extends JDialog {
         dispose();
     }
 
-    public Book getNewBook() {
+    public Book getBook() {
         return this.newBook;
     }
 

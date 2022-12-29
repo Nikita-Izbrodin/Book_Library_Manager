@@ -27,17 +27,6 @@ public class MainWindow {
     private JLabel quantityLabel;
     private JButton deleteBookButton;
     private JButton editBookButton;
-    private JPanel bookEditCardPanel;
-    private JTextField editTitleTextField;
-    private JTextField editAuthorTextField;
-    private JTextField editISBNTextField;
-    private JTextField editQuantityTextField;
-    private JButton editSaveButton;
-    private JButton editCancelButton;
-    private JLabel editTitleLabel;
-    private JLabel editAuthorLabel;
-    private JLabel editISBNLabel;
-    private JLabel editQuantityLabel;
 
     public static void main(String[] args) {
         LibraryDB db = new LibraryDB();
@@ -72,23 +61,50 @@ public class MainWindow {
         selectBooksBy();
 
         // start of actionlisteners
-        addNewButton.addActionListener(new ActionListener() { // TODO: add books using a child card JPanel
+        addNewButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                BookDialog bookDialog = new BookDialog();
-
+                BookDialog bookDialog = new BookDialog("create", null, null, null, null);
                 bookDialog.pack();
                 bookDialog.show();
-                Book newBook = bookDialog.getNewBook();
+                Book newBook = bookDialog.getBook();
                 if (newBook == null) {
-                    return; // exit from the application
+                    return;
                 }
                 try {
                     db.createBook(newBook);
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
                 }
-                selectBooksBy(); // updates list after book is added
+                selectBooksBy(); // to update displayed list of books
+            }
+        });
+
+        editBookButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (bookList.getSelectedValue() == null) {
+                    return;
+                }
+
+                BookDialog bookDialog = new BookDialog("edit", bookList.getSelectedValue().getTitle(), bookList.getSelectedValue().getAuthor(), String.valueOf(bookList.getSelectedValue().getIsbn()), String.valueOf(bookList.getSelectedValue().getQuantity()));
+                bookDialog.pack();
+                bookDialog.show();
+                Book editedBook = bookDialog.getBook();
+                if (editedBook.getTitle().isEmpty() || editedBook.getAuthor().isEmpty() || String.valueOf(bookList.getSelectedValue().getIsbn()).isEmpty() || String.valueOf(bookList.getSelectedValue().getQuantity()).isEmpty()) {
+                    return; // does not belong here
+                }
+                try {
+                    db.updateBook(editedBook.getTitle(), editedBook.getAuthor(), String.valueOf(editedBook.getIsbn()), String.valueOf(editedBook.getQuantity()), bookList.getSelectedValue().getTitle(), bookList.getSelectedValue().getAuthor(), String.valueOf(bookList.getSelectedValue().getIsbn()), String.valueOf(bookList.getSelectedValue().getQuantity()));
+                    JOptionPane.showMessageDialog(null, "Book updated successfully.", "Book update", JOptionPane.INFORMATION_MESSAGE);
+                    titleLabel.setText(editedBook.getTitle());
+                    authorLabel.setText(editedBook.getAuthor());
+                    isbnLabel.setText(String.valueOf(editedBook.getIsbn()));
+                    quantityLabel.setText(String.valueOf(editedBook.getQuantity()));
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                selectBooksBy(); // to update displayed list of books
             }
         });
 
@@ -100,10 +116,10 @@ public class MainWindow {
 
                 System.out.println(authorLabel.getText());
 
-                titleLabel.setText("Title: "+bookList.getSelectedValue().getTitle());
-                authorLabel.setText("Author: "+bookList.getSelectedValue().getAuthor());
-                isbnLabel.setText("ISBN: "+bookList.getSelectedValue().getIsbn());
-                quantityLabel.setText("Quantity: "+bookList.getSelectedValue().getQuantity());
+                titleLabel.setText(bookList.getSelectedValue().getTitle());
+                authorLabel.setText(bookList.getSelectedValue().getAuthor());
+                isbnLabel.setText(String.valueOf(bookList.getSelectedValue().getIsbn()));
+                quantityLabel.setText(String.valueOf(bookList.getSelectedValue().getQuantity()));
             }
         });
 
@@ -136,81 +152,6 @@ public class MainWindow {
                 }
                 selectedParentCardPanel.repaint();
                 selectedParentCardPanel.revalidate();
-            }
-        });
-
-        editBookButton.addActionListener(new ActionListener() { // TODO: maybe change into dialog
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (bookList.getSelectedValue() == null) {
-                    return;
-                }
-
-                // prevents user from changing selected index in booklist // TODO: maybe change into method
-                searchTextField.setEnabled(false);
-                menuComboBox.setEnabled(false);
-                addNewButton.setEnabled(false);
-                searchByComboBox.setEnabled(false);
-
-                selectedParentCardPanel.removeAll();
-                selectedParentCardPanel.add(bookEditCardPanel);
-
-                editTitleTextField.setText(bookList.getSelectedValue().getTitle());
-                editAuthorTextField.setText(bookList.getSelectedValue().getAuthor());
-                editISBNTextField.setText(String.valueOf(bookList.getSelectedValue().getIsbn()));
-                editQuantityTextField.setText(String.valueOf(bookList.getSelectedValue().getQuantity()));
-
-                selectedParentCardPanel.repaint();
-                selectedParentCardPanel.revalidate();
-            }
-        });
-
-        editCancelButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                selectedParentCardPanel.removeAll();
-                selectedParentCardPanel.add(bookCardPanel);
-                selectedParentCardPanel.repaint();
-                selectedParentCardPanel.revalidate();
-
-                searchTextField.setEnabled(true);
-                menuComboBox.setEnabled(true);
-                addNewButton.setEnabled(true);
-                searchByComboBox.setEnabled(true);
-                bookList.setEnabled(true);
-            }
-        });
-
-        editSaveButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                LibraryDB db = new LibraryDB();
-                try {
-                    db.updateBook(editTitleTextField.getText(), editAuthorTextField.getText(), editISBNTextField.getText(), editQuantityTextField.getText(),
-                                  bookList.getSelectedValue().getTitle(), bookList.getSelectedValue().getAuthor(), String.valueOf(bookList.getSelectedValue().getIsbn()), String.valueOf(bookList.getSelectedValue().getQuantity()));
-                    JOptionPane.showMessageDialog(null, "Book updated successfully.", "Book update", JOptionPane.INFORMATION_MESSAGE);
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
-                }
-                selectedParentCardPanel.removeAll();
-                selectedParentCardPanel.add(bookCardPanel);
-
-                titleLabel.setText("Title: "+editTitleTextField.getText());
-                authorLabel.setText("Author: "+editAuthorTextField.getText());
-                isbnLabel.setText("ISBN: "+(editISBNTextField.getText()));
-                quantityLabel.setText("Quantity: "+(editQuantityTextField.getText()));
-
-                selectedParentCardPanel.repaint();
-                selectedParentCardPanel.revalidate();
-                int index = bookList.getSelectedIndex();
-                selectBooksBy(); // to update list after changes
-                bookList.setSelectedIndex(index);
-
-                searchTextField.setEnabled(true);
-                menuComboBox.setEnabled(true);
-                addNewButton.setEnabled(true);
-                searchByComboBox.setEnabled(true);
-                bookList.setEnabled(true);
             }
         });
         // end of actionlisteners
