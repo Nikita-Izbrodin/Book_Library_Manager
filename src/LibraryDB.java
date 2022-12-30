@@ -8,6 +8,7 @@ public class LibraryDB {
     private String jdbcUsername = "dbmanager";
     private String jdbcPassword = "manager7349";
 
+    // does it need to be static?
     private static final String SELECT_ALL_STAFF = "select * from staff";
     private static final String INSERT_USER = "INSERT INTO staff" + " (username, full_name, password) VALUES " + " (?,?,?);";
 
@@ -18,6 +19,14 @@ public class LibraryDB {
     private static final String INSERT_BOOK = "INSERT INTO books" + " (title, author, isbn, quantity) VALUES " + " (?,?,?,?);";
     private static final String UPDATE_BOOK = "UPDATE books SET title = ?, author = ?, isbn = ?, quantity = ? WHERE title = ? AND author = ? AND isbn = ? AND quantity = ?";
     private static final String DELETE_BOOK = "DELETE FROM books WHERE title = ? AND author = ? AND isbn = ? AND quantity = ?";
+
+    private static final String INSERT_MEMBER = "INSERT INTO members" + " (name, surname, phone, email, address, postcode) VALUES " + "(?,?,?,?,?,?);";
+    private static final String SELECT_MEMBER_BY_NAME = "SELECT * FROM members WHERE name LIKE ?";
+    private static final String SELECT_MEMBER_BY_SURNAME = "SELECT * FROM members WHERE surname LIKE ?";
+    private static final String SELECT_MEMBER_BY_PHONENO = "SELECT * FROM members WHERE phone LIKE ?";
+    private static final String SELECT_MEMBER_BY_EMAIL = "SELECT * FROM members WHERE email LIKE ?";
+    private static final String SELECT_MEMBER_BY_ADDRESS = "SELECT * FROM members WHERE address LIKE ?";
+    private static final String SELECT_MEMBER_BY_POSTCODE = "SELECT * FROM members WHERE postcode LIKE ?";
 
     protected Connection getConnection() throws SQLException {
         return DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
@@ -111,6 +120,72 @@ public class LibraryDB {
         preparedStatement.executeUpdate();
     }
 
+    public void createMember(Member newMember) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(INSERT_MEMBER);
+        preparedStatement.setString(1, newMember.getName());
+        preparedStatement.setString(2, newMember.getSurname());
+        preparedStatement.setString(3, newMember.getPhoneNo());
+        preparedStatement.setString(4, newMember.getEmail());
+        preparedStatement.setString(5, newMember.getAddress());
+        preparedStatement.setString(6, newMember.getPostcode());
+        preparedStatement.executeUpdate();
+    }
+
+    public List<Member> selectMembersByName(String name) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_MEMBER_BY_NAME);
+        preparedStatement.setString(1, "%"+name+"%");
+        ResultSet rs = preparedStatement.executeQuery();
+        List<Member> members = getMemberList(rs);
+        return members;
+    }
+
+    public List<Member> selectMembersBySurname(String surname) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_MEMBER_BY_SURNAME);
+        preparedStatement.setString(1, "%"+surname+"%");
+        ResultSet rs = preparedStatement.executeQuery();
+        List<Member> members = getMemberList(rs);
+        return members;
+    }
+
+    public List<Member> selectMembersByPhoneNo(String phoneNo) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_MEMBER_BY_PHONENO);
+        preparedStatement.setString(1, "%"+phoneNo+"%");
+        ResultSet rs = preparedStatement.executeQuery();
+        List<Member> members = getMemberList(rs);
+        return members;
+    }
+
+    public List<Member> selectMembersByEmail(String email) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_MEMBER_BY_EMAIL);
+        preparedStatement.setString(1, "%"+email+"%");
+        ResultSet rs = preparedStatement.executeQuery();
+        List<Member> members = getMemberList(rs);
+        return members;
+    }
+
+    public List<Member> selectMembersByAddress(String address) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_MEMBER_BY_ADDRESS);
+        preparedStatement.setString(1, "%"+address+"%");
+        ResultSet rs = preparedStatement.executeQuery();
+        List<Member> members = getMemberList(rs);
+        return members;
+    }
+
+    public List<Member> selectMembersByPostcode(String postcode) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_MEMBER_BY_POSTCODE);
+        preparedStatement.setString(1, "%"+postcode+"%");
+        ResultSet rs = preparedStatement.executeQuery();
+        List<Member> members = getMemberList(rs);
+        return members;
+    }
+
     private static List<Book> getBookList(ResultSet rs) throws SQLException {
         List<Book> books = new ArrayList<>();
         while (rs.next()) {
@@ -121,6 +196,20 @@ public class LibraryDB {
             books.add(new Book(title, author, isbn, quantity));
         }
         return books;
+    }
+
+    private static List<Member> getMemberList(ResultSet rs) throws SQLException {
+        List<Member> members = new ArrayList<>();
+        while (rs.next()) {
+            String name = rs.getString("name");
+            String surname = rs.getString("surname");
+            String phoneNo = rs.getString("phone");
+            String email = rs.getString("email");
+            String address = rs.getString("address");
+            String postcode = rs.getString("postcode");
+            members.add(new Member(name, surname, phoneNo, email, address, postcode));
+        }
+        return members;
     }
 
 }

@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Final polish of editing books.">
+    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Implemented deleting books.">
+      <change afterPath="$PROJECT_DIR$/src/Member.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/MemberCellRenderer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/MemberDialog.form" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/MemberDialog.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/memberListitemForm.form" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/memberListitemForm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BookDialog.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/BookDialog.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BookDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BookDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BookCellRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BookCellRenderer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/LibraryDB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LibraryDB.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MainWindow.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainWindow.form" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MainWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainWindow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bookListItemForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bookListItemForm.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,7 +99,14 @@
       <option name="project" value="LOCAL" />
       <updated>1672335954996</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Implemented deleting books.">
+      <created>1672339222026</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1672339222026</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -112,7 +126,8 @@
     <MESSAGE value="Implemented editing books. Requires polishing." />
     <MESSAGE value="Refined editing books." />
     <MESSAGE value="Final polish of editing books." />
-    <option name="LAST_COMMIT_MESSAGE" value="Final polish of editing books." />
+    <MESSAGE value="Implemented deleting books." />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented deleting books." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

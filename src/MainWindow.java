@@ -1,6 +1,8 @@
 import javax.swing.*;
 import java.awt.event.*;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MainWindow {
@@ -14,19 +16,30 @@ public class MainWindow {
     private JComboBox searchByComboBox;
     private JTextField searchTextField;
     private JList<Book> bookList;
-    private JScrollBar scrollBar1;
-    private JPanel allContentsPanel;
+    private JPanel searchResultsParentCardPanel;
     private JPanel selectedParentCardPanel;
     private JPanel searchPanel;
     private JPanel bookCardPanel;
     private JPanel memberCardPanel;
-    private JPanel staffCardPanel;
+    private JPanel userCardPanel;
     private JLabel titleLabel;
     private JLabel authorLabel;
     private JLabel isbnLabel;
     private JLabel quantityLabel;
     private JButton deleteBookButton;
     private JButton editBookButton;
+    private JButton editMemberButton;
+    private JButton deleteMemberButton;
+    private JLabel postcodeLabel;
+    private JLabel phoneNoLabel;
+    private JLabel surnameLabel;
+    private JLabel nameLabel;
+    private JLabel emailLabel;
+    private JLabel addressLabel;
+    private JPanel bookSearchCardPanel;
+    private JPanel memberSearchCardPanel;
+    private JPanel userSearchCardPanel;
+    private JList<Member> memberList;
 
     public static void main(String[] args) {
         LibraryDB db = new LibraryDB();
@@ -64,19 +77,37 @@ public class MainWindow {
         addNewButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                BookDialog bookDialog = new BookDialog("create", null, null, null, null);
-                bookDialog.pack();
-                bookDialog.show();
-                Book newBook = bookDialog.getBook();
-                if (newBook == null) {
-                    return;
+                if (menuComboBox.getSelectedItem().toString().equals("Books")) {
+                    BookDialog bookDialog = new BookDialog("create", null, null, null, null);
+                    bookDialog.pack();
+                    bookDialog.show();
+                    Book newBook = bookDialog.getBook();
+                    if (newBook == null) {
+                        return;
+                    }
+                    try {
+                        db.createBook(newBook);
+                    } catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    selectBooksBy(); // to update displayed list of books
+                } else if (menuComboBox.getSelectedItem().toString().equals("Members")) {
+                    MemberDialog memberDialog = new MemberDialog("create");
+                    memberDialog.pack();
+                    memberDialog.show();
+                    Member newMember = memberDialog.getMember();
+                    if (newMember == null) {
+                        return;
+                    }
+                    try {
+                        db.createMember(newMember);
+                    } catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    // to update displayed list of books
                 }
-                try {
-                    db.createBook(newBook);
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
-                }
-                selectBooksBy(); // to update displayed list of books
+
+
             }
         });
 
@@ -139,6 +170,25 @@ public class MainWindow {
                 authorLabel.setText(bookList.getSelectedValue().getAuthor());
                 isbnLabel.setText(String.valueOf(bookList.getSelectedValue().getIsbn()));
                 quantityLabel.setText(String.valueOf(bookList.getSelectedValue().getQuantity()));
+
+                /*try {
+
+                } catch (Exception ex) {
+                    System.out.println(ex);
+                }*/
+            }
+        });
+
+        memberList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                nameLabel.setText(memberList.getSelectedValue().getName());
+                surnameLabel.setText(memberList.getSelectedValue().getSurname());
+                phoneNoLabel.setText(memberList.getSelectedValue().getPhoneNo());
+                emailLabel.setText(memberList.getSelectedValue().getEmail());
+                addressLabel.setText(memberList.getSelectedValue().getAddress());
+                postcodeLabel.setText(memberList.getSelectedValue().getPostcode());
             }
         });
 
@@ -147,13 +197,24 @@ public class MainWindow {
             public void keyTyped(KeyEvent e) {
                 //super.keyTyped(e); // not sure why this line was added. might remove
                 selectBooksBy();
+                selectMembersBy();
             }
         });
 
         searchByComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                /*System.out.println(searchByComboBox.getSelectedItem().toString());
+                System.out.println(menuComboBox.getSelectedItem().toString());*/
                 selectBooksBy();
+                selectMembersBy();
+                /*if (menuComboBox.equals("Books")) {
+                    selectBooksBy();
+                } else if (menuComboBox.equals("Members")) {
+                    selectMembersBy();
+                } else if (menuComboBox.equals("Users")) {
+
+                }*/
             }
         });
 
@@ -161,16 +222,50 @@ public class MainWindow {
             @Override
             public void actionPerformed(ActionEvent e) {
                 selectedParentCardPanel.removeAll();
+                searchResultsParentCardPanel.removeAll();
                 String menuOption = menuComboBox.getSelectedItem().toString();
                 if (menuOption.equals("Books")) {
                     selectedParentCardPanel.add(bookCardPanel);
+                    searchResultsParentCardPanel.add(bookSearchCardPanel);
+                    DefaultComboBoxModel bookModel = (DefaultComboBoxModel) searchByComboBox.getModel();
+                    bookModel.removeAllElements();
+                    ArrayList<String> types = new ArrayList<>(Arrays.asList("Title", "Author", "ISBN"));
+                    for (String type : types) {
+                        bookModel.addElement(type);
+                    }
+                    searchByComboBox.setModel(bookModel);
+                    selectBooksBy();
                 } else if (menuOption.equals("Members")) {
                     selectedParentCardPanel.add(memberCardPanel);
-                } else if (menuOption.equals("Staff")) {
-                    selectedParentCardPanel.add(staffCardPanel);
+                    searchResultsParentCardPanel.add(memberSearchCardPanel);
+                    DefaultComboBoxModel memberModel = (DefaultComboBoxModel) searchByComboBox.getModel();
+                    memberModel.removeAllElements();
+                    ArrayList<String> types = new ArrayList<>(Arrays.asList("Name", "Surname", "Phone No", "Email", "Address", "Postcode"));
+                    for (String type : types) {
+                        memberModel.addElement(type);
+                    }
+                    searchByComboBox.setModel(memberModel);
+                    selectMembersBy();
+                } else if (menuOption.equals("Users")) {
+                    selectedParentCardPanel.add(userCardPanel);
+                    selectedParentCardPanel.add(userSearchCardPanel);
                 }
                 selectedParentCardPanel.repaint();
                 selectedParentCardPanel.revalidate();
+            }
+        });
+
+        editMemberButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
+        deleteMemberButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
             }
         });
         // end of actionlisteners
@@ -179,6 +274,9 @@ public class MainWindow {
     private void selectBooksBy() {
         LibraryDB db = new LibraryDB();
         List<Book> booksList = null;
+        if (searchByComboBox.getSelectedItem() == null) { // not sure why this is needed
+            return;
+        }
         String searchBy = searchByComboBox.getSelectedItem().toString();
         try {
             if (searchBy.equals("Title")) {
@@ -191,12 +289,48 @@ public class MainWindow {
                 booksList = db.selectBooksByISBN(searchTextField.getText());
 
             }
+            if (booksList == null) {
+                return;
+            }
             Book[] booksArray = booksList.toArray(new Book[booksList.size()]);
             bookList.setListData(booksArray);
             bookList.setCellRenderer(new BookCellRenderer());
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    private void selectMembersBy() {
+        LibraryDB db = new LibraryDB();
+        List<Member> membersList = null;
+        if (searchByComboBox.getSelectedItem() == null) { // not sure why this is needed
+            return;
+        }
+        String searchBy = searchByComboBox.getSelectedItem().toString();
+        try {
+            if (searchBy.equals("Name")) {
+                membersList = db.selectMembersByName(searchTextField.getText());
+            } else if (searchBy.equals("Surname")) {
+                membersList = db.selectMembersBySurname(searchTextField.getText());
+            } else if (searchBy.equals("Phone No")) {
+                membersList = db.selectMembersByPhoneNo(searchTextField.getText());
+            } else if (searchBy.equals("Email")) {
+                membersList = db.selectMembersByEmail(searchTextField.getText());
+            } else if (searchBy.equals("Address")) {
+                membersList = db.selectMembersByAddress(searchTextField.getText());
+            } else if (searchBy.equals("Postcode")) {
+                membersList = db.selectMembersByPostcode(searchTextField.getText());
+            }
+            if (membersList == null) {
+                return;
+            }
+            Member[] membersArray = membersList.toArray(new Member[membersList.size()]);
+            memberList.setListData(membersArray);
+            memberList.setCellRenderer(new MemberCellRenderer());
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
     }
 
 }

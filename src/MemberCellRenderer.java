@@ -1,10 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class BookCellRenderer extends bookListItemForm implements ListCellRenderer {
+public class MemberCellRenderer extends memberListitemForm implements ListCellRenderer {
     @Override
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-        Book entry = (Book) value;
+        Member entry = (Member) value;
         setData(entry);
         return this.getPanel();
     }
