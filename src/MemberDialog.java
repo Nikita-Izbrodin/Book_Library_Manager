@@ -13,7 +13,7 @@ public class MemberDialog extends JDialog {
     private JTextField addressTextField;
     private Member member;
 
-    public MemberDialog(String type) {
+    public MemberDialog(String type, String name, String surname, String phone, String email, String address, String postcode) {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(leftButton);
@@ -22,6 +22,12 @@ public class MemberDialog extends JDialog {
             leftButton.setText("Create");
         } else if (type.equals("edit")) {
             leftButton.setText("Edit");
+            nameTextField.setText(name);
+            surnameTextField.setText(surname);
+            phoneNoTextField.setText(phone);
+            emailTextField.setText(email);
+            addressTextField.setText(address);
+            postcodeTextField.setText(postcode);
         }
 
         leftButton.addActionListener(new ActionListener() {

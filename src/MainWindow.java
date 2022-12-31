@@ -92,7 +92,7 @@ public class MainWindow {
                     }
                     selectBooksBy(); // to update displayed list of books
                 } else if (menuComboBox.getSelectedItem().toString().equals("Members")) {
-                    MemberDialog memberDialog = new MemberDialog("create");
+                    MemberDialog memberDialog = new MemberDialog("create", null, null, null, null, null, null);
                     memberDialog.pack();
                     memberDialog.show();
                     Member newMember = memberDialog.getMember();
@@ -161,6 +161,60 @@ public class MainWindow {
             }
         });
 
+        editMemberButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (nameLabel.getText().isBlank()) { // if nothing is selected
+                    return;
+                }
+                MemberDialog memberDialog = new MemberDialog("edit", nameLabel.getText(), surnameLabel.getText(), phoneNoLabel.getText(), emailLabel.getText(), addressLabel.getText(), postcodeLabel.getText());
+                memberDialog.pack();
+                memberDialog.show();
+                Member editedMember = memberDialog.getMember();
+                if (editedMember == null) { // if cancel pressed
+                    return;
+                }
+                try {
+                    db.updateMember(editedMember.getName(), editedMember.getSurname(), editedMember.getPhoneNo(), editedMember.getEmail(), editedMember.getAddress(), editedMember.getPostcode(), nameLabel.getText(), surnameLabel.getText(), phoneNoLabel.getText(), emailLabel.getText(), addressLabel.getText(), postcodeLabel.getText());
+                    JOptionPane.showMessageDialog(null, "Member updated successfully.", "Member update", JOptionPane.INFORMATION_MESSAGE);
+                    nameLabel.setText(editedMember.getName());
+                    surnameLabel.setText(editedMember.getSurname());
+                    phoneNoLabel.setText(editedMember.getPhoneNo());
+                    emailLabel.setText(editedMember.getEmail());
+                    addressLabel.setText(editedMember.getAddress());
+                    postcodeLabel.setText(editedMember.getPostcode());
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                selectMembersBy(); // to update list of displayed members
+            }
+        });
+
+        deleteMemberButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (nameLabel.getText().isBlank()) { // if nothing is selected
+                    return;
+                }
+                int answer = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this member?\nName: "+nameLabel.getText()+"\nSurname: "+surnameLabel.getText()+"\nPhone No: "+phoneNoLabel.getText()+"\nEmail: "+emailLabel.getText()+"\nAddress: "+addressLabel.getText()+"\nPostcode: "+postcodeLabel.getText(), "Delete member", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+                if (answer == -1 || answer == 1) { // if cross pressed or if "no" pressed
+                    return;
+                }
+                try {
+                    db.deleteMember(nameLabel.getText(), surnameLabel.getText(), phoneNoLabel.getText(), emailLabel.getText(), addressLabel.getText(), postcodeLabel.getText());
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                selectMembersBy();
+                nameLabel.setText("");
+                surnameLabel.setText("");
+                phoneNoLabel.setText("");
+                emailLabel.setText("");
+                addressLabel.setText("");
+                postcodeLabel.setText("");
+            }
+        });
+
         bookList.addMouseListener(new MouseAdapter() { // when item in list is selected
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -170,12 +224,6 @@ public class MainWindow {
                 authorLabel.setText(bookList.getSelectedValue().getAuthor());
                 isbnLabel.setText(String.valueOf(bookList.getSelectedValue().getIsbn()));
                 quantityLabel.setText(String.valueOf(bookList.getSelectedValue().getQuantity()));
-
-                /*try {
-
-                } catch (Exception ex) {
-                    System.out.println(ex);
-                }*/
             }
         });
 
@@ -252,20 +300,6 @@ public class MainWindow {
                 }
                 selectedParentCardPanel.repaint();
                 selectedParentCardPanel.revalidate();
-            }
-        });
-
-        editMemberButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-
-        deleteMemberButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
             }
         });
         // end of actionlisteners

@@ -12,7 +12,6 @@ public class LibraryDB {
     private static final String SELECT_ALL_STAFF = "select * from staff";
     private static final String INSERT_USER = "INSERT INTO staff" + " (username, full_name, password) VALUES " + " (?,?,?);";
 
-    private static final String SELECT_ALL_BOOKS = "select * from books";
     private static final String SELECT_BOOK_BY_TITLE = "SELECT * FROM books WHERE title LIKE ?";
     private static final String SELECT_BOOK_BY_AUTHOR = "SELECT * FROM books WHERE author LIKE ?";
     private static final String SELECT_BOOK_BY_ISBN = "SELECT * FROM books WHERE isbn LIKE ?";
@@ -27,6 +26,8 @@ public class LibraryDB {
     private static final String SELECT_MEMBER_BY_EMAIL = "SELECT * FROM members WHERE email LIKE ?";
     private static final String SELECT_MEMBER_BY_ADDRESS = "SELECT * FROM members WHERE address LIKE ?";
     private static final String SELECT_MEMBER_BY_POSTCODE = "SELECT * FROM members WHERE postcode LIKE ?";
+    private static final String UPDATE_MEMBER = "UPDATE members SET name = ?, surname = ?, phone = ?, email = ?, address = ?, postcode = ? WHERE name = ? AND surname = ? AND phone = ? AND email = ? AND address = ? AND postcode = ?";
+    private static final String DELETE_MEMBER = "DELETE FROM members WHERE name = ? AND surname = ? AND phone = ? AND email = ? AND address = ? AND postcode = ?";
 
     protected Connection getConnection() throws SQLException {
         return DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
@@ -58,14 +59,6 @@ public class LibraryDB {
         preparedStatement.setInt(3, newBook.getIsbn());
         preparedStatement.setInt(4, newBook.getQuantity());
         preparedStatement.executeUpdate();
-    }
-
-    public List<Book> selectAllBooks() throws SQLException {
-        Connection connection = getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_BOOKS);
-        ResultSet rs = preparedStatement.executeQuery();
-        List<Book> books = getBookList(rs);
-        return books;
     }
 
     public List<Book> selectBooksByTitle(String title) throws SQLException {
@@ -184,6 +177,36 @@ public class LibraryDB {
         ResultSet rs = preparedStatement.executeQuery();
         List<Member> members = getMemberList(rs);
         return members;
+    }
+
+    public void updateMember(String newName, String newSurname, String newPhoneNo, String newEmail, String newAddress, String newPostcode, String oldName, String oldSurname, String oldPhoneNo, String oldEmail, String oldAddress, String oldPostcode) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_MEMBER);
+        preparedStatement.setString(1, newName);
+        preparedStatement.setString(2, newSurname);
+        preparedStatement.setString(3, newPhoneNo);
+        preparedStatement.setString(4, newEmail);
+        preparedStatement.setString(5, newAddress);
+        preparedStatement.setString(6, newPostcode);
+        preparedStatement.setString(7, oldName);
+        preparedStatement.setString(8, oldSurname);
+        preparedStatement.setString(9, oldPhoneNo);
+        preparedStatement.setString(10, oldEmail);
+        preparedStatement.setString(11, oldAddress);
+        preparedStatement.setString(12, oldPostcode);
+        preparedStatement.executeUpdate();
+    }
+
+    public void deleteMember(String name, String surname, String phoneNo, String email, String address, String postcode) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(DELETE_MEMBER);
+        preparedStatement.setString(1, name);
+        preparedStatement.setString(2, surname);
+        preparedStatement.setString(3, phoneNo);
+        preparedStatement.setString(4, email);
+        preparedStatement.setString(5, address);
+        preparedStatement.setString(6, postcode);
+        preparedStatement.executeUpdate();
     }
 
     private static List<Book> getBookList(ResultSet rs) throws SQLException {
