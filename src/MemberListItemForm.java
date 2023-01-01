@@ -1,6 +1,6 @@
 import javax.swing.*;
 
-public class memberListitemForm {
+public class MemberListItemForm {
     private JPanel memberItemPanel;
     private JLabel nameLabel;
     private JLabel surnameLabel;

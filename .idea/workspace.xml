@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Implemented adding and searching members.">
+    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Implemented deleting members.">
+      <change afterPath="$PROJECT_DIR$/src/Borrower.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/BorrowerCellRenderer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/BorrowerDialog.form" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/BorrowerDialog.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/BorrowerListItemForm.form" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/BorrowerListItemForm.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BookCellRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BookCellRenderer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/LibraryDB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LibraryDB.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MainWindow.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainWindow.form" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MainWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MemberDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MemberDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MemberCellRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MemberCellRenderer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bookListItemForm.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/BookListItemForm.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bookListItemForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BookListItemForm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/memberListitemForm.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/MemberListItemForm.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/memberListitemForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MemberListItemForm.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,7 +38,9 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2JPm5rFeV6ziXCE2IEcQ5YpIPgl" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -46,6 +60,20 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
   }
 }</component>
+  <component name="RunManager">
+    <configuration name="MainWindow" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="MainWindow" />
+      <module name="Book_Library_Manager" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.MainWindow" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -104,7 +132,14 @@
       <option name="project" value="LOCAL" />
       <updated>1672363604993</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Implemented deleting members.">
+      <created>1672446977760</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1672446977760</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -126,7 +161,8 @@
     <MESSAGE value="Final polish of editing books." />
     <MESSAGE value="Implemented deleting books." />
     <MESSAGE value="Implemented adding and searching members." />
-    <option name="LAST_COMMIT_MESSAGE" value="Implemented adding and searching members." />
+    <MESSAGE value="Implemented deleting members." />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented deleting members." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

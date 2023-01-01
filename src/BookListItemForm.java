@@ -1,6 +1,6 @@
 import javax.swing.*;
 
-public class bookListItemForm {
+public class BookListItemForm {
     private JPanel bookItemPanel;
     private JLabel titleLabel;
     private JLabel authorLabel;

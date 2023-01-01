@@ -28,6 +28,12 @@ public class LibraryDB {
     private static final String SELECT_MEMBER_BY_POSTCODE = "SELECT * FROM members WHERE postcode LIKE ?";
     private static final String UPDATE_MEMBER = "UPDATE members SET name = ?, surname = ?, phone = ?, email = ?, address = ?, postcode = ? WHERE name = ? AND surname = ? AND phone = ? AND email = ? AND address = ? AND postcode = ?";
     private static final String DELETE_MEMBER = "DELETE FROM members WHERE name = ? AND surname = ? AND phone = ? AND email = ? AND address = ? AND postcode = ?";
+    private static final String SELECT_MEMBER_NAME_AND_SURNAME_BY_MEMBER_ID = "SELECT name, surname FROM members WHERE member_id = ?";
+
+    private static final String INSERT_BORROWER = "INSERT INTO borrowed_books" + " (book_id, member_id, return_date) VALUES " + "(?,?,?);";
+    private static final String SELECT_BORROWERS_BY_BOOK = "SELECT * FROM borrowed_books WHERE book_id = ?";
+
+    private static final String SELECT_BOOK_ID = "SELECT book_id FROM books WHERE title = ? AND author = ? AND isbn = ? AND quantity = ?";
 
     protected Connection getConnection() throws SQLException {
         return DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
@@ -38,6 +44,9 @@ public class LibraryDB {
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_STAFF)) {
             ResultSet rs = preparedStatement.executeQuery();
             boolean isEmptyResultSet = !rs.next();
+            rs.close();
+            preparedStatement.close();
+            connection.close();
             return isEmptyResultSet;
         }
     }
@@ -49,6 +58,8 @@ public class LibraryDB {
         preparedStatement.setString(2, user.getFull_name());
         preparedStatement.setString(3, user.getPassword());
         preparedStatement.executeUpdate();
+        preparedStatement.close();
+        connection.close();
     }
 
     public void createBook(Book newBook) throws SQLException {
@@ -59,6 +70,8 @@ public class LibraryDB {
         preparedStatement.setInt(3, newBook.getIsbn());
         preparedStatement.setInt(4, newBook.getQuantity());
         preparedStatement.executeUpdate();
+        preparedStatement.close();
+        connection.close();
     }
 
     public List<Book> selectBooksByTitle(String title) throws SQLException {
@@ -67,6 +80,9 @@ public class LibraryDB {
         preparedStatement.setString(1, "%"+title+"%");
         ResultSet rs = preparedStatement.executeQuery();
         List<Book> books = getBookList(rs);
+        rs.close();
+        preparedStatement.close();
+        connection.close();
         return books;
     }
 
@@ -76,6 +92,9 @@ public class LibraryDB {
         preparedStatement.setString(1, "%"+author+"%");
         ResultSet rs = preparedStatement.executeQuery();
         List<Book> books = getBookList(rs);
+        rs.close();
+        preparedStatement.close();
+        connection.close();
         return books;
     }
 
@@ -85,6 +104,9 @@ public class LibraryDB {
         preparedStatement.setString(1, "%"+isbn+"%");
         ResultSet rs = preparedStatement.executeQuery();
         List<Book> books = getBookList(rs);
+        rs.close();
+        preparedStatement.close();
+        connection.close();
         return books;
     }
 
@@ -101,6 +123,8 @@ public class LibraryDB {
         preparedStatement.setString(7, oldISBN);
         preparedStatement.setString(8, oldQuantity);
         preparedStatement.executeUpdate();
+        preparedStatement.close();
+        connection.close();
     }
 
     public void deleteBook(String title, String author, String isbn, String quantity) throws SQLException {
@@ -111,6 +135,8 @@ public class LibraryDB {
         preparedStatement.setString(3, isbn);
         preparedStatement.setString(4, quantity);
         preparedStatement.executeUpdate();
+        preparedStatement.close();
+        connection.close();
     }
 
     public void createMember(Member newMember) throws SQLException {
@@ -123,6 +149,8 @@ public class LibraryDB {
         preparedStatement.setString(5, newMember.getAddress());
         preparedStatement.setString(6, newMember.getPostcode());
         preparedStatement.executeUpdate();
+        preparedStatement.close();
+        connection.close();
     }
 
     public List<Member> selectMembersByName(String name) throws SQLException {
@@ -131,6 +159,9 @@ public class LibraryDB {
         preparedStatement.setString(1, "%"+name+"%");
         ResultSet rs = preparedStatement.executeQuery();
         List<Member> members = getMemberList(rs);
+        rs.close();
+        preparedStatement.close();
+        connection.close();
         return members;
     }
 
@@ -140,6 +171,9 @@ public class LibraryDB {
         preparedStatement.setString(1, "%"+surname+"%");
         ResultSet rs = preparedStatement.executeQuery();
         List<Member> members = getMemberList(rs);
+        rs.close();
+        preparedStatement.close();
+        connection.close();
         return members;
     }
 
@@ -149,6 +183,9 @@ public class LibraryDB {
         preparedStatement.setString(1, "%"+phoneNo+"%");
         ResultSet rs = preparedStatement.executeQuery();
         List<Member> members = getMemberList(rs);
+        rs.close();
+        preparedStatement.close();
+        connection.close();
         return members;
     }
 
@@ -158,6 +195,9 @@ public class LibraryDB {
         preparedStatement.setString(1, "%"+email+"%");
         ResultSet rs = preparedStatement.executeQuery();
         List<Member> members = getMemberList(rs);
+        rs.close();
+        preparedStatement.close();
+        connection.close();
         return members;
     }
 
@@ -167,6 +207,9 @@ public class LibraryDB {
         preparedStatement.setString(1, "%"+address+"%");
         ResultSet rs = preparedStatement.executeQuery();
         List<Member> members = getMemberList(rs);
+        rs.close();
+        preparedStatement.close();
+        connection.close();
         return members;
     }
 
@@ -176,6 +219,9 @@ public class LibraryDB {
         preparedStatement.setString(1, "%"+postcode+"%");
         ResultSet rs = preparedStatement.executeQuery();
         List<Member> members = getMemberList(rs);
+        rs.close();
+        preparedStatement.close();
+        connection.close();
         return members;
     }
 
@@ -195,6 +241,8 @@ public class LibraryDB {
         preparedStatement.setString(11, oldAddress);
         preparedStatement.setString(12, oldPostcode);
         preparedStatement.executeUpdate();
+        preparedStatement.close();
+        connection.close();
     }
 
     public void deleteMember(String name, String surname, String phoneNo, String email, String address, String postcode) throws SQLException {
@@ -207,6 +255,61 @@ public class LibraryDB {
         preparedStatement.setString(5, address);
         preparedStatement.setString(6, postcode);
         preparedStatement.executeUpdate();
+        preparedStatement.close();
+        connection.close();
+    }
+
+    public void createBorrower(Borrower newBorrower) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(INSERT_BORROWER);
+        preparedStatement.setInt(1, newBorrower.getBookID());
+        preparedStatement.setInt(2, newBorrower.getMemberID());
+        preparedStatement.setString(3, newBorrower.getReturnDate());
+        preparedStatement.executeUpdate();
+        preparedStatement.close();
+        connection.close();
+    }
+
+    public int getBookID(String title, String author, String isbn, String quantity) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BOOK_ID);
+        preparedStatement.setString(1, title);
+        preparedStatement.setString(2, author);
+        preparedStatement.setString(3, isbn);
+        preparedStatement.setString(4, quantity);
+        ResultSet rs = preparedStatement.executeQuery();
+        rs.next();
+        int bookID = rs.getInt("book_id");
+        rs.close();
+        preparedStatement.close();
+        connection.close();
+        return bookID;
+    }
+
+    public List<Borrower> selectBorrowers(int bookID) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BORROWERS_BY_BOOK);
+        preparedStatement.setInt(1, bookID);
+        ResultSet rs = preparedStatement.executeQuery();
+        List<Borrower> borrowers = getBorrowerList(rs);
+        rs.close();
+        preparedStatement.close();
+        connection.close();
+        return borrowers;
+    }
+
+    public String selectMemberNameSurnameByMemberID(int memberID) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_MEMBER_NAME_AND_SURNAME_BY_MEMBER_ID);
+        preparedStatement.setInt(1, memberID);
+        ResultSet rs = preparedStatement.executeQuery();
+        rs.next();
+        String name = rs.getString("name");
+        String surname = rs.getString("surname");
+        rs.close();
+        preparedStatement.close();
+        connection.close();
+        return name+" "+surname;
     }
 
     private static List<Book> getBookList(ResultSet rs) throws SQLException {
@@ -233,6 +336,17 @@ public class LibraryDB {
             members.add(new Member(name, surname, phoneNo, email, address, postcode));
         }
         return members;
+    }
+
+    private static List<Borrower> getBorrowerList(ResultSet rs) throws SQLException {
+        List<Borrower> borrowers = new ArrayList<>();
+        while (rs.next()) {
+            int bookID = rs.getInt("book_id");
+            int memberID = rs.getInt("member_id");
+            String returnDate = rs.getString("return_date");
+            borrowers.add(new Borrower(bookID, memberID, returnDate));
+        }
+        return borrowers;
     }
 
 }

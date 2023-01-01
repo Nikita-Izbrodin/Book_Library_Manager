@@ -40,6 +40,8 @@ public class MainWindow {
     private JPanel memberSearchCardPanel;
     private JPanel userSearchCardPanel;
     private JList<Member> memberList;
+    private JList borrowerList;
+    private JButton addBorrowerButton;
 
     public static void main(String[] args) {
         LibraryDB db = new LibraryDB();
@@ -104,10 +106,33 @@ public class MainWindow {
                     } catch (SQLException ex) {
                         JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
                     }
-                    // to update displayed list of books
+                    selectMembersBy(); // to update displayed list of members
                 }
+            }
+        });
 
-
+        addBorrowerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (titleLabel.getText().isBlank()) { // if nothing is selected
+                    return;
+                }
+                BorrowerDialog borrowerDialog = new BorrowerDialog("create");
+                borrowerDialog.pack();
+                borrowerDialog.show();
+                Borrower newBorrower = borrowerDialog.getBorrower();
+                if (newBorrower == null) {
+                    return;
+                }
+                try {
+                    int bookID = db.getBookID(titleLabel.getText(), authorLabel.getText(), isbnLabel.getText(), quantityLabel.getText());
+                    System.out.println(bookID);
+                    newBorrower.setBookID(bookID);
+                    db.createBorrower(newBorrower);
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                displayBorrowers(); // to update displayed list of borrowers
             }
         });
 
@@ -154,6 +179,7 @@ public class MainWindow {
                     JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
                 }
                 selectBooksBy(); // to update displayed list of books
+                displayBorrowers();
                 titleLabel.setText("");
                 authorLabel.setText("");
                 isbnLabel.setText("");
@@ -220,10 +246,14 @@ public class MainWindow {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 // TODO: make selected item highlighted
+                if (bookList.getSelectedValue() == null) {
+                    return;
+                }
                 titleLabel.setText(bookList.getSelectedValue().getTitle());
                 authorLabel.setText(bookList.getSelectedValue().getAuthor());
                 isbnLabel.setText(String.valueOf(bookList.getSelectedValue().getIsbn()));
                 quantityLabel.setText(String.valueOf(bookList.getSelectedValue().getQuantity()));
+                displayBorrowers();
             }
         });
 
@@ -364,7 +394,20 @@ public class MainWindow {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
 
+    private void displayBorrowers() {
+        LibraryDB db = new LibraryDB();
+        List<Borrower> borrowersList = null;
+        try {
+            int bookID = db.getBookID(titleLabel.getText(), authorLabel.getText(), isbnLabel.getText(), quantityLabel.getText());
+            borrowersList = db.selectBorrowers(bookID);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        Borrower[] borrowersArray = borrowersList.toArray(new Borrower[borrowersList.size()]);
+        borrowerList.setListData(borrowersArray);
+        borrowerList.setCellRenderer(new BorrowerCellRenderer());
     }
 
 }
