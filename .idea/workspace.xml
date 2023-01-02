@@ -1,17 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Implemented returning of books.">
+    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Implemented manual handling of member ID.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BorrowerListItemForm.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/BorrowerListItemForm.form" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/LibraryDB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LibraryDB.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MainWindow.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainWindow.form" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MainWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Member.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Member.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MemberDialog.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/MemberDialog.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MemberDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MemberDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MemberListItemForm.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/MemberListItemForm.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MemberListItemForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MemberListItemForm.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -161,7 +154,14 @@
       <option name="project" value="LOCAL" />
       <updated>1672676999055</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Implemented manual handling of member ID.">
+      <created>1672680894248</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1672680894248</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -188,7 +188,8 @@
     <MESSAGE value="Member ID and return date of borrowers can be edited." />
     <MESSAGE value="Added &amp; improved comments." />
     <MESSAGE value="Implemented returning of books." />
-    <option name="LAST_COMMIT_MESSAGE" value="Implemented returning of books." />
+    <MESSAGE value="Implemented manual handling of member ID." />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented manual handling of member ID." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

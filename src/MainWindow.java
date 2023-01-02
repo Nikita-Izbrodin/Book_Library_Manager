@@ -83,6 +83,9 @@ public class MainWindow {
         addNewButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (menuComboBox.getSelectedItem() == null) {
+                    return;
+                }
                 if (menuComboBox.getSelectedItem().toString().equals("Books")) {
                     BookDialog bookDialog = new BookDialog("create", null, null, null, null);
                     bookDialog.pack();
@@ -177,6 +180,8 @@ public class MainWindow {
                     return;
                 }
                 try {
+                    int bookID = db.getBookID(titleLabel.getText(), authorLabel.getText(), isbnLabel.getText(), quantityLabel.getText());
+                    db.deleteBorrowerByBookID(bookID); // removes foreign key to allow deletion
                     db.deleteBook(titleLabel.getText(), authorLabel.getText(), isbnLabel.getText(), quantityLabel.getText());
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
@@ -231,6 +236,7 @@ public class MainWindow {
                     return;
                 }
                 try {
+                    db.deleteBorrowerByMemberID(Integer.parseInt(idLabel.getText())); // removes foreign key to allow deletion
                     db.deleteMember(Integer.parseInt(idLabel.getText()), nameLabel.getText(), surnameLabel.getText(), phoneNoLabel.getText(), emailLabel.getText(), addressLabel.getText(), postcodeLabel.getText());
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
@@ -358,6 +364,9 @@ public class MainWindow {
             public void actionPerformed(ActionEvent e) {
                 selectedParentCardPanel.removeAll();
                 searchResultsParentCardPanel.removeAll();
+                if (menuComboBox.getSelectedItem() == null) {
+                    return;
+                }
                 String menuOption = menuComboBox.getSelectedItem().toString();
                 if (menuOption.equals("Books")) {
                     selectedParentCardPanel.add(bookCardPanel);
@@ -370,6 +379,7 @@ public class MainWindow {
                     }
                     searchByComboBox.setModel(bookModel);
                     selectBooksBy();
+                    displayBorrowers();
                 } else if (menuOption.equals("Members")) {
                     selectedParentCardPanel.add(memberCardPanel);
                     searchResultsParentCardPanel.add(memberSearchCardPanel);

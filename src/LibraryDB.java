@@ -1,3 +1,4 @@
+import java.net.ConnectException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,8 @@ public class LibraryDB {
     private static final String INSERT_BORROWER = "INSERT INTO borrowed_books" + " (book_id, member_id, return_date) VALUES " + "(?,?,?);";
     private static final String UPDATE_BORROWER = "UPDATE borrowed_books SET member_id = ?, return_date = ? WHERE book_id = ? AND member_id = ? AND return_date = ?";
     private static final String DELETE_BORROWER = "DELETE FROM borrowed_books WHERE book_id = ? AND member_id = ? AND return_date = ?";
+    private static final String DELETE_BORROWER_BY_BOOK_ID = "DELETE FROM borrowed_books WHERE book_id = ?";
+    private static final String DELETE_BORROWER_BY_MEMBER_ID = "DELETE FROM borrowed_books WHERE member_id = ?";
     private static final String SELECT_BORROWERS_BY_BOOK = "SELECT * FROM borrowed_books WHERE book_id = ?";
 
     private static final String INSERT_USER = "INSERT INTO staff" + " (username, full_name, password) VALUES " + " (?,?,?);";
@@ -128,8 +131,10 @@ public class LibraryDB {
         preparedStatement.setString(3, isbn);
         preparedStatement.setString(4, quantity);
         ResultSet rs = preparedStatement.executeQuery();
-        rs.next();
-        int bookID = rs.getInt("book_id");
+        int bookID = -1;
+        if (rs.next()) { // to check is rs is empty
+            bookID = rs.getInt("book_id");
+        }
         rs.close();
         preparedStatement.close();
         connection.close();
@@ -271,9 +276,12 @@ public class LibraryDB {
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_MEMBER_NAME_AND_SURNAME_BY_MEMBER_ID);
         preparedStatement.setInt(1, memberID);
         ResultSet rs = preparedStatement.executeQuery();
-        rs.next();
-        String name = rs.getString("name");
-        String surname = rs.getString("surname");
+        String name = null;
+        String surname = null;
+        if (rs.next()) { // to check is rs is empty
+            name = rs.getString("name");
+            surname = rs.getString("surname");
+        }
         rs.close();
         preparedStatement.close();
         connection.close();
@@ -316,6 +324,24 @@ public class LibraryDB {
         preparedStatement.setInt(1, bookID);
         preparedStatement.setInt(2, memberID);
         preparedStatement.setString(3, returnDate);
+        preparedStatement.executeUpdate();
+        preparedStatement.close();
+        connection.close();
+    }
+
+    public void deleteBorrowerByBookID(int bookID) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(DELETE_BORROWER_BY_BOOK_ID);
+        preparedStatement.setInt(1, bookID);
+        preparedStatement.executeUpdate();
+        preparedStatement.close();
+        connection.close();
+    }
+
+    public void deleteBorrowerByMemberID(int memberID) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(DELETE_BORROWER_BY_MEMBER_ID);
+        preparedStatement.setInt(1, memberID);
         preparedStatement.executeUpdate();
         preparedStatement.close();
         connection.close();
