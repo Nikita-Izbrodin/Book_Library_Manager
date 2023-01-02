@@ -3,14 +3,13 @@ import java.awt.event.*;
 
 public class BorrowerDialog extends JDialog {
     private JPanel contentPane;
-    private JTextField bookIDField;
     private JTextField memberIDField;
     private JTextField returnDateField;
     private JButton leftButton;
     private JButton cancelButton;
     private Borrower borrower;
 
-    public BorrowerDialog(String type) {
+    public BorrowerDialog(String type, int memberID, String returnDate) {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(leftButton);
@@ -19,6 +18,8 @@ public class BorrowerDialog extends JDialog {
             leftButton.setText("Confirm");
         } else if (type.equals("edit")) {
             leftButton.setText("Save");
+            memberIDField.setText(String.valueOf(memberID));
+            returnDateField.setText(returnDate);
         }
 
         leftButton.addActionListener(new ActionListener() {

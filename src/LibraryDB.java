@@ -15,6 +15,7 @@ public class LibraryDB {
     private static final String SELECT_BOOK_BY_TITLE = "SELECT * FROM books WHERE title LIKE ?";
     private static final String SELECT_BOOK_BY_AUTHOR = "SELECT * FROM books WHERE author LIKE ?";
     private static final String SELECT_BOOK_BY_ISBN = "SELECT * FROM books WHERE isbn LIKE ?";
+    private static final String SELECT_BOOK_ID = "SELECT book_id FROM books WHERE title = ? AND author = ? AND isbn = ? AND quantity = ?";
     private static final String INSERT_BOOK = "INSERT INTO books" + " (title, author, isbn, quantity) VALUES " + " (?,?,?,?);";
     private static final String UPDATE_BOOK = "UPDATE books SET title = ?, author = ?, isbn = ?, quantity = ? WHERE title = ? AND author = ? AND isbn = ? AND quantity = ?";
     private static final String DELETE_BOOK = "DELETE FROM books WHERE title = ? AND author = ? AND isbn = ? AND quantity = ?";
@@ -32,8 +33,7 @@ public class LibraryDB {
 
     private static final String INSERT_BORROWER = "INSERT INTO borrowed_books" + " (book_id, member_id, return_date) VALUES " + "(?,?,?);";
     private static final String SELECT_BORROWERS_BY_BOOK = "SELECT * FROM borrowed_books WHERE book_id = ?";
-
-    private static final String SELECT_BOOK_ID = "SELECT book_id FROM books WHERE title = ? AND author = ? AND isbn = ? AND quantity = ?";
+    private static final String UPDATE_BORROWER = "UPDATE borrowed_books SET member_id = ?, return_date = ? WHERE book_id = ? AND member_id = ? AND return_date = ?";
 
     protected Connection getConnection() throws SQLException {
         return DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
@@ -310,6 +310,19 @@ public class LibraryDB {
         preparedStatement.close();
         connection.close();
         return name+" "+surname;
+    }
+
+    public void updateBorrower(int newMemberID, String newReturnDate, int bookID, int oldMemberID, String oldReturnDate) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_BORROWER);
+        preparedStatement.setInt(1, newMemberID);
+        preparedStatement.setString(2, newReturnDate);
+        preparedStatement.setInt(3, bookID);
+        preparedStatement.setInt(4, oldMemberID);
+        preparedStatement.setString(5, oldReturnDate);
+        preparedStatement.executeUpdate();
+        preparedStatement.close();
+        connection.close();
     }
 
     private static List<Book> getBookList(ResultSet rs) throws SQLException {

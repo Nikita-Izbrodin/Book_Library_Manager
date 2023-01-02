@@ -40,8 +40,9 @@ public class MainWindow {
     private JPanel memberSearchCardPanel;
     private JPanel userSearchCardPanel;
     private JList<Member> memberList;
-    private JList borrowerList;
+    private JList<Borrower> borrowerList;
     private JButton addBorrowerButton;
+    private JList editBorrowerButtonList;
 
     public static void main(String[] args) {
         LibraryDB db = new LibraryDB();
@@ -117,7 +118,7 @@ public class MainWindow {
                 if (titleLabel.getText().isBlank()) { // if nothing is selected
                     return;
                 }
-                BorrowerDialog borrowerDialog = new BorrowerDialog("create");
+                BorrowerDialog borrowerDialog = new BorrowerDialog("create", -1, null);
                 borrowerDialog.pack();
                 borrowerDialog.show();
                 Borrower newBorrower = borrowerDialog.getBorrower();
@@ -126,7 +127,6 @@ public class MainWindow {
                 }
                 try {
                     int bookID = db.getBookID(titleLabel.getText(), authorLabel.getText(), isbnLabel.getText(), quantityLabel.getText());
-                    System.out.println(bookID);
                     newBorrower.setBookID(bookID);
                     db.createBorrower(newBorrower);
                 } catch (SQLException ex) {
@@ -267,6 +267,33 @@ public class MainWindow {
                 emailLabel.setText(memberList.getSelectedValue().getEmail());
                 addressLabel.setText(memberList.getSelectedValue().getAddress());
                 postcodeLabel.setText(memberList.getSelectedValue().getPostcode());
+            }
+        });
+
+        borrowerList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if (borrowerList.getSelectedValue() == null) {
+                    return;
+                }
+                BorrowerDialog borrowerDialog = new BorrowerDialog("edit", borrowerList.getSelectedValue().getMemberID(), borrowerList.getSelectedValue().getReturnDate());
+                borrowerDialog.pack();
+                borrowerDialog.show();
+                Borrower editedBorrower = borrowerDialog.getBorrower();
+                if (editedBorrower == null) {
+                    return;
+                }
+                LibraryDB db = new LibraryDB();
+                try {
+                    int bookID = db.getBookID(titleLabel.getText(), authorLabel.getText(), isbnLabel.getText(), quantityLabel.getText());
+                    editedBorrower.setBookID(bookID);
+                    db.updateBorrower(editedBorrower.getMemberID(), editedBorrower.getReturnDate(), editedBorrower.getBookID(), borrowerList.getSelectedValue().getMemberID(), borrowerList.getSelectedValue().getReturnDate());
+                    JOptionPane.showMessageDialog(null, "Borrow updated successfully.", "Borrow update", JOptionPane.INFORMATION_MESSAGE);
+                    displayBorrowers();
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
 
