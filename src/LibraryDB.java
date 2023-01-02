@@ -1,5 +1,3 @@
-import com.mysql.cj.jdbc.ConnectionImpl;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,9 +17,9 @@ public class LibraryDB {
     private static final String SELECT_BOOK_BY_ISBN = "SELECT * FROM books WHERE isbn LIKE ?";
     private static final String SELECT_BOOK_ID = "SELECT book_id FROM books WHERE title = ? AND author = ? AND isbn = ? AND quantity = ?";
 
-    private static final String INSERT_MEMBER = "INSERT INTO members" + " (name, surname, phone, email, address, postcode) VALUES " + "(?,?,?,?,?,?);";
-    private static final String UPDATE_MEMBER = "UPDATE members SET name = ?, surname = ?, phone = ?, email = ?, address = ?, postcode = ? WHERE name = ? AND surname = ? AND phone = ? AND email = ? AND address = ? AND postcode = ?";
-    private static final String DELETE_MEMBER = "DELETE FROM members WHERE name = ? AND surname = ? AND phone = ? AND email = ? AND address = ? AND postcode = ?";
+    private static final String INSERT_MEMBER = "INSERT INTO members" + " (member_id, name, surname, phone, email, address, postcode) VALUES " + "(?,?,?,?,?,?,?);";
+    private static final String UPDATE_MEMBER = "UPDATE members SET member_id = ?, name = ?, surname = ?, phone = ?, email = ?, address = ?, postcode = ? WHERE member_id = ? AND name = ? AND surname = ? AND phone = ? AND email = ? AND address = ? AND postcode = ?";
+    private static final String DELETE_MEMBER = "DELETE FROM members WHERE member_id = ? AND name = ? AND surname = ? AND phone = ? AND email = ? AND address = ? AND postcode = ?";
     private static final String SELECT_MEMBER_BY_NAME = "SELECT * FROM members WHERE name LIKE ?";
     private static final String SELECT_MEMBER_BY_SURNAME = "SELECT * FROM members WHERE surname LIKE ?";
     private static final String SELECT_MEMBER_BY_PHONENO = "SELECT * FROM members WHERE phone LIKE ?";
@@ -147,46 +145,50 @@ public class LibraryDB {
     public void createMember(Member newMember) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(INSERT_MEMBER);
-        preparedStatement.setString(1, newMember.getName());
-        preparedStatement.setString(2, newMember.getSurname());
-        preparedStatement.setString(3, newMember.getPhoneNo());
-        preparedStatement.setString(4, newMember.getEmail());
-        preparedStatement.setString(5, newMember.getAddress());
-        preparedStatement.setString(6, newMember.getPostcode());
+        preparedStatement.setInt(1, newMember.getID());
+        preparedStatement.setString(2, newMember.getName());
+        preparedStatement.setString(3, newMember.getSurname());
+        preparedStatement.setString(4, newMember.getPhoneNo());
+        preparedStatement.setString(5, newMember.getEmail());
+        preparedStatement.setString(6, newMember.getAddress());
+        preparedStatement.setString(7, newMember.getPostcode());
         preparedStatement.executeUpdate();
         preparedStatement.close();
         connection.close();
     }
 
-    public void updateMember(String newName, String newSurname, String newPhoneNo, String newEmail, String newAddress, String newPostcode, String oldName, String oldSurname, String oldPhoneNo, String oldEmail, String oldAddress, String oldPostcode) throws SQLException {
+    public void updateMember(int newID, String newName, String newSurname, String newPhoneNo, String newEmail, String newAddress, String newPostcode, int oldID, String oldName, String oldSurname, String oldPhoneNo, String oldEmail, String oldAddress, String oldPostcode) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_MEMBER);
-        preparedStatement.setString(1, newName);
-        preparedStatement.setString(2, newSurname);
-        preparedStatement.setString(3, newPhoneNo);
-        preparedStatement.setString(4, newEmail);
-        preparedStatement.setString(5, newAddress);
-        preparedStatement.setString(6, newPostcode);
-        preparedStatement.setString(7, oldName);
-        preparedStatement.setString(8, oldSurname);
-        preparedStatement.setString(9, oldPhoneNo);
-        preparedStatement.setString(10, oldEmail);
-        preparedStatement.setString(11, oldAddress);
-        preparedStatement.setString(12, oldPostcode);
+        preparedStatement.setInt(1, newID);
+        preparedStatement.setString(2, newName);
+        preparedStatement.setString(3, newSurname);
+        preparedStatement.setString(4, newPhoneNo);
+        preparedStatement.setString(5, newEmail);
+        preparedStatement.setString(6, newAddress);
+        preparedStatement.setString(7, newPostcode);
+        preparedStatement.setInt(8, oldID);
+        preparedStatement.setString(9, oldName);
+        preparedStatement.setString(10, oldSurname);
+        preparedStatement.setString(11, oldPhoneNo);
+        preparedStatement.setString(12, oldEmail);
+        preparedStatement.setString(13, oldAddress);
+        preparedStatement.setString(14, oldPostcode);
         preparedStatement.executeUpdate();
         preparedStatement.close();
         connection.close();
     }
 
-    public void deleteMember(String name, String surname, String phoneNo, String email, String address, String postcode) throws SQLException {
+    public void deleteMember(int id, String name, String surname, String phoneNo, String email, String address, String postcode) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(DELETE_MEMBER);
-        preparedStatement.setString(1, name);
-        preparedStatement.setString(2, surname);
-        preparedStatement.setString(3, phoneNo);
-        preparedStatement.setString(4, email);
-        preparedStatement.setString(5, address);
-        preparedStatement.setString(6, postcode);
+        preparedStatement.setInt(1, id);
+        preparedStatement.setString(2, name);
+        preparedStatement.setString(3, surname);
+        preparedStatement.setString(4, phoneNo);
+        preparedStatement.setString(5, email);
+        preparedStatement.setString(6, address);
+        preparedStatement.setString(7, postcode);
         preparedStatement.executeUpdate();
         preparedStatement.close();
         connection.close();
@@ -381,13 +383,14 @@ public class LibraryDB {
     private static List<Member> getMemberList(ResultSet rs) throws SQLException {
         List<Member> members = new ArrayList<>();
         while (rs.next()) {
+            int id = rs.getInt("member_id");
             String name = rs.getString("name");
             String surname = rs.getString("surname");
             String phoneNo = rs.getString("phone");
             String email = rs.getString("email");
             String address = rs.getString("address");
             String postcode = rs.getString("postcode");
-            members.add(new Member(name, surname, phoneNo, email, address, postcode));
+            members.add(new Member(id, name, surname, phoneNo, email, address, postcode));
         }
         return members;
     }

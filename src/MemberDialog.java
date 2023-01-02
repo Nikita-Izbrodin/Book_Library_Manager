@@ -11,9 +11,10 @@ public class MemberDialog extends JDialog {
     private JTextField phoneNoTextField;
     private JTextField emailTextField;
     private JTextField addressTextField;
+    private JTextField idTextField;
     private Member member;
 
-    public MemberDialog(String type, String name, String surname, String phone, String email, String address, String postcode) {
+    public MemberDialog(String type, int id, String name, String surname, String phone, String email, String address, String postcode) {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(leftButton);
@@ -22,6 +23,7 @@ public class MemberDialog extends JDialog {
             leftButton.setText("Create");
         } else if (type.equals("edit")) {
             leftButton.setText("Edit");
+            idTextField.setText(String.valueOf(id));
             nameTextField.setText(name);
             surnameTextField.setText(surname);
             phoneNoTextField.setText(phone);
@@ -59,8 +61,14 @@ public class MemberDialog extends JDialog {
     }
 
     private void onOK() {
-        if (nameTextField.getText().isBlank() || surnameTextField.getText().isBlank() || phoneNoTextField.getText().isBlank()
+        if (idTextField.getText().isBlank() || nameTextField.getText().isBlank() || surnameTextField.getText().isBlank() || phoneNoTextField.getText().isBlank()
             || emailTextField.getText().isBlank() || addressTextField.getText().isBlank() || postcodeTextField.getText().isBlank()) {
+            return;
+        }
+        int id = -1;
+        try {
+            id = Integer.parseInt(idTextField.getText());
+        } catch (Exception ex) { // if idTextField contains a string
             return;
         }
         String name = nameTextField.getText();
@@ -69,7 +77,7 @@ public class MemberDialog extends JDialog {
         String email = emailTextField.getText();
         String address = addressTextField.getText();
         String postcode = postcodeTextField.getText();
-        member = new Member(name, surname, phoneNo, email, address, postcode);
+        member = new Member(id, name, surname, phoneNo, email, address, postcode);
         dispose();
     }
 

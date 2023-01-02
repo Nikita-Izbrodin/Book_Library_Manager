@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Added &amp; improved comments.">
+    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Implemented returning of books.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BorrowerListItemForm.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/BorrowerListItemForm.form" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/LibraryDB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LibraryDB.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MainWindow.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainWindow.form" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MainWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainWindow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Member.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Member.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MemberDialog.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/MemberDialog.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MemberDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MemberDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MemberListItemForm.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/MemberListItemForm.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MemberListItemForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MemberListItemForm.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -147,7 +154,14 @@
       <option name="project" value="LOCAL" />
       <updated>1672674460973</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Implemented returning of books.">
+      <created>1672676999055</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1672676999055</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -173,7 +187,8 @@
     <MESSAGE value="Implemented borrowing of books. Unused connections will now close." />
     <MESSAGE value="Member ID and return date of borrowers can be edited." />
     <MESSAGE value="Added &amp; improved comments." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added &amp; improved comments." />
+    <MESSAGE value="Implemented returning of books." />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented returning of books." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

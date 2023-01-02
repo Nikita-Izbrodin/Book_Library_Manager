@@ -8,12 +8,14 @@ public class MemberListItemForm {
     private JLabel emailLabel;
     private JLabel addressLabel;
     private JLabel postcodeLabel;
+    private JLabel idLabel;
 
     public JPanel getPanel(){
         return memberItemPanel;
     }
 
     public void setData(Member member) {
+        idLabel.setText("ID: "+member.getID());
         nameLabel.setText("Name: "+member.getName());
         surnameLabel.setText("Surname: "+member.getSurname());
         phoneNoLabel.setText("Phone No: "+member.getPhoneNo());

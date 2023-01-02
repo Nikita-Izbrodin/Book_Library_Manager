@@ -42,6 +42,7 @@ public class MainWindow {
     private JList<Member> memberList;
     private JList<Borrower> borrowerList;
     private JButton addBorrowerButton;
+    private JLabel idLabel;
     private JList editBorrowerButtonList;
 
     public static void main(String[] args) {
@@ -97,7 +98,7 @@ public class MainWindow {
                     }
                     selectBooksBy();
                 } else if (menuComboBox.getSelectedItem().toString().equals("Members")) {
-                    MemberDialog memberDialog = new MemberDialog("create", null, null, null, null, null, null);
+                    MemberDialog memberDialog = new MemberDialog("create", -1, null, null, null, null, null, null);
                     memberDialog.pack();
                     memberDialog.show();
                     Member newMember = memberDialog.getMember();
@@ -195,7 +196,7 @@ public class MainWindow {
                 if (nameLabel.getText().isBlank()) { // if nothing is selected
                     return;
                 }
-                MemberDialog memberDialog = new MemberDialog("edit", nameLabel.getText(), surnameLabel.getText(), phoneNoLabel.getText(), emailLabel.getText(), addressLabel.getText(), postcodeLabel.getText());
+                MemberDialog memberDialog = new MemberDialog("edit", Integer.parseInt(idLabel.getText()),nameLabel.getText(), surnameLabel.getText(), phoneNoLabel.getText(), emailLabel.getText(), addressLabel.getText(), postcodeLabel.getText());
                 memberDialog.pack();
                 memberDialog.show();
                 Member editedMember = memberDialog.getMember();
@@ -203,8 +204,9 @@ public class MainWindow {
                     return;
                 }
                 try {
-                    db.updateMember(editedMember.getName(), editedMember.getSurname(), editedMember.getPhoneNo(), editedMember.getEmail(), editedMember.getAddress(), editedMember.getPostcode(), nameLabel.getText(), surnameLabel.getText(), phoneNoLabel.getText(), emailLabel.getText(), addressLabel.getText(), postcodeLabel.getText());
+                    db.updateMember(editedMember.getID(), editedMember.getName(), editedMember.getSurname(), editedMember.getPhoneNo(), editedMember.getEmail(), editedMember.getAddress(), editedMember.getPostcode(), Integer.parseInt(idLabel.getText()), nameLabel.getText(), surnameLabel.getText(), phoneNoLabel.getText(), emailLabel.getText(), addressLabel.getText(), postcodeLabel.getText());
                     JOptionPane.showMessageDialog(null, "Member updated successfully.", "Member update", JOptionPane.INFORMATION_MESSAGE);
+                    idLabel.setText(String.valueOf(editedMember.getID()));
                     nameLabel.setText(editedMember.getName());
                     surnameLabel.setText(editedMember.getSurname());
                     phoneNoLabel.setText(editedMember.getPhoneNo());
@@ -229,11 +231,12 @@ public class MainWindow {
                     return;
                 }
                 try {
-                    db.deleteMember(nameLabel.getText(), surnameLabel.getText(), phoneNoLabel.getText(), emailLabel.getText(), addressLabel.getText(), postcodeLabel.getText());
+                    db.deleteMember(Integer.parseInt(idLabel.getText()), nameLabel.getText(), surnameLabel.getText(), phoneNoLabel.getText(), emailLabel.getText(), addressLabel.getText(), postcodeLabel.getText());
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
                 }
                 selectMembersBy();
+                idLabel.setText("");
                 nameLabel.setText("");
                 surnameLabel.setText("");
                 phoneNoLabel.setText("");
@@ -263,6 +266,7 @@ public class MainWindow {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
+                idLabel.setText(String.valueOf(memberList.getSelectedValue().getID()));
                 nameLabel.setText(memberList.getSelectedValue().getName());
                 surnameLabel.setText(memberList.getSelectedValue().getSurname());
                 phoneNoLabel.setText(memberList.getSelectedValue().getPhoneNo());
@@ -463,6 +467,9 @@ public class MainWindow {
             borrowersList = db.selectBorrowers(bookID);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        if (borrowersList == null) {
+            return;
         }
         Borrower[] borrowersArray = borrowersList.toArray(new Borrower[borrowersList.size()]);
         borrowerList.setListData(borrowersArray);
