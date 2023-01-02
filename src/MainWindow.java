@@ -74,9 +74,11 @@ public class MainWindow {
 
     public MainWindow() {
         LibraryDB db = new LibraryDB();
-        selectBooksBy(); // to display all books
+        selectBooksBy();
 
-        // start of actionlisteners
+        //
+        // start of ActionListeners
+        //
         addNewButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -93,7 +95,7 @@ public class MainWindow {
                     } catch (SQLException ex) {
                         JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
                     }
-                    selectBooksBy(); // to update displayed list of books
+                    selectBooksBy();
                 } else if (menuComboBox.getSelectedItem().toString().equals("Members")) {
                     MemberDialog memberDialog = new MemberDialog("create", null, null, null, null, null, null);
                     memberDialog.pack();
@@ -107,7 +109,7 @@ public class MainWindow {
                     } catch (SQLException ex) {
                         JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
                     }
-                    selectMembersBy(); // to update displayed list of members
+                    selectMembersBy();
                 }
             }
         });
@@ -132,7 +134,7 @@ public class MainWindow {
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
                 }
-                displayBorrowers(); // to update displayed list of borrowers
+                displayBorrowers();
             }
         });
 
@@ -159,7 +161,7 @@ public class MainWindow {
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
                 }
-                selectBooksBy(); // to update displayed list of books
+                selectBooksBy();
             }
         });
 
@@ -178,7 +180,7 @@ public class MainWindow {
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
                 }
-                selectBooksBy(); // to update displayed list of books
+                selectBooksBy();
                 displayBorrowers();
                 titleLabel.setText("");
                 authorLabel.setText("");
@@ -212,7 +214,7 @@ public class MainWindow {
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
                 }
-                selectMembersBy(); // to update list of displayed members
+                selectMembersBy();
             }
         });
 
@@ -359,9 +361,13 @@ public class MainWindow {
                 selectedParentCardPanel.revalidate();
             }
         });
-        // end of actionlisteners
+        //
+        // end of ActionListeners
+        //
+
     }
 
+    // updates list of displayed books
     private void selectBooksBy() {
         LibraryDB db = new LibraryDB();
         List<Book> booksList = null;
@@ -391,6 +397,7 @@ public class MainWindow {
         }
     }
 
+    // updates list of displayed members
     private void selectMembersBy() {
         LibraryDB db = new LibraryDB();
         List<Member> membersList = null;
@@ -423,6 +430,7 @@ public class MainWindow {
         }
     }
 
+    // updates list of displayed borrowers
     private void displayBorrowers() {
         LibraryDB db = new LibraryDB();
         List<Borrower> borrowersList = null;
