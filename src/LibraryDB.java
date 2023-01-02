@@ -5,7 +5,7 @@ import java.util.List;
 
 public class LibraryDB {
 
-    private String jdbcURL = "jdbc:mysql://localhost:3306/booklibrary?allowPublicKeyRetrieval=true&useSSL=false";
+    private String jdbcURL = "jdbc:mysql://localhost:3306/booklibrary?allowPublicKeyRetrieval=true&useSSL=false"; // TODO: fix allowPublicKeyRetrieval
     private String jdbcUsername = "dbmanager";
     private String jdbcPassword = "manager7349";
 
@@ -51,7 +51,7 @@ public class LibraryDB {
         PreparedStatement preparedStatement = connection.prepareStatement(INSERT_BOOK);
         preparedStatement.setString(1, newBook.getTitle());
         preparedStatement.setString(2, newBook.getAuthor());
-        preparedStatement.setInt(3, newBook.getIsbn());
+        preparedStatement.setString(3, newBook.getIsbn());
         preparedStatement.setInt(4, newBook.getQuantity());
         preparedStatement.executeUpdate();
         preparedStatement.close();
@@ -399,7 +399,7 @@ public class LibraryDB {
         while (rs.next()) {
             String title = rs.getString("title");
             String author = rs.getString("author");
-            int isbn = rs.getInt("isbn");
+            String isbn = rs.getString("isbn");
             int quantity = rs.getInt("quantity");
             books.add(new Book(title, author, isbn, quantity));
         }

@@ -124,6 +124,14 @@ public class MainWindow {
                 if (titleLabel.getText().isBlank()) { // if nothing is selected
                     return;
                 }
+                try {
+                    if (db.selectMembersByName("a").isEmpty()) { // checks if there are any members
+                        JOptionPane.showMessageDialog(null, "There are no members in the database.", "", JOptionPane.INFORMATION_MESSAGE);
+                        return;
+                    }
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
+                }
                 BorrowerDialog borrowerDialog = new BorrowerDialog("create", -1, null);
                 borrowerDialog.pack();
                 borrowerDialog.show();
@@ -262,7 +270,7 @@ public class MainWindow {
                 }
                 titleLabel.setText(bookList.getSelectedValue().getTitle());
                 authorLabel.setText(bookList.getSelectedValue().getAuthor());
-                isbnLabel.setText(String.valueOf(bookList.getSelectedValue().getIsbn()));
+                isbnLabel.setText(bookList.getSelectedValue().getIsbn());
                 quantityLabel.setText(String.valueOf(bookList.getSelectedValue().getQuantity()));
                 displayBorrowers();
             }

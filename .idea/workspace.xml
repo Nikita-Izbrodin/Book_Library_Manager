@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Implemented manual handling of member ID.">
+    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Prevented foreign key constraints when deleting members/books. Prevented illegal operations on empty result set.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Book.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Book.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BookDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BookDialog.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/LibraryDB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LibraryDB.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MainWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainWindow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MemberDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MemberDialog.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -161,7 +164,14 @@
       <option name="project" value="LOCAL" />
       <updated>1672680894248</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Prevented foreign key constraints when deleting members/books. Prevented illegal operations on empty result set.">
+      <created>1672691425035</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1672691425035</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -189,7 +199,8 @@
     <MESSAGE value="Added &amp; improved comments." />
     <MESSAGE value="Implemented returning of books." />
     <MESSAGE value="Implemented manual handling of member ID." />
-    <option name="LAST_COMMIT_MESSAGE" value="Implemented manual handling of member ID." />
+    <MESSAGE value="Prevented foreign key constraints when deleting members/books. Prevented illegal operations on empty result set." />
+    <option name="LAST_COMMIT_MESSAGE" value="Prevented foreign key constraints when deleting members/books. Prevented illegal operations on empty result set." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

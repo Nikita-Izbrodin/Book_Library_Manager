@@ -61,8 +61,7 @@ public class MemberDialog extends JDialog {
     }
 
     private void onOK() {
-        if (idTextField.getText().isBlank() || nameTextField.getText().isBlank() || surnameTextField.getText().isBlank() || phoneNoTextField.getText().isBlank()
-            || emailTextField.getText().isBlank() || addressTextField.getText().isBlank() || postcodeTextField.getText().isBlank()) {
+        if (idTextField.getText().isBlank() || nameTextField.getText().isBlank() || surnameTextField.getText().isBlank() || addressTextField.getText().isBlank() || postcodeTextField.getText().isBlank()) { // phone num and email not checked because some members may not have one
             return;
         }
         int id = -1;

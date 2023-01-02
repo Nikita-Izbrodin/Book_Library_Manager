@@ -56,12 +56,12 @@ public class BookDialog extends JDialog {
     }
 
     private void onOK() {
-        if (titleField.getText().isBlank() || authorField.getText().isBlank() || isbnField.getText().isBlank() || quantityField.getText().isBlank()) {
+        if (titleField.getText().isBlank() || authorField.getText().isBlank() || quantityField.getText().isBlank()) { // ISBN not checked because some old books may not have one
             return;
         }
         String title = titleField.getText();
         String author = authorField.getText();
-        int isbn = Integer.parseInt(isbnField.getText());
+        String isbn = isbnField.getText();
         int quantity = Integer.parseInt(quantityField.getText());
         book = new Book(title, author, isbn, quantity);
         dispose();
