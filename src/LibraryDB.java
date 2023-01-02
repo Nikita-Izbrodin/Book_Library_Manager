@@ -1,3 +1,5 @@
+import com.mysql.cj.jdbc.ConnectionImpl;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +32,7 @@ public class LibraryDB {
 
     private static final String INSERT_BORROWER = "INSERT INTO borrowed_books" + " (book_id, member_id, return_date) VALUES " + "(?,?,?);";
     private static final String UPDATE_BORROWER = "UPDATE borrowed_books SET member_id = ?, return_date = ? WHERE book_id = ? AND member_id = ? AND return_date = ?";
+    private static final String DELETE_BORROWER = "DELETE FROM borrowed_books WHERE book_id = ? AND member_id = ? AND return_date = ?";
     private static final String SELECT_BORROWERS_BY_BOOK = "SELECT * FROM borrowed_books WHERE book_id = ?";
 
     private static final String INSERT_USER = "INSERT INTO staff" + " (username, full_name, password) VALUES " + " (?,?,?);";
@@ -300,6 +303,17 @@ public class LibraryDB {
         preparedStatement.setInt(3, bookID);
         preparedStatement.setInt(4, oldMemberID);
         preparedStatement.setString(5, oldReturnDate);
+        preparedStatement.executeUpdate();
+        preparedStatement.close();
+        connection.close();
+    }
+
+    public void deleteBorrower(int bookID, int memberID, String returnDate) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(DELETE_BORROWER);
+        preparedStatement.setInt(1, bookID);
+        preparedStatement.setInt(2, memberID);
+        preparedStatement.setString(3, returnDate);
         preparedStatement.executeUpdate();
         preparedStatement.close();
         connection.close();

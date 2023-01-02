@@ -279,22 +279,46 @@ public class MainWindow {
                 if (borrowerList.getSelectedValue() == null) {
                     return;
                 }
-                BorrowerDialog borrowerDialog = new BorrowerDialog("edit", borrowerList.getSelectedValue().getMemberID(), borrowerList.getSelectedValue().getReturnDate());
-                borrowerDialog.pack();
-                borrowerDialog.show();
-                Borrower editedBorrower = borrowerDialog.getBorrower();
-                if (editedBorrower == null) {
-                    return;
-                }
-                LibraryDB db = new LibraryDB();
-                try {
-                    int bookID = db.getBookID(titleLabel.getText(), authorLabel.getText(), isbnLabel.getText(), quantityLabel.getText());
-                    editedBorrower.setBookID(bookID);
-                    db.updateBorrower(editedBorrower.getMemberID(), editedBorrower.getReturnDate(), editedBorrower.getBookID(), borrowerList.getSelectedValue().getMemberID(), borrowerList.getSelectedValue().getReturnDate());
-                    JOptionPane.showMessageDialog(null, "Borrow updated successfully.", "Borrow update", JOptionPane.INFORMATION_MESSAGE);
-                    displayBorrowers();
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
+                String[] options = {"Edit", "Book returned"};
+                int answer = JOptionPane.showOptionDialog(
+                        null,
+                        "Choose an option",
+                        "Edit / Returned",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.WARNING_MESSAGE,
+                        null,
+                        options, // custom buttons
+                        options[1] // default button
+                );
+                if (answer == 0) { // if "Edit" pressed
+                    BorrowerDialog borrowerDialog = new BorrowerDialog("edit", borrowerList.getSelectedValue().getMemberID(), borrowerList.getSelectedValue().getReturnDate());
+                    borrowerDialog.pack();
+                    borrowerDialog.show();
+                    Borrower editedBorrower = borrowerDialog.getBorrower();
+                    if (editedBorrower == null) {
+                        return;
+                    }
+                    LibraryDB db = new LibraryDB();
+                    try {
+                        int bookID = db.getBookID(titleLabel.getText(), authorLabel.getText(), isbnLabel.getText(), quantityLabel.getText());
+                        editedBorrower.setBookID(bookID);
+                        db.updateBorrower(editedBorrower.getMemberID(), editedBorrower.getReturnDate(), editedBorrower.getBookID(), borrowerList.getSelectedValue().getMemberID(), borrowerList.getSelectedValue().getReturnDate());
+                        JOptionPane.showMessageDialog(null, "Borrow updated successfully.", "Borrow update", JOptionPane.INFORMATION_MESSAGE);
+                        displayBorrowers();
+                    } catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else if (answer == 1) { // if "Book returned" pressed
+                    try {
+                        String fullName = db.selectMemberNameSurnameByMemberID(borrowerList.getSelectedValue().getMemberID());
+                        int bookReturned = JOptionPane.showConfirmDialog(null, "Has "+fullName+" returned "+titleLabel.getText()+"?", "Book returned", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                        if (bookReturned == 0) { // if "Yes" pressed
+                            db.deleteBorrower(borrowerList.getSelectedValue().getBookID(), borrowerList.getSelectedValue().getMemberID(), borrowerList.getSelectedValue().getReturnDate());
+                            displayBorrowers();
+                        }
+                    } catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             }
         });
