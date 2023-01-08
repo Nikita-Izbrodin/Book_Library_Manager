@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Implemented searching users.">
+    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Implemented scroll bars.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MainWindow.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainWindow.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UserListItemForm.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/UserListItemForm.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MainWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainWindow.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -198,7 +198,14 @@
       <option name="project" value="LOCAL" />
       <updated>1673209911620</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="Implemented scroll bars.">
+      <created>1673211617654</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1673211617654</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -231,7 +238,8 @@
     <MESSAGE value="Added tooltip to return date text field. Checks if a member is present before creating a borrower." />
     <MESSAGE value="Implemented adding users from main window." />
     <MESSAGE value="Implemented searching users." />
-    <option name="LAST_COMMIT_MESSAGE" value="Implemented searching users." />
+    <MESSAGE value="Implemented scroll bars." />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented scroll bars." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -240,16 +248,6 @@
           <properties class="java.lang.NullPointerException" package="java.lang" />
           <option name="timeStamp" value="3" />
         </breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/MainWindow.java</url>
-          <line>374</line>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/MainWindow.java</url>
-          <line>539</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/UserListItemForm.java</url>
           <line>12</line>

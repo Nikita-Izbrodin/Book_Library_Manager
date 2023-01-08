@@ -366,6 +366,18 @@ public class MainWindow {
             }
         });
 
+        userList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if (userList.getSelectedValue() == null) {
+                    return;
+                }
+                usernameLabel.setText(userList.getSelectedValue().getFullName());
+                fullNameLabel.setText(userList.getSelectedValue().getFullName());
+            }
+        });
+
         searchTextField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -383,6 +395,7 @@ public class MainWindow {
                 System.out.println(menuComboBox.getSelectedItem().toString());*/
                 selectBooksBy();
                 selectMembersBy();
+                selectUsersBy();
                 /*if (menuComboBox.equals("Books")) {
                     selectBooksBy();
                 } else if (menuComboBox.equals("Members")) {
@@ -444,7 +457,6 @@ public class MainWindow {
         //
         // end of ActionListeners
         //
-
     }
 
     // updates list of displayed books
