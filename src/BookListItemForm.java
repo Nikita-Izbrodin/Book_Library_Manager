@@ -7,7 +7,7 @@ public class BookListItemForm {
     private JLabel isbnLabel;
     private JLabel quantityLabel;
 
-    public JPanel getPanel(){
+    public JPanel getPanel() {
         return bookItemPanel;
     }
 

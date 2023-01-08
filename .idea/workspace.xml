@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Added tooltip to return date text field. Checks if a member is present before creating a borrower.">
+    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Implemented adding users from main window.">
+      <change afterPath="$PROJECT_DIR$/src/UserCellRenderer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/UserListItemForm.form" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/UserListItemForm.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CreateUserDialog.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/UserDialog.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CreateUserDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UserDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BookListItemForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BookListItemForm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/LibraryDB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LibraryDB.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MainWindow.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainWindow.form" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MainWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainWindow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/User.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -184,7 +188,14 @@
       <option name="project" value="LOCAL" />
       <updated>1673201043003</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Implemented adding users from main window.">
+      <created>1673204094762</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1673204094762</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -215,7 +226,8 @@
     <MESSAGE value="Prevented foreign key constraints when deleting members/books. Prevented illegal operations on empty result set." />
     <MESSAGE value="Made ISBN an int. Made ISBN, phone num, and email not mandatory. Checks if is a member is present in the database before creating borrower." />
     <MESSAGE value="Added tooltip to return date text field. Checks if a member is present before creating a borrower." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added tooltip to return date text field. Checks if a member is present before creating a borrower." />
+    <MESSAGE value="Implemented adding users from main window." />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented adding users from main window." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -224,6 +236,26 @@
           <properties class="java.lang.NullPointerException" package="java.lang" />
           <option name="timeStamp" value="3" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/MainWindow.java</url>
+          <line>374</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/MainWindow.java</url>
+          <line>539</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/UserListItemForm.java</url>
+          <line>12</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/MainWindow.java</url>
+          <line>429</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

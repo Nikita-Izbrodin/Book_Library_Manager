@@ -45,6 +45,9 @@ public class MainWindow {
     private JLabel idLabel;
     private JButton deleteUserButton;
     private JButton editUserButton;
+    private JList<User> userList;
+    private JLabel usernameLabel;
+    private JLabel fullNameLabel;
     private JList editBorrowerButtonList;
 
     public static void main(String[] args) {
@@ -132,6 +135,7 @@ public class MainWindow {
                     } catch (SQLException ex) {
                         JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
                     }
+                    selectUsersBy();
                 }
             }
         });
@@ -368,6 +372,7 @@ public class MainWindow {
                 //super.keyTyped(e); // not sure why this line was added. might remove
                 selectBooksBy();
                 selectMembersBy();
+                selectUsersBy();
             }
         });
 
@@ -422,7 +427,15 @@ public class MainWindow {
                     selectMembersBy();
                 } else if (menuOption.equals("Users")) {
                     selectedParentCardPanel.add(userCardPanel);
-                    selectedParentCardPanel.add(userSearchCardPanel);
+                    searchResultsParentCardPanel.add(userSearchCardPanel);
+                    DefaultComboBoxModel userModel = (DefaultComboBoxModel) searchByComboBox.getModel();
+                    userModel.removeAllElements();
+                    ArrayList<String> types = new ArrayList<>(Arrays.asList("Username", "Full Name"));
+                    for (String type : types) {
+                        userModel.addElement(type);
+                    }
+                    searchByComboBox.setModel(userModel);
+                    selectUsersBy();
                 }
                 selectedParentCardPanel.repaint();
                 selectedParentCardPanel.revalidate();
@@ -513,6 +526,31 @@ public class MainWindow {
         Borrower[] borrowersArray = borrowersList.toArray(new Borrower[borrowersList.size()]);
         borrowerList.setListData(borrowersArray);
         borrowerList.setCellRenderer(new BorrowerCellRenderer());
+    }
+
+    // updates list of displayed users
+    private void selectUsersBy() {
+        LibraryDB db = new LibraryDB();
+        List<User> usersList = null;
+        if (searchByComboBox.getSelectedItem() == null) {
+            return;
+        }
+        String searchBy = searchByComboBox.getSelectedItem().toString();
+        try {
+            if (searchBy.equals("Username")) {
+                usersList = db.selectUsersByUsername(searchTextField.getText());
+            } else if (searchBy.equals("Full Name")) {
+                usersList = db.selectUsersByFullName(searchTextField.getText());
+            }
+            if (usersList == null) {
+                return;
+            }
+            User[] usersArray = usersList.toArray(new User[usersList.size()]);
+            userList.setListData(usersArray);
+            userList.setCellRenderer(new UserCellRenderer());
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
 }

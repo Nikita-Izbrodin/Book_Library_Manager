@@ -1,4 +1,3 @@
-import java.net.ConnectException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +38,8 @@ public class LibraryDB {
 
     private static final String INSERT_USER = "INSERT INTO staff" + " (username, full_name, password) VALUES " + " (?,?,?);";
     private static final String SELECT_ALL_USERS = "SELECT * FROM staff";
+    private static final String SELECT_USER_BY_USERNAME = "SELECT * FROM staff WHERE username LIKE ?";
+    private static final String SELECT_USER_BY_FULLNAME = "SELECT * FROM staff WHERE full_name LIKE ?";
 
     protected Connection getConnection() throws SQLException {
         return DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
@@ -382,7 +383,7 @@ public class LibraryDB {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USER);
         preparedStatement.setString(1, user.getUsername());
-        preparedStatement.setString(2, user.getFull_name());
+        preparedStatement.setString(2, user.getFullName());
         preparedStatement.setString(3, user.getPassword());
         preparedStatement.executeUpdate();
         preparedStatement.close();
@@ -399,6 +400,30 @@ public class LibraryDB {
             connection.close();
             return isEmptyResultSet;
         }
+    }
+
+    public List<User> selectUsersByUsername(String username) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_USERNAME);
+        preparedStatement.setString(1, "%"+username+"%");
+        ResultSet rs = preparedStatement.executeQuery();
+        List<User> users =  getUserList(rs);
+        rs.close();
+        preparedStatement.close();
+        connection.close();
+        return users;
+    }
+
+    public List<User> selectUsersByFullName(String fullName) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_FULLNAME);
+        preparedStatement.setString(1, "%"+fullName+"%");
+        ResultSet rs = preparedStatement.executeQuery();
+        List<User> users =  getUserList(rs);
+        rs.close();
+        preparedStatement.close();
+        connection.close();
+        return users;
     }
     //
     // end of user commands
@@ -443,6 +468,16 @@ public class LibraryDB {
             borrowers.add(new Borrower(bookID, memberID, returnDate));
         }
         return borrowers;
+    }
+
+    private static List<User> getUserList(ResultSet rs) throws SQLException {
+        List<User> users = new ArrayList<>();
+        while (rs.next()) {
+            String username = rs.getString("username");
+            String fullName = rs.getString("full_name");
+            users.add(new User(username, fullName, null));
+        }
+        return users;
     }
     //
     // end of list getters
