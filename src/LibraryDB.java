@@ -21,6 +21,7 @@ public class LibraryDB {
     private static final String INSERT_MEMBER = "INSERT INTO members" + " (member_id, name, surname, phone, email, address, postcode) VALUES " + "(?,?,?,?,?,?,?);";
     private static final String UPDATE_MEMBER = "UPDATE members SET member_id = ?, name = ?, surname = ?, phone = ?, email = ?, address = ?, postcode = ? WHERE member_id = ? AND name = ? AND surname = ? AND phone = ? AND email = ? AND address = ? AND postcode = ?";
     private static final String DELETE_MEMBER = "DELETE FROM members WHERE member_id = ? AND name = ? AND surname = ? AND phone = ? AND email = ? AND address = ? AND postcode = ?";
+    private static final String SELECT_ALL_MEMBERS = "SELECT * FROM members";
     private static final String SELECT_MEMBER_BY_NAME = "SELECT * FROM members WHERE name LIKE ?";
     private static final String SELECT_MEMBER_BY_SURNAME = "SELECT * FROM members WHERE surname LIKE ?";
     private static final String SELECT_MEMBER_BY_PHONENO = "SELECT * FROM members WHERE phone LIKE ?";
@@ -197,6 +198,18 @@ public class LibraryDB {
         preparedStatement.executeUpdate();
         preparedStatement.close();
         connection.close();
+    }
+
+    public boolean noMembers() throws SQLException {
+        try (Connection connection = getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_MEMBERS)) {
+            ResultSet rs = preparedStatement.executeQuery();
+            boolean isEmptyResultSet = !rs.next();
+            rs.close();
+            preparedStatement.close();
+            connection.close();
+            return isEmptyResultSet;
+        }
     }
 
     public List<Member> selectMembersByName(String name) throws SQLException {

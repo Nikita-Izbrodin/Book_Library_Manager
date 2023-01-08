@@ -125,7 +125,7 @@ public class MainWindow {
                     return;
                 }
                 try {
-                    if (db.selectMembersByName("a").isEmpty()) { // checks if there are any members
+                    if (db.noMembers()) { // checks if there are any members
                         JOptionPane.showMessageDialog(null, "There are no members in the database.", "", JOptionPane.INFORMATION_MESSAGE);
                         return;
                     }
@@ -280,6 +280,9 @@ public class MainWindow {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
+                if (memberList.getSelectedValue() == null) {
+                    return;
+                }
                 idLabel.setText(String.valueOf(memberList.getSelectedValue().getID()));
                 nameLabel.setText(memberList.getSelectedValue().getName());
                 surnameLabel.setText(memberList.getSelectedValue().getSurname());
