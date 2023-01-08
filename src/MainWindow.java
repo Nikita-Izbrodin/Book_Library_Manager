@@ -43,16 +43,18 @@ public class MainWindow {
     private JList<Borrower> borrowerList;
     private JButton addBorrowerButton;
     private JLabel idLabel;
+    private JButton deleteUserButton;
+    private JButton editUserButton;
     private JList editBorrowerButtonList;
 
     public static void main(String[] args) {
         LibraryDB db = new LibraryDB();
         try {
             if (db.noStaff()){
-                CreateUserDialog createUserDialog = new CreateUserDialog();
-                createUserDialog.pack();
-                createUserDialog.show();
-                User newUser = createUserDialog.getNewUser();
+                UserDialog userDialog = new UserDialog("create", null, null);
+                userDialog.pack();
+                userDialog.show();
+                User newUser = userDialog.getUser();
                 if (newUser == null) {
                     return; // exit from the application
                 }
@@ -96,6 +98,7 @@ public class MainWindow {
                     }
                     try {
                         db.createBook(newBook);
+                        JOptionPane.showMessageDialog(null, "Book created successfully.", "Book create", JOptionPane.INFORMATION_MESSAGE);
                     } catch (SQLException ex) {
                         JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
                     }
@@ -110,10 +113,25 @@ public class MainWindow {
                     }
                     try {
                         db.createMember(newMember);
+                        JOptionPane.showMessageDialog(null, "Member created successfully.", "Member create", JOptionPane.INFORMATION_MESSAGE);
                     } catch (SQLException ex) {
                         JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
                     }
                     selectMembersBy();
+                } else if (menuComboBox.getSelectedItem().toString().equals("Users")) {
+                    UserDialog userDialog = new UserDialog("create", null, null);
+                    userDialog.pack();
+                    userDialog.show();
+                    User newUser = userDialog.getUser();
+                    if (newUser == null) {
+                        return;
+                    }
+                    try {
+                        db.createUser(newUser);
+                        JOptionPane.showMessageDialog(null, "User created successfully.", "User create", JOptionPane.INFORMATION_MESSAGE);
+                    } catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             }
         });

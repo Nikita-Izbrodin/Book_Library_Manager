@@ -1,21 +1,29 @@
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.Arrays;
 
-public class CreateUserDialog extends JDialog {
+public class UserDialog extends JDialog {
     private JPanel mainPanel;
-    private JButton buttonOK;
+    private JButton leftButton;
     private JButton buttonCancel;
     private JPasswordField passwordField;
-    private JTextField nameField;
+    private JTextField fullNameField;
     private JTextField usernameField;
-    private User newUser;
+    private User user;
 
-    public CreateUserDialog() {
+    public UserDialog(String type, String username, String fullName) {
         setContentPane(mainPanel);
         setModal(true);
-        getRootPane().setDefaultButton(buttonOK);
+        getRootPane().setDefaultButton(leftButton);
 
-        buttonOK.addActionListener(new ActionListener() {
+        if (type.equals("create")) {
+            leftButton.setText("Create");
+        } else if (type.equals("edit")) {
+            leftButton.setText("Save");
+
+        }
+
+        leftButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onOK();
             }
@@ -45,16 +53,13 @@ public class CreateUserDialog extends JDialog {
     }
 
     private void onOK() {
-
-        if (usernameField.getText().isEmpty() || nameField.getText().isEmpty() || passwordField.getPassword().length == 0) {
+        if (usernameField.getText().isBlank() || fullNameField.getText().isBlank() || passwordField.getText().isBlank()) {
             return;
         }
-
         String username = usernameField.getText();
-        String full_name = nameField.getText();
+        String full_name = fullNameField.getText();
         String password = HashGenerator.getHashValue(String.valueOf(passwordField.getPassword()));
-        newUser = new User(username, full_name, password);
-
+        user = new User(username, full_name, password);
         dispose();
     }
 
@@ -62,8 +67,8 @@ public class CreateUserDialog extends JDialog {
         dispose();
     }
 
-    public User getNewUser(){
-        return this.newUser;
+    public User getUser(){
+        return this.user;
     }
 
 }
