@@ -282,6 +282,56 @@ public class MainWindow {
             }
         });
 
+        editUserButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (usernameLabel.getText().isBlank()) { // if nothing is selected
+                    return;
+                }
+                try {
+                    String oldPassword = (db.selectUsersByUsername(usernameLabel.getText())).get(0).getPassword();
+                    UserDialog userDialog = new UserDialog("edit", usernameLabel.getText(), fullNameLabel.getText());
+                    userDialog.pack();
+                    userDialog.show();
+                    User editedUser = userDialog.getUser();
+                    if (editedUser == null) { // if cancel pressed
+                        return;
+                    }
+                    if (editedUser.getPassword() == null) {
+                        editedUser.setPassword(oldPassword);
+                    }
+                    db.updateUser(editedUser.getUsername(), editedUser.getFullName(), editedUser.getPassword(), usernameLabel.getText(), fullNameLabel.getText(), oldPassword);
+                    JOptionPane.showMessageDialog(null, "User updated successfully.", "User update", JOptionPane.INFORMATION_MESSAGE);
+                    usernameLabel.setText(editedUser.getUsername());
+                    fullNameLabel.setText(editedUser.getFullName());
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                selectUsersBy();
+            }
+        });
+
+        deleteUserButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (usernameLabel.getText().isBlank()) { // if nothing is selected
+                    return;
+                }
+                int answer = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this user?\nUsername: "+usernameLabel.getText()+"\nFull Name: "+fullNameLabel.getText(), "Delete user", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+                if (answer == -1 || answer == 1) { // if cross pressed or if "no" pressed
+                    return;
+                }
+                try {
+                    db.deleteUser(usernameLabel.getText());
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, ("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                selectUsersBy();
+                usernameLabel.setText("");
+                fullNameLabel.setText("");
+            }
+        });
+
         bookList.addMouseListener(new MouseAdapter() { // when item in list is selected
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -373,7 +423,7 @@ public class MainWindow {
                 if (userList.getSelectedValue() == null) {
                     return;
                 }
-                usernameLabel.setText(userList.getSelectedValue().getFullName());
+                usernameLabel.setText(userList.getSelectedValue().getUsername());
                 fullNameLabel.setText(userList.getSelectedValue().getFullName());
             }
         });

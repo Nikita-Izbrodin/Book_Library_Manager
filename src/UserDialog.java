@@ -20,12 +20,13 @@ public class UserDialog extends JDialog {
             leftButton.setText("Create");
         } else if (type.equals("edit")) {
             leftButton.setText("Save");
-
+            usernameField.setText(username);
+            fullNameField.setText(fullName);
         }
 
         leftButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                onOK();
+                onOK(type);
             }
         });
 
@@ -52,13 +53,21 @@ public class UserDialog extends JDialog {
 
     }
 
-    private void onOK() {
-        if (usernameField.getText().isBlank() || fullNameField.getText().isBlank() || passwordField.getText().isBlank()) {
+    private void onOK(String type) {
+        if (type.equals("create") && (usernameField.getText().isBlank() || fullNameField.getText().isBlank() || passwordField.getText().isBlank())) {
+            return;
+        }
+        if (type.equals("edit") && (usernameField.getText().isBlank() || fullNameField.getText().isBlank())) {
             return;
         }
         String username = usernameField.getText();
         String full_name = fullNameField.getText();
-        String password = HashGenerator.getHashValue(String.valueOf(passwordField.getPassword()));
+        String password = null;
+        if (type.equals("edit") && passwordField.getText().isBlank()) {
+
+        } else {
+            password = HashGenerator.getHashValue(String.valueOf(passwordField.getPassword()));
+        }
         user = new User(username, full_name, password);
         dispose();
     }

@@ -37,6 +37,8 @@ public class LibraryDB {
     private static final String SELECT_BORROWERS_BY_BOOK = "SELECT * FROM borrowed_books WHERE book_id = ?";
 
     private static final String INSERT_USER = "INSERT INTO staff" + " (username, full_name, password) VALUES " + " (?,?,?);";
+    private static final String UPDATE_USER = "UPDATE staff SET username = ?, full_name = ?, password = ? WHERE username = ? AND full_name = ? AND password = ?";
+    private static final String DELETE_USER = "DELETE FROM staff WHERE username = ?";
     private static final String SELECT_ALL_USERS = "SELECT * FROM staff";
     private static final String SELECT_USER_BY_USERNAME = "SELECT * FROM staff WHERE username LIKE ?";
     private static final String SELECT_USER_BY_FULLNAME = "SELECT * FROM staff WHERE full_name LIKE ?";
@@ -390,6 +392,29 @@ public class LibraryDB {
         connection.close();
     }
 
+    public void updateUser(String oldUsername, String oldFullName, String oldPassword, String newUsername, String newFullName, String newPassword) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USER);
+        preparedStatement.setString(1, oldUsername);
+        preparedStatement.setString(2, oldFullName);
+        preparedStatement.setString(3, oldPassword);
+        preparedStatement.setString(4, newUsername);
+        preparedStatement.setString(5, newFullName);
+        preparedStatement.setString(6, newPassword);
+        preparedStatement.executeUpdate();
+        preparedStatement.close();
+        connection.close();
+    }
+
+    public void deleteUser(String username) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(DELETE_USER);
+        preparedStatement.setString(1, username);
+        preparedStatement.executeUpdate();
+        preparedStatement.close();
+        connection.close();
+    }
+
     public boolean noStaff() throws SQLException {
         try (Connection connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_USERS)) {
@@ -475,7 +500,8 @@ public class LibraryDB {
         while (rs.next()) {
             String username = rs.getString("username");
             String fullName = rs.getString("full_name");
-            users.add(new User(username, fullName, null));
+            String password = rs.getString("password");
+            users.add(new User(username, fullName, password));
         }
         return users;
     }

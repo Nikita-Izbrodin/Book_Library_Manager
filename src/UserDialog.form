@@ -66,7 +66,9 @@
                 <preferred-size width="150" height="-1"/>
               </grid>
             </constraints>
-            <properties/>
+            <properties>
+              <toolTipText value="If no change is wanted to password, leave blank."/>
+            </properties>
           </component>
           <vspacer id="f6180">
             <constraints>
