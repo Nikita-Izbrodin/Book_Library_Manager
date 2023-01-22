@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.event.*;
+import java.sql.SQLException;
 
 public class BookDialog extends JDialog {
     private JPanel contentPane;
@@ -56,9 +57,20 @@ public class BookDialog extends JDialog {
     }
 
     private void onOK() {
-        if (titleField.getText().isBlank() || authorField.getText().isBlank() || quantityField.getText().isBlank()) { // ISBN not checked because some old books may not have one
+        if (titleField.getText().isBlank() || authorField.getText().isBlank() || quantityField.getText().isBlank()) {
             return;
         }
+
+        LibraryDB db = new LibraryDB();
+        try {
+            if (db.doesBookExist(titleField.getText(), authorField.getText(), isbnField.getText())) {
+                JOptionPane.showMessageDialog(null, "Book already exists in the database.", "Cannot add book", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
         String title = titleField.getText();
         String author = authorField.getText();
         String isbn = isbnField.getText();

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Fixed total number of books displayed.">
-      <change beforePath="$PROJECT_DIR$/src/MainWindow.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainWindow.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MainWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainWindow.java" afterDir="false" />
+    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Number of available books is displayed.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BookDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BookDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/LibraryDB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LibraryDB.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -246,7 +247,14 @@
       <option name="project" value="LOCAL" />
       <updated>1674402347918</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="Number of available books is displayed.">
+      <created>1674402839461</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1674402839461</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -261,7 +269,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Initial commit of recreated project. Showing list of books. Book search in progress" />
     <MESSAGE value="Implemented searching books by attribute." />
     <MESSAGE value="Implemented editing books. Requires polishing." />
     <MESSAGE value="Refined editing books." />
@@ -286,7 +293,8 @@
     <MESSAGE value="Total number of books is now displayed." />
     <MESSAGE value="Total number of borrowed books is now displayed." />
     <MESSAGE value="Fixed total number of books displayed." />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed total number of books displayed." />
+    <MESSAGE value="Number of available books is displayed." />
+    <option name="LAST_COMMIT_MESSAGE" value="Number of available books is displayed." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -299,6 +307,11 @@
           <url>file://$PROJECT_DIR$/src/UserListItemForm.java</url>
           <line>12</line>
           <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/MainWindow.java</url>
+          <line>101</line>
+          <option name="timeStamp" value="16" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
