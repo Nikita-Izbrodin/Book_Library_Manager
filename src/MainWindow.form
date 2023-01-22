@@ -60,7 +60,7 @@
               <text value="Books Borrowed:"/>
             </properties>
           </component>
-          <component id="175fc" class="javax.swing.JLabel" binding="booksBorrowedLabel">
+          <component id="175fc" class="javax.swing.JLabel" binding="numOfBooksBorrowedLabel">
             <constraints/>
             <properties>
               <text value="Label"/>

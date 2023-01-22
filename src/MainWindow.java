@@ -51,7 +51,7 @@ public class MainWindow {
     private JLabel totalMembersLabel;
     private JLabel totalBooksLabel;
     private JLabel booksAvailableLabel;
-    private JLabel booksBorrowedLabel;
+    private JLabel numOfBooksBorrowedLabel;
     private JList editBorrowerButtonList;
 
     public static void main(String[] args) {
@@ -87,6 +87,7 @@ public class MainWindow {
         selectBooksBy();
         updateTotalMembers();
         updateTotalBooks();
+        updateNumOfBooksBorrowed();
 
         //
         // start of ActionListeners
@@ -177,6 +178,7 @@ public class MainWindow {
                     JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
                 }
                 displayBorrowers();
+                updateNumOfBooksBorrowed();
             }
         });
 
@@ -231,6 +233,7 @@ public class MainWindow {
                 isbnLabel.setText("");
                 quantityLabel.setText("");
                 updateTotalBooks();
+                updateNumOfBooksBorrowed();
             }
         });
 
@@ -289,6 +292,7 @@ public class MainWindow {
                 addressLabel.setText("");
                 postcodeLabel.setText("");
                 updateTotalMembers();
+                updateNumOfBooksBorrowed();
             }
         });
 
@@ -418,6 +422,7 @@ public class MainWindow {
                         if (bookReturned == 0) { // if "Yes" pressed
                             db.deleteBorrower(borrowerList.getSelectedValue().getBookID(), borrowerList.getSelectedValue().getMemberID(), borrowerList.getSelectedValue().getReturnDate());
                             displayBorrowers();
+                            updateNumOfBooksBorrowed();
                         }
                     } catch (SQLException ex) {
                         JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
@@ -647,5 +652,17 @@ public class MainWindow {
             JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
         }
         totalBooksLabel.setText(String.valueOf(totalBooks));
+    }
+
+    // updates numOfBooksBorrowedLabel
+    private void updateNumOfBooksBorrowed() {
+        LibraryDB db = new LibraryDB();
+        int numOfBooksBorrowed = -1;
+        try {
+            numOfBooksBorrowed = db.countBorrowers();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        numOfBooksBorrowedLabel.setText(String.valueOf(numOfBooksBorrowed));
     }
 }

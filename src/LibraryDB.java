@@ -37,6 +37,7 @@ public class LibraryDB {
     private static final String DELETE_BORROWER_BY_BOOK_ID = "DELETE FROM borrowed_books WHERE book_id = ?";
     private static final String DELETE_BORROWER_BY_MEMBER_ID = "DELETE FROM borrowed_books WHERE member_id = ?";
     private static final String SELECT_BORROWERS_BY_BOOK = "SELECT * FROM borrowed_books WHERE book_id = ?";
+    private static final String COUNT_BORROWERS = "SELECT COUNT(*) FROM borrowed_books";
 
     private static final String INSERT_USER = "INSERT INTO staff" + " (username, full_name, password) VALUES " + " (?,?,?);";
     private static final String UPDATE_USER = "UPDATE staff SET username = ?, full_name = ?, password = ? WHERE username = ? AND full_name = ? AND password = ?";
@@ -399,6 +400,18 @@ public class LibraryDB {
         preparedStatement.close();
         connection.close();
         return borrowers;
+    }
+
+    public int countBorrowers() throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(COUNT_BORROWERS);
+        ResultSet rs = preparedStatement.executeQuery();
+        rs.next();
+        int numOfBooksBorrowed = rs.getInt(1);
+        rs.close();
+        preparedStatement.close();
+        connection.close();
+        return numOfBooksBorrowed;
     }
     //
     // end of borrower commands
