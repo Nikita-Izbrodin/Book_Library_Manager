@@ -16,6 +16,7 @@ public class LibraryDB {
     private static final String SELECT_BOOK_BY_AUTHOR = "SELECT * FROM books WHERE author LIKE ?";
     private static final String SELECT_BOOK_BY_ISBN = "SELECT * FROM books WHERE isbn LIKE ?";
     private static final String SELECT_BOOK_ID = "SELECT book_id FROM books WHERE title = ? AND author = ? AND isbn = ? AND quantity = ?";
+    private static final String COUNT_BOOKS = "SELECT COUNT(*) FROM books";
 
     private static final String INSERT_MEMBER = "INSERT INTO members" + " (member_id, name, surname, phone, email, address, postcode) VALUES " + "(?,?,?,?,?,?,?);";
     private static final String UPDATE_MEMBER = "UPDATE members SET member_id = ?, name = ?, surname = ?, phone = ?, email = ?, address = ?, postcode = ? WHERE member_id = ? AND name = ? AND surname = ? AND phone = ? AND email = ? AND address = ? AND postcode = ?";
@@ -144,6 +145,18 @@ public class LibraryDB {
         preparedStatement.close();
         connection.close();
         return bookID;
+    }
+
+    public int countBooks() throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(COUNT_BOOKS);
+        ResultSet rs = preparedStatement.executeQuery();
+        rs.next();
+        int totalBooks = rs.getInt(1);
+        rs.close();
+        preparedStatement.close();
+        connection.close();
+        return totalBooks;
     }
     //
     // end of book commands

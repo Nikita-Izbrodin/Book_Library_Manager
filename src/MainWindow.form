@@ -2,7 +2,7 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="MainWindow">
   <grid id="27dc6" binding="mainPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
     <constraints>
-      <xy x="20" y="20" width="836" height="464"/>
+      <xy x="20" y="20" width="836" height="460"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -27,6 +27,12 @@
           <hspacer id="fe495">
             <constraints/>
           </hspacer>
+          <hspacer id="ab737">
+            <constraints/>
+          </hspacer>
+          <hspacer id="66bdf">
+            <constraints/>
+          </hspacer>
           <component id="42fcb" class="javax.swing.JLabel">
             <constraints/>
             <properties>
@@ -42,6 +48,12 @@
           <hspacer id="6d65b">
             <constraints/>
           </hspacer>
+          <hspacer id="e872f">
+            <constraints/>
+          </hspacer>
+          <hspacer id="e67bf">
+            <constraints/>
+          </hspacer>
           <component id="6b146" class="javax.swing.JLabel">
             <constraints/>
             <properties>
@@ -55,6 +67,12 @@
             </properties>
           </component>
           <hspacer id="9022b">
+            <constraints/>
+          </hspacer>
+          <hspacer id="51b09">
+            <constraints/>
+          </hspacer>
+          <hspacer id="67e43">
             <constraints/>
           </hspacer>
           <component id="b9954" class="javax.swing.JLabel">
