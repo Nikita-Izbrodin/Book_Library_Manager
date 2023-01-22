@@ -48,6 +48,10 @@ public class MainWindow {
     private JList<User> userList;
     private JLabel usernameLabel;
     private JLabel fullNameLabel;
+    private JLabel totalMembersLabel;
+    private JLabel totalBooksLabel;
+    private JLabel booksAvailableLabel;
+    private JLabel booksBorrowedLabel;
     private JList editBorrowerButtonList;
 
     public static void main(String[] args) {
@@ -81,6 +85,7 @@ public class MainWindow {
     public MainWindow() {
         LibraryDB db = new LibraryDB();
         selectBooksBy();
+        updateTotalMembers();
 
         //
         // start of ActionListeners
@@ -121,6 +126,7 @@ public class MainWindow {
                         JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
                     }
                     selectMembersBy();
+                    updateTotalMembers();
                 } else if (menuComboBox.getSelectedItem().toString().equals("Users")) {
                     UserDialog userDialog = new UserDialog("create", null, null);
                     userDialog.pack();
@@ -279,6 +285,7 @@ public class MainWindow {
                 emailLabel.setText("");
                 addressLabel.setText("");
                 postcodeLabel.setText("");
+                updateTotalMembers();
             }
         });
 
@@ -615,4 +622,15 @@ public class MainWindow {
         }
     }
 
+    // updates totalMembersLabel
+    private void updateTotalMembers() {
+        LibraryDB db = new LibraryDB();
+        int totalMembers = 0;
+        try {
+            totalMembers = db.countMembers();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        totalMembersLabel.setText(String.valueOf(totalMembers));
+    }
 }

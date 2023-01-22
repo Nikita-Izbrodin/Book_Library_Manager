@@ -28,6 +28,7 @@ public class LibraryDB {
     private static final String SELECT_MEMBER_BY_ADDRESS = "SELECT * FROM members WHERE address LIKE ?";
     private static final String SELECT_MEMBER_BY_POSTCODE = "SELECT * FROM members WHERE postcode LIKE ?";
     private static final String SELECT_MEMBER_NAME_AND_SURNAME_BY_MEMBER_ID = "SELECT name, surname FROM members WHERE member_id = ?";
+    private static final String COUNT_MEMBERS = "SELECT COUNT(*) FROM members";
 
     private static final String INSERT_BORROWER = "INSERT INTO borrowed_books" + " (book_id, member_id, return_date) VALUES " + "(?,?,?);";
     private static final String UPDATE_BORROWER = "UPDATE borrowed_books SET member_id = ?, return_date = ? WHERE book_id = ? AND member_id = ? AND return_date = ?";
@@ -302,6 +303,18 @@ public class LibraryDB {
         preparedStatement.close();
         connection.close();
         return name+" "+surname;
+    }
+
+    public int countMembers() throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(COUNT_MEMBERS);
+        ResultSet rs = preparedStatement.executeQuery();
+        rs.next();
+        int totalMembers = rs.getInt(1);
+        rs.close();
+        preparedStatement.close();
+        connection.close();
+        return totalMembers;
     }
     //
     // end of member commands
