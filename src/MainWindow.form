@@ -81,7 +81,7 @@
               <text value="Books Available:"/>
             </properties>
           </component>
-          <component id="e5234" class="javax.swing.JLabel" binding="booksAvailableLabel">
+          <component id="e5234" class="javax.swing.JLabel" binding="numOfBooksAvailableLabel">
             <constraints/>
             <properties>
               <text value="Label"/>

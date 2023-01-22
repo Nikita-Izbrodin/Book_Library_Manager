@@ -50,7 +50,7 @@ public class MainWindow {
     private JLabel fullNameLabel;
     private JLabel totalMembersLabel;
     private JLabel totalBooksLabel;
-    private JLabel booksAvailableLabel;
+    private JLabel numOfBooksAvailableLabel;
     private JLabel numOfBooksBorrowedLabel;
     private JList editBorrowerButtonList;
 
@@ -88,6 +88,7 @@ public class MainWindow {
         updateTotalMembers();
         updateTotalBooks();
         updateNumOfBooksBorrowed();
+        updateNumOfBooksAvailable();
 
         //
         // start of ActionListeners
@@ -114,6 +115,7 @@ public class MainWindow {
                     }
                     selectBooksBy();
                     updateTotalBooks();
+                    updateNumOfBooksAvailable();
                 } else if (menuComboBox.getSelectedItem().toString().equals("Members")) {
                     MemberDialog memberDialog = new MemberDialog("create", -1, null, null, null, null, null, null);
                     memberDialog.pack();
@@ -179,6 +181,7 @@ public class MainWindow {
                 }
                 displayBorrowers();
                 updateNumOfBooksBorrowed();
+                updateNumOfBooksAvailable();
             }
         });
 
@@ -234,6 +237,7 @@ public class MainWindow {
                 quantityLabel.setText("");
                 updateTotalBooks();
                 updateNumOfBooksBorrowed();
+                updateNumOfBooksAvailable();
             }
         });
 
@@ -293,6 +297,7 @@ public class MainWindow {
                 postcodeLabel.setText("");
                 updateTotalMembers();
                 updateNumOfBooksBorrowed();
+                updateNumOfBooksAvailable();
             }
         });
 
@@ -423,6 +428,7 @@ public class MainWindow {
                             db.deleteBorrower(borrowerList.getSelectedValue().getBookID(), borrowerList.getSelectedValue().getMemberID(), borrowerList.getSelectedValue().getReturnDate());
                             displayBorrowers();
                             updateNumOfBooksBorrowed();
+                            updateNumOfBooksAvailable();
                         }
                     } catch (SQLException ex) {
                         JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
@@ -664,5 +670,19 @@ public class MainWindow {
             JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
         }
         numOfBooksBorrowedLabel.setText(String.valueOf(numOfBooksBorrowed));
+    }
+
+    // updates numOfBooksAvailableLabel
+    private void updateNumOfBooksAvailable() {
+        LibraryDB db = new LibraryDB();
+        int totalBooks = -1;
+        int numOfBooksBorrowed = -1;
+        try {
+            totalBooks = db.countBooks();
+            numOfBooksBorrowed = db.countBorrowers();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        numOfBooksAvailableLabel.setText(String.valueOf(totalBooks - numOfBooksBorrowed));
     }
 }

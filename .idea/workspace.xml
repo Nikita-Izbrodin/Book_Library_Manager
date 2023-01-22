@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Total number of borrowed books is now displayed.">
-      <change beforePath="$PROJECT_DIR$/src/LibraryDB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LibraryDB.java" afterDir="false" />
+    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Fixed total number of books displayed.">
+      <change beforePath="$PROJECT_DIR$/src/MainWindow.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainWindow.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MainWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainWindow.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -238,7 +239,14 @@
       <option name="project" value="LOCAL" />
       <updated>1674402158755</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="Fixed total number of books displayed.">
+      <created>1674402347918</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1674402347918</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -277,7 +285,8 @@
     <MESSAGE value="Total number of members is now displayed." />
     <MESSAGE value="Total number of books is now displayed." />
     <MESSAGE value="Total number of borrowed books is now displayed." />
-    <option name="LAST_COMMIT_MESSAGE" value="Total number of borrowed books is now displayed." />
+    <MESSAGE value="Fixed total number of books displayed." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed total number of books displayed." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
