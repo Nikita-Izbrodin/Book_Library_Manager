@@ -169,14 +169,19 @@ public class MainWindow {
                     JOptionPane.showMessageDialog(null,"There are no available books.", "Cannot add borrower", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                BorrowerDialog borrowerDialog = new BorrowerDialog("create", -1, null);
+                BorrowerDialog borrowerDialog = null;
+                try {
+                    borrowerDialog = new BorrowerDialog("create", -1, null, db.getBookID(titleLabel.getText(), authorLabel.getText(), isbnLabel.getText(), quantityLabel.getText()));
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
+                }
                 borrowerDialog.pack();
                 borrowerDialog.show();
                 Borrower newBorrower = borrowerDialog.getBorrower();
                 if (newBorrower == null) {
                     return;
                 }
-                try {
+                try { // DO NOT NEED TO DO THIS. GET ID FROM BORROWER
                     int bookID = db.getBookID(titleLabel.getText(), authorLabel.getText(), isbnLabel.getText(), quantityLabel.getText());
                     newBorrower.setBookID(bookID);
                     db.createBorrower(newBorrower);
@@ -407,7 +412,12 @@ public class MainWindow {
                         options[1] // default button
                 );
                 if (answer == 0) { // if "Edit" pressed
-                    BorrowerDialog borrowerDialog = new BorrowerDialog("edit", borrowerList.getSelectedValue().getMemberID(), borrowerList.getSelectedValue().getReturnDate());
+                    BorrowerDialog borrowerDialog = null;
+                    try {
+                        borrowerDialog = new BorrowerDialog("edit", borrowerList.getSelectedValue().getMemberID(), borrowerList.getSelectedValue().getReturnDate(), db.getBookID(titleLabel.getText(), authorLabel.getText(), isbnLabel.getText(), quantityLabel.getText()));
+                    } catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                     borrowerDialog.pack();
                     borrowerDialog.show();
                     Borrower editedBorrower = borrowerDialog.getBorrower();
@@ -603,7 +613,7 @@ public class MainWindow {
         List<Borrower> borrowersList = null;
         try {
             int bookID = db.getBookID(titleLabel.getText(), authorLabel.getText(), isbnLabel.getText(), quantityLabel.getText());
-            borrowersList = db.selectBorrowers(bookID);
+            borrowersList = db.selectBorrowersByBookID(bookID);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
         }

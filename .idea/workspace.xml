@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Email is now validated with Regex.">
+    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Book cannot be borrowed if no books are available.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BorrowerDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BorrowerDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/LibraryDB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LibraryDB.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MainWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainWindow.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -31,23 +33,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Downloaded.Files.Path.Enabled": "false",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH": "296",
-    "last_opened_file_path": "C:/Users/nizbr/IdeaProjects/GUI Test",
-    "project.structure.last.edited": "Libraries",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.editor"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH&quot;: &quot;296&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/nizbr/IdeaProjects/GUI Test&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.editor&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="MainWindow" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="MainWindow" />
@@ -267,7 +269,14 @@
       <option name="project" value="LOCAL" />
       <updated>1674509568092</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="Book cannot be borrowed if no books are available.">
+      <created>1674516266760</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1674516266760</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -282,7 +291,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Final polish of editing books." />
     <MESSAGE value="Implemented deleting books." />
     <MESSAGE value="Implemented adding and searching members." />
     <MESSAGE value="Implemented deleting members." />
@@ -307,7 +315,8 @@
     <MESSAGE value="Prevents book from being added if book already exists." />
     <MESSAGE value="Email is validated with Regex." />
     <MESSAGE value="Email is now validated with Regex." />
-    <option name="LAST_COMMIT_MESSAGE" value="Email is now validated with Regex." />
+    <MESSAGE value="Book cannot be borrowed if no books are available." />
+    <option name="LAST_COMMIT_MESSAGE" value="Book cannot be borrowed if no books are available." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -320,6 +329,11 @@
           <url>file://$PROJECT_DIR$/src/UserListItemForm.java</url>
           <line>12</line>
           <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/MainWindow.java</url>
+          <line>183</line>
+          <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

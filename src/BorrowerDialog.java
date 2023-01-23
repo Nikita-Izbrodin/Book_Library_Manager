@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.event.*;
+import java.sql.SQLException;
 
 public class BorrowerDialog extends JDialog {
     private JPanel contentPane;
@@ -9,7 +10,7 @@ public class BorrowerDialog extends JDialog {
     private JButton cancelButton;
     private Borrower borrower;
 
-    public BorrowerDialog(String type, int memberID, String returnDate) {
+    public BorrowerDialog(String type, int memberID, String returnDate, int bookID) {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(leftButton);
@@ -24,7 +25,7 @@ public class BorrowerDialog extends JDialog {
 
         leftButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                onOK();
+                onOK(bookID);
             }
         });
 
@@ -50,11 +51,19 @@ public class BorrowerDialog extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
-    private void onOK() {
+    private void onOK(int bookID) {
         if (memberIDField.getText().isBlank() || returnDateField.getText().isBlank()) {
             return;
         }
-        int bookID = -1;
+        LibraryDB db = new LibraryDB();
+        try {
+            if (!db.selectBorrowersByMemberID(bookID, Integer.parseInt(memberIDField.getText())).isEmpty()) {
+                JOptionPane.showMessageDialog(null, "This member has already borrowed this book.", "Cannot create borrower", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        } catch (SQLException ex) {
+
+        }
         int memberID = Integer.parseInt(memberIDField.getText());
         String returnDate = returnDateField.getText();
         borrower = new Borrower(bookID, memberID, returnDate);
