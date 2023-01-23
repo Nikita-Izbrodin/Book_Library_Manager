@@ -158,12 +158,16 @@ public class MainWindow {
                     return;
                 }
                 try {
-                    if (db.noMembers()) { // checks if there are any members
-                        JOptionPane.showMessageDialog(null, "There are no members in the database.", "", JOptionPane.INFORMATION_MESSAGE);
+                    if (db.noMembers()) {
+                        JOptionPane.showMessageDialog(null, "There are no members in the database.", "Cannot add borrower", JOptionPane.INFORMATION_MESSAGE);
                         return;
                     }
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                if (bookList.getSelectedValue().getQuantity() - borrowerList.getModel().getSize() == 0) {
+                    JOptionPane.showMessageDialog(null,"There are no available books.", "Cannot add borrower", JOptionPane.ERROR_MESSAGE);
+                    return;
                 }
                 BorrowerDialog borrowerDialog = new BorrowerDialog("create", -1, null);
                 borrowerDialog.pack();
