@@ -64,6 +64,13 @@ public class MemberDialog extends JDialog {
         if (idTextField.getText().isBlank() || nameTextField.getText().isBlank() || surnameTextField.getText().isBlank() || addressTextField.getText().isBlank() || postcodeTextField.getText().isBlank()) { // phone num and email not checked because some members may not have one
             return;
         }
+
+        RegexChecker regexChecker = new RegexChecker(emailTextField.getText());
+        if (!regexChecker.matches()) {
+            JOptionPane.showMessageDialog(null, emailTextField.getText() + " doesn't look like a valid email address.\n\nPlease check and correct.", "Invalid email address", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         int id = -1;
         try {
             id = Integer.parseInt(idTextField.getText());
