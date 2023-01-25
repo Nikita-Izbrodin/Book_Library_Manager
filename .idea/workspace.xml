@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Cleaned up code.">
+    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Updated SQL queries for users table.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LibraryDB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LibraryDB.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MainWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainWindow.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -317,7 +316,21 @@
       <option name="project" value="LOCAL" />
       <updated>1674682176557</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="Updated SQL queries for borrowers table.">
+      <created>1674682826253</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1674682826253</updated>
+    </task>
+    <task id="LOCAL-00037" summary="Updated SQL queries for users table.">
+      <created>1674683081351</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1674683081351</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -332,8 +345,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Implemented returning of books." />
-    <MESSAGE value="Implemented manual handling of member ID." />
     <MESSAGE value="Prevented foreign key constraints when deleting members/books. Prevented illegal operations on empty result set." />
     <MESSAGE value="Made ISBN an int. Made ISBN, phone num, and email not mandatory. Checks if is a member is present in the database before creating borrower." />
     <MESSAGE value="Added tooltip to return date text field. Checks if a member is present before creating a borrower." />
@@ -357,7 +368,9 @@
     <MESSAGE value="Updated SQL queries for member table." />
     <MESSAGE value="Updated SQL queries for books table." />
     <MESSAGE value="Cleaned up code." />
-    <option name="LAST_COMMIT_MESSAGE" value="Cleaned up code." />
+    <MESSAGE value="Updated SQL queries for borrowers table." />
+    <MESSAGE value="Updated SQL queries for users table." />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated SQL queries for users table." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -370,18 +383,6 @@
           <url>file://$PROJECT_DIR$/src/UserListItemForm.java</url>
           <line>12</line>
           <option name="timeStamp" value="8" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-field">
-          <url>file://$PROJECT_DIR$/src/LibraryDB.java</url>
-          <line>12</line>
-          <properties field="UPDATE_BOOK" class="LibraryDB" />
-          <option name="timeStamp" value="19" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-field">
-          <url>file://$PROJECT_DIR$/src/LibraryDB.java</url>
-          <line>13</line>
-          <properties field="DELETE_BOOK" class="LibraryDB" />
-          <option name="timeStamp" value="23" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

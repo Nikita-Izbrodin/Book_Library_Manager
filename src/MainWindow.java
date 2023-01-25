@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -60,6 +61,7 @@ public class MainWindow {
             if (db.noStaff()){
                 UserDialog userDialog = new UserDialog("create", null, null);
                 userDialog.pack();
+                userDialog.setLocationRelativeTo(null);
                 userDialog.show();
                 User newUser = userDialog.getUser();
                 if (newUser == null) {
@@ -71,6 +73,7 @@ public class MainWindow {
                 while (loginLoop) {
                     UserDialog userDialog = new UserDialog("login", null, null);
                     userDialog.pack();
+                    userDialog.setLocationRelativeTo(null);
                     userDialog.show();
                     User user = userDialog.getUser();
                     if (user == null) { // cancel pressed on userDialog
@@ -94,7 +97,9 @@ public class MainWindow {
         MainWindow mainWindow = new MainWindow();
         frame.setContentPane(mainWindow.mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setPreferredSize(new Dimension(1000, 800));
         frame.pack();
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 
@@ -118,6 +123,7 @@ public class MainWindow {
                 if (menuComboBox.getSelectedItem().toString().equals("Books")) {
                     BookDialog bookDialog = new BookDialog("create", null, null, null, null);
                     bookDialog.pack();
+                    bookDialog.setLocationRelativeTo(null);
                     bookDialog.show();
                     Book newBook = bookDialog.getBook();
                     if (newBook == null) {
@@ -135,6 +141,7 @@ public class MainWindow {
                 } else if (menuComboBox.getSelectedItem().toString().equals("Members")) {
                     MemberDialog memberDialog = new MemberDialog("create", -1, null, null, null, null, null, null);
                     memberDialog.pack();
+                    memberDialog.setLocationRelativeTo(null);
                     memberDialog.show();
                     Member newMember = memberDialog.getMember();
                     if (newMember == null) {
@@ -151,6 +158,7 @@ public class MainWindow {
                 } else if (menuComboBox.getSelectedItem().toString().equals("Users")) {
                     UserDialog userDialog = new UserDialog("create", null, null);
                     userDialog.pack();
+                    userDialog.setLocationRelativeTo(null);
                     userDialog.show();
                     User newUser = userDialog.getUser();
                     if (newUser == null) {
@@ -192,6 +200,7 @@ public class MainWindow {
                     JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
                 }
                 borrowerDialog.pack();
+                borrowerDialog.setLocationRelativeTo(null);
                 borrowerDialog.show();
                 Borrower newBorrower = borrowerDialog.getBorrower();
                 if (newBorrower == null) {
@@ -216,6 +225,7 @@ public class MainWindow {
                 }
                 BookDialog bookDialog = new BookDialog("edit", titleLabel.getText(), authorLabel.getText(), isbnLabel.getText(), quantityLabel.getText());
                 bookDialog.pack();
+                bookDialog.setLocationRelativeTo(null);
                 bookDialog.show();
                 Book editedBook = bookDialog.getBook();
                 if (editedBook == null) { // if cancel pressed
@@ -272,6 +282,7 @@ public class MainWindow {
                 }
                 MemberDialog memberDialog = new MemberDialog("edit", Integer.parseInt(idLabel.getText()),nameLabel.getText(), surnameLabel.getText(), phoneNoLabel.getText(), emailLabel.getText(), addressLabel.getText(), postcodeLabel.getText());
                 memberDialog.pack();
+                memberDialog.setLocationRelativeTo(null);
                 memberDialog.show();
                 Member editedMember = memberDialog.getMember();
                 if (editedMember == null) { // if cancel pressed
@@ -334,6 +345,7 @@ public class MainWindow {
                     String oldPassword = (db.selectUsersByUsername(usernameLabel.getText())).get(0).getPassword();
                     UserDialog userDialog = new UserDialog("edit", usernameLabel.getText(), fullNameLabel.getText());
                     userDialog.pack();
+                    userDialog.setLocationRelativeTo(null);
                     userDialog.show();
                     User editedUser = userDialog.getUser();
                     if (editedUser == null) { // if cancel pressed
@@ -433,6 +445,7 @@ public class MainWindow {
                         JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
                     }
                     borrowerDialog.pack();
+                    borrowerDialog.setLocationRelativeTo(null);
                     borrowerDialog.show();
                     Borrower editedBorrower = borrowerDialog.getBorrower();
                     if (editedBorrower == null) { // if cancel pressed
