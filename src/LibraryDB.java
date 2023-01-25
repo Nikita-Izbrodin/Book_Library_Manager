@@ -42,7 +42,7 @@ public class LibraryDB {
     private static final String COUNT_BORROWERS = "SELECT COUNT(*) FROM borrowed_books";
 
     private static final String INSERT_USER = "INSERT INTO staff" + " (username, full_name, password) VALUES " + " (?,?,?);";
-    private static final String UPDATE_USER = "UPDATE staff SET username = ?, full_name = ?, password = ? WHERE username = ? AND full_name = ? AND password = ?";
+    private static final String UPDATE_USER = "UPDATE staff SET username = ?, full_name = ?, password = ? WHERE username = ?";
     private static final String DELETE_USER = "DELETE FROM staff WHERE username = ?";
     private static final String SELECT_ALL_USERS = "SELECT * FROM staff";
     private static final String SELECT_USER_BY_USERNAME = "SELECT * FROM staff WHERE username LIKE ?";
@@ -438,15 +438,13 @@ public class LibraryDB {
         connection.close();
     }
 
-    public void updateUser(String oldUsername, String oldFullName, String oldPassword, String newUsername, String newFullName, String newPassword) throws SQLException {
+    public void updateUser(String newUsername, String newFullName, String newPassword, String oldUsername) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USER);
-        preparedStatement.setString(1, oldUsername);
-        preparedStatement.setString(2, oldFullName);
-        preparedStatement.setString(3, oldPassword);
-        preparedStatement.setString(4, newUsername);
-        preparedStatement.setString(5, newFullName);
-        preparedStatement.setString(6, newPassword);
+        preparedStatement.setString(1, newUsername);
+        preparedStatement.setString(2, newFullName);
+        preparedStatement.setString(3, newPassword);
+        preparedStatement.setString(4, oldUsername);
         preparedStatement.executeUpdate();
         preparedStatement.close();
         connection.close();

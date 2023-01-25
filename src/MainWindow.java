@@ -342,7 +342,7 @@ public class MainWindow {
                     if (editedUser.getPassword() == null) {
                         editedUser.setPassword(oldPassword);
                     }
-                    db.updateUser(editedUser.getUsername(), editedUser.getFullName(), editedUser.getPassword(), usernameLabel.getText(), fullNameLabel.getText(), oldPassword);
+                    db.updateUser(editedUser.getUsername(), editedUser.getFullName(), editedUser.getPassword(), usernameLabel.getText());
                     JOptionPane.showMessageDialog(null, "User updated successfully.", "User update", JOptionPane.INFORMATION_MESSAGE);
                     usernameLabel.setText(editedUser.getUsername());
                     fullNameLabel.setText(editedUser.getFullName());
