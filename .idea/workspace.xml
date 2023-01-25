@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Same member cannot borrow same book more than once.">
+    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Implemented log in. Fixed adding borrowers.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BorrowerDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BorrowerDialog.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/LibraryDB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LibraryDB.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MainWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UserDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UserDialog.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -284,7 +282,21 @@
       <option name="project" value="LOCAL" />
       <updated>1674517969034</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="Implemented log in.">
+      <created>1674646865230</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1674646865230</updated>
+    </task>
+    <task id="LOCAL-00032" summary="Implemented log in. Fixed adding borrowers.">
+      <created>1674647113670</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1674647113670</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -299,8 +311,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Implemented adding and searching members." />
-    <MESSAGE value="Implemented deleting members." />
     <MESSAGE value="Implemented borrowing of books. Unused connections will now close." />
     <MESSAGE value="Member ID and return date of borrowers can be edited." />
     <MESSAGE value="Added &amp; improved comments." />
@@ -324,7 +334,9 @@
     <MESSAGE value="Email is now validated with Regex." />
     <MESSAGE value="Book cannot be borrowed if no books are available." />
     <MESSAGE value="Same member cannot borrow same book more than once." />
-    <option name="LAST_COMMIT_MESSAGE" value="Same member cannot borrow same book more than once." />
+    <MESSAGE value="Implemented log in." />
+    <MESSAGE value="Implemented log in. Fixed adding borrowers." />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented log in. Fixed adding borrowers." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -337,6 +349,24 @@
           <url>file://$PROJECT_DIR$/src/UserListItemForm.java</url>
           <line>12</line>
           <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-field">
+          <url>file://$PROJECT_DIR$/src/LibraryDB.java</url>
+          <line>22</line>
+          <properties field="UPDATE_MEMBER" class="LibraryDB" />
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-field">
+          <url>file://$PROJECT_DIR$/src/LibraryDB.java</url>
+          <line>23</line>
+          <properties field="DELETE_MEMBER" class="LibraryDB" />
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-field">
+          <url>file://$PROJECT_DIR$/src/LibraryDB.java</url>
+          <line>12</line>
+          <properties field="UPDATE_BOOK" class="LibraryDB" />
+          <option name="timeStamp" value="17" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

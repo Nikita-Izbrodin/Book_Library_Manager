@@ -278,7 +278,7 @@ public class MainWindow {
                     return;
                 }
                 try {
-                    db.updateMember(editedMember.getID(), editedMember.getName(), editedMember.getSurname(), editedMember.getPhoneNo(), editedMember.getEmail(), editedMember.getAddress(), editedMember.getPostcode(), Integer.parseInt(idLabel.getText()), nameLabel.getText(), surnameLabel.getText(), phoneNoLabel.getText(), emailLabel.getText(), addressLabel.getText(), postcodeLabel.getText());
+                    db.updateMember(editedMember.getID(), editedMember.getName(), editedMember.getSurname(), editedMember.getPhoneNo(), editedMember.getEmail(), editedMember.getAddress(), editedMember.getPostcode(), Integer.parseInt(idLabel.getText()));
                     JOptionPane.showMessageDialog(null, "Member updated successfully.", "Member update", JOptionPane.INFORMATION_MESSAGE);
                     idLabel.setText(String.valueOf(editedMember.getID()));
                     nameLabel.setText(editedMember.getName());
@@ -306,7 +306,7 @@ public class MainWindow {
                 }
                 try {
                     db.deleteBorrowerByMemberID(Integer.parseInt(idLabel.getText())); // removes foreign key to allow deletion
-                    db.deleteMember(Integer.parseInt(idLabel.getText()), nameLabel.getText(), surnameLabel.getText(), phoneNoLabel.getText(), emailLabel.getText(), addressLabel.getText(), postcodeLabel.getText());
+                    db.deleteMember(Integer.parseInt(idLabel.getText()));
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
                 }

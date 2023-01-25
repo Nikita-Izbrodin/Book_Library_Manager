@@ -20,8 +20,8 @@ public class LibraryDB {
     private static final String COUNT_BOOKS = "SELECT SUM(quantity) FROM books";
 
     private static final String INSERT_MEMBER = "INSERT INTO members" + " (member_id, name, surname, phone, email, address, postcode) VALUES " + "(?,?,?,?,?,?,?);";
-    private static final String UPDATE_MEMBER = "UPDATE members SET member_id = ?, name = ?, surname = ?, phone = ?, email = ?, address = ?, postcode = ? WHERE member_id = ? AND name = ? AND surname = ? AND phone = ? AND email = ? AND address = ? AND postcode = ?";
-    private static final String DELETE_MEMBER = "DELETE FROM members WHERE member_id = ? AND name = ? AND surname = ? AND phone = ? AND email = ? AND address = ? AND postcode = ?";
+    private static final String UPDATE_MEMBER = "UPDATE members SET member_id = ?, name = ?, surname = ?, phone = ?, email = ?, address = ?, postcode = ? WHERE member_id = ?";
+    private static final String DELETE_MEMBER = "DELETE FROM members WHERE member_id = ?";
     private static final String SELECT_ALL_MEMBERS = "SELECT * FROM members";
     private static final String SELECT_MEMBER_BY_NAME = "SELECT * FROM members WHERE name LIKE ?";
     private static final String SELECT_MEMBER_BY_SURNAME = "SELECT * FROM members WHERE surname LIKE ?";
@@ -199,7 +199,7 @@ public class LibraryDB {
         connection.close();
     }
 
-    public void updateMember(int newID, String newName, String newSurname, String newPhoneNo, String newEmail, String newAddress, String newPostcode, int oldID, String oldName, String oldSurname, String oldPhoneNo, String oldEmail, String oldAddress, String oldPostcode) throws SQLException {
+    public void updateMember(int newID, String newName, String newSurname, String newPhoneNo, String newEmail, String newAddress, String newPostcode, int oldID) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_MEMBER);
         preparedStatement.setInt(1, newID);
@@ -210,27 +210,15 @@ public class LibraryDB {
         preparedStatement.setString(6, newAddress);
         preparedStatement.setString(7, newPostcode);
         preparedStatement.setInt(8, oldID);
-        preparedStatement.setString(9, oldName);
-        preparedStatement.setString(10, oldSurname);
-        preparedStatement.setString(11, oldPhoneNo);
-        preparedStatement.setString(12, oldEmail);
-        preparedStatement.setString(13, oldAddress);
-        preparedStatement.setString(14, oldPostcode);
         preparedStatement.executeUpdate();
         preparedStatement.close();
         connection.close();
     }
 
-    public void deleteMember(int id, String name, String surname, String phoneNo, String email, String address, String postcode) throws SQLException {
+    public void deleteMember(int id) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(DELETE_MEMBER);
         preparedStatement.setInt(1, id);
-        preparedStatement.setString(2, name);
-        preparedStatement.setString(3, surname);
-        preparedStatement.setString(4, phoneNo);
-        preparedStatement.setString(5, email);
-        preparedStatement.setString(6, address);
-        preparedStatement.setString(7, postcode);
         preparedStatement.executeUpdate();
         preparedStatement.close();
         connection.close();
