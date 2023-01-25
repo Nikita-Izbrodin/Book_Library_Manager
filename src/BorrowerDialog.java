@@ -25,7 +25,7 @@ public class BorrowerDialog extends JDialog {
 
         leftButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                onOK(bookID);
+                onOK(bookID, type);
             }
         });
 
@@ -51,13 +51,13 @@ public class BorrowerDialog extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
-    private void onOK(int bookID) {
+    private void onOK(int bookID, String type) {
         if (memberIDField.getText().isBlank() || returnDateField.getText().isBlank()) {
             return;
         }
         LibraryDB db = new LibraryDB();
         try {
-            if (!db.selectBorrowersByMemberID(bookID, Integer.parseInt(memberIDField.getText())).isEmpty()) {
+            if (!db.selectBorrowersByMemberID(bookID, Integer.parseInt(memberIDField.getText())).isEmpty() && type.equals("create")) {
                 JOptionPane.showMessageDialog(null, "This member has already borrowed this book.", "Cannot create borrower", JOptionPane.ERROR_MESSAGE);
                 return;
             }

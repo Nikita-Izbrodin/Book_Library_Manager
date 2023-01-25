@@ -66,6 +66,22 @@ public class MainWindow {
                     return; // exit from the application
                 }
                 db.createUser(newUser);
+            } else {
+                boolean loginLoop = true;
+                while (loginLoop) {
+                    UserDialog userDialog = new UserDialog("login", null, null);
+                    userDialog.pack();
+                    userDialog.show();
+                    User user = userDialog.getUser();
+                    if (user == null) { // cancel pressed on userDialog
+                        return;
+                    }
+                    if (db.selectUsersByUsernameAndPassword(user.getUsername(), user.getPassword())) {
+                        loginLoop = false;
+                    } else {
+                        JOptionPane.showMessageDialog(null, "User not found.", "Log In failed", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
@@ -181,9 +197,7 @@ public class MainWindow {
                 if (newBorrower == null) {
                     return;
                 }
-                try { // DO NOT NEED TO DO THIS. GET ID FROM BORROWER
-                    int bookID = db.getBookID(titleLabel.getText(), authorLabel.getText(), isbnLabel.getText(), quantityLabel.getText());
-                    newBorrower.setBookID(bookID);
+                try {
                     db.createBorrower(newBorrower);
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
@@ -421,7 +435,7 @@ public class MainWindow {
                     borrowerDialog.pack();
                     borrowerDialog.show();
                     Borrower editedBorrower = borrowerDialog.getBorrower();
-                    if (editedBorrower == null) {
+                    if (editedBorrower == null) { // if cancel pressed
                         return;
                     }
                     LibraryDB db = new LibraryDB();

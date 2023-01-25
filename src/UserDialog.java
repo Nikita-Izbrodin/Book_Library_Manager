@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 import java.util.Arrays;
 
@@ -22,6 +23,11 @@ public class UserDialog extends JDialog {
             leftButton.setText("Save");
             usernameField.setText(username);
             fullNameField.setText(fullName);
+        } else if (type.equals("login")) {
+            leftButton.setText("Log In");
+            fullNameField.disable();
+            fullNameField.setBackground(Color.lightGray);
+            fullNameField.setToolTipText("This field is disabled for log in.");
         }
 
         leftButton.addActionListener(new ActionListener() {
@@ -56,16 +62,15 @@ public class UserDialog extends JDialog {
     private void onOK(String type) {
         if (type.equals("create") && (usernameField.getText().isBlank() || fullNameField.getText().isBlank() || passwordField.getText().isBlank())) {
             return;
-        }
-        if (type.equals("edit") && (usernameField.getText().isBlank() || fullNameField.getText().isBlank())) {
+        } else if (type.equals("edit") && (usernameField.getText().isBlank() || fullNameField.getText().isBlank())) {
+            return;
+        } else if (type.equals("login") && (usernameField.getText().isBlank() || passwordField.getText().isBlank())) {
             return;
         }
         String username = usernameField.getText();
         String full_name = fullNameField.getText();
         String password = null;
-        if (type.equals("edit") && passwordField.getText().isBlank()) {
-
-        } else {
+        if ((type.equals("edit") || type.equals("login")) && !passwordField.getText().isBlank()) {
             password = HashGenerator.getHashValue(String.valueOf(passwordField.getPassword()));
         }
         user = new User(username, full_name, password);

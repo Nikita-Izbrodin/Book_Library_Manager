@@ -46,6 +46,7 @@ public class LibraryDB {
     private static final String DELETE_USER = "DELETE FROM staff WHERE username = ?";
     private static final String SELECT_ALL_USERS = "SELECT * FROM staff";
     private static final String SELECT_USER_BY_USERNAME = "SELECT * FROM staff WHERE username LIKE ?";
+    private static final String SELECT_USER_BY_USERNAME_AND_PASSWORD = "SELECT * FROM staff WHERE username = BINARY ? AND password = BINARY ?";
     private static final String SELECT_USER_BY_FULLNAME = "SELECT * FROM staff WHERE full_name LIKE ?";
 
     protected Connection getConnection() throws SQLException {
@@ -507,6 +508,24 @@ public class LibraryDB {
         connection.close();
         return users;
     }
+
+    public boolean selectUsersByUsernameAndPassword(String username, String password) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_USERNAME_AND_PASSWORD);
+        preparedStatement.setString(1, username);
+        preparedStatement.setString(2, password);
+        ResultSet rs = preparedStatement.executeQuery();
+        List<User> users =  getUserList(rs);
+        rs.close();
+        preparedStatement.close();
+        connection.close();
+        boolean found = true;
+        if (users.isEmpty()) {
+            found = false;
+        }
+        return found;
+    }
+
 
     public List<User> selectUsersByFullName(String fullName) throws SQLException {
         Connection connection = getConnection();

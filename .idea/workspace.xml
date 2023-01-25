@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Book cannot be borrowed if no books are available.">
+    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Same member cannot borrow same book more than once.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/BorrowerDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BorrowerDialog.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/LibraryDB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LibraryDB.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MainWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainWindow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UserDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UserDialog.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -276,7 +277,14 @@
       <option name="project" value="LOCAL" />
       <updated>1674516266760</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="Same member cannot borrow same book more than once.">
+      <created>1674517969034</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1674517969034</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -291,7 +299,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Implemented deleting books." />
     <MESSAGE value="Implemented adding and searching members." />
     <MESSAGE value="Implemented deleting members." />
     <MESSAGE value="Implemented borrowing of books. Unused connections will now close." />
@@ -316,7 +323,8 @@
     <MESSAGE value="Email is validated with Regex." />
     <MESSAGE value="Email is now validated with Regex." />
     <MESSAGE value="Book cannot be borrowed if no books are available." />
-    <option name="LAST_COMMIT_MESSAGE" value="Book cannot be borrowed if no books are available." />
+    <MESSAGE value="Same member cannot borrow same book more than once." />
+    <option name="LAST_COMMIT_MESSAGE" value="Same member cannot borrow same book more than once." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -329,11 +337,6 @@
           <url>file://$PROJECT_DIR$/src/UserListItemForm.java</url>
           <line>12</line>
           <option name="timeStamp" value="8" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/MainWindow.java</url>
-          <line>183</line>
-          <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
