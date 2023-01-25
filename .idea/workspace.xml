@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Implemented log in. Fixed adding borrowers.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Updated SQL queries for member table.">
       <change beforePath="$PROJECT_DIR$/src/LibraryDB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LibraryDB.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MainWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainWindow.java" afterDir="false" />
     </list>
@@ -296,7 +295,14 @@
       <option name="project" value="LOCAL" />
       <updated>1674647113670</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="Updated SQL queries for member table.">
+      <created>1674681589846</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1674681589846</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -311,7 +317,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Implemented borrowing of books. Unused connections will now close." />
     <MESSAGE value="Member ID and return date of borrowers can be edited." />
     <MESSAGE value="Added &amp; improved comments." />
     <MESSAGE value="Implemented returning of books." />
@@ -336,7 +341,8 @@
     <MESSAGE value="Same member cannot borrow same book more than once." />
     <MESSAGE value="Implemented log in." />
     <MESSAGE value="Implemented log in. Fixed adding borrowers." />
-    <option name="LAST_COMMIT_MESSAGE" value="Implemented log in. Fixed adding borrowers." />
+    <MESSAGE value="Updated SQL queries for member table." />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated SQL queries for member table." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -352,21 +358,15 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-field">
           <url>file://$PROJECT_DIR$/src/LibraryDB.java</url>
-          <line>22</line>
-          <properties field="UPDATE_MEMBER" class="LibraryDB" />
-          <option name="timeStamp" value="15" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-field">
-          <url>file://$PROJECT_DIR$/src/LibraryDB.java</url>
-          <line>23</line>
-          <properties field="DELETE_MEMBER" class="LibraryDB" />
-          <option name="timeStamp" value="16" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-field">
-          <url>file://$PROJECT_DIR$/src/LibraryDB.java</url>
           <line>12</line>
           <properties field="UPDATE_BOOK" class="LibraryDB" />
-          <option name="timeStamp" value="17" />
+          <option name="timeStamp" value="19" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-field">
+          <url>file://$PROJECT_DIR$/src/LibraryDB.java</url>
+          <line>13</line>
+          <properties field="DELETE_BOOK" class="LibraryDB" />
+          <option name="timeStamp" value="23" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -222,7 +222,7 @@ public class MainWindow {
                     return;
                 }
                 try {
-                    db.updateBook(editedBook.getTitle(), editedBook.getAuthor(), String.valueOf(editedBook.getIsbn()), String.valueOf(editedBook.getQuantity()), titleLabel.getText(), authorLabel.getText(), isbnLabel.getText(), quantityLabel.getText());
+                    db.updateBook(editedBook.getTitle(), editedBook.getAuthor(), String.valueOf(editedBook.getIsbn()), String.valueOf(editedBook.getQuantity()), db.getBookID(titleLabel.getText(), authorLabel.getText(), isbnLabel.getText(), quantityLabel.getText()));
                     JOptionPane.showMessageDialog(null, "Book updated successfully.", "Book update", JOptionPane.INFORMATION_MESSAGE);
                     titleLabel.setText(editedBook.getTitle());
                     authorLabel.setText(editedBook.getAuthor());
@@ -248,7 +248,7 @@ public class MainWindow {
                 try {
                     int bookID = db.getBookID(titleLabel.getText(), authorLabel.getText(), isbnLabel.getText(), quantityLabel.getText());
                     db.deleteBorrowerByBookID(bookID); // removes foreign key to allow deletion
-                    db.deleteBook(titleLabel.getText(), authorLabel.getText(), isbnLabel.getText(), quantityLabel.getText());
+                    db.deleteBook(db.getBookID(titleLabel.getText(), authorLabel.getText(), isbnLabel.getText(), quantityLabel.getText()));
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
                 }

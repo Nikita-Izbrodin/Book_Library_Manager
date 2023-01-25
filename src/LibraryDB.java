@@ -10,8 +10,8 @@ public class LibraryDB {
 
     // does it need to be static?
     private static final String INSERT_BOOK = "INSERT INTO books" + " (title, author, isbn, quantity) VALUES " + " (?,?,?,?);";
-    private static final String UPDATE_BOOK = "UPDATE books SET title = ?, author = ?, isbn = ?, quantity = ? WHERE title = ? AND author = ? AND isbn = ? AND quantity = ?";
-    private static final String DELETE_BOOK = "DELETE FROM books WHERE title = ? AND author = ? AND isbn = ? AND quantity = ?";
+    private static final String UPDATE_BOOK = "UPDATE books SET title = ?, author = ?, isbn = ?, quantity = ? WHERE book_id = ?";
+    private static final String DELETE_BOOK = "DELETE FROM books WHERE book_id = ?";
     private static final String SELECT_BOOK_BY_TITLE = "SELECT * FROM books WHERE title LIKE ?";
     private static final String SELECT_BOOK_BY_AUTHOR = "SELECT * FROM books WHERE author LIKE ?";
     private static final String SELECT_BOOK_BY_ISBN = "SELECT * FROM books WHERE isbn LIKE ?";
@@ -68,30 +68,23 @@ public class LibraryDB {
         connection.close();
     }
 
-    public void updateBook(String newTitle, String newAuthor, String newISBN, String newQuantity,
-                           String oldTitle, String oldAuthor, String oldISBN, String oldQuantity) throws SQLException {
+    public void updateBook(String newTitle, String newAuthor, String newISBN, String newQuantity, int book_id) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_BOOK);
         preparedStatement.setString(1, newTitle);
         preparedStatement.setString(2, newAuthor);
         preparedStatement.setString(3, newISBN);
         preparedStatement.setString(4, newQuantity);
-        preparedStatement.setString(5, oldTitle);
-        preparedStatement.setString(6, oldAuthor);
-        preparedStatement.setString(7, oldISBN);
-        preparedStatement.setString(8, oldQuantity);
+        preparedStatement.setInt(5, book_id);
         preparedStatement.executeUpdate();
         preparedStatement.close();
         connection.close();
     }
 
-    public void deleteBook(String title, String author, String isbn, String quantity) throws SQLException {
+    public void deleteBook(int book_id) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(DELETE_BOOK);
-        preparedStatement.setString(1, title);
-        preparedStatement.setString(2, author);
-        preparedStatement.setString(3, isbn);
-        preparedStatement.setString(4, quantity);
+        preparedStatement.setInt(1, book_id);
         preparedStatement.executeUpdate();
         preparedStatement.close();
         connection.close();
