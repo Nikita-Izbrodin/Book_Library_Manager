@@ -134,10 +134,7 @@ public class LibraryDB {
         preparedStatement.setString(3, isbn);
         ResultSet rs = preparedStatement.executeQuery();
         List<Book> books = getBookList(rs);
-        boolean bookExists = false;
-        if (!books.isEmpty()) {
-            bookExists = true;
-        }
+        boolean bookExists = !books.isEmpty();
         return bookExists;
     }
 
@@ -500,10 +497,7 @@ public class LibraryDB {
         rs.close();
         preparedStatement.close();
         connection.close();
-        boolean found = true;
-        if (users.isEmpty()) {
-            found = false;
-        }
+        boolean found = !users.isEmpty();
         return found;
     }
 
