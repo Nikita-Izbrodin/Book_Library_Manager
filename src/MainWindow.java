@@ -442,7 +442,7 @@ public class MainWindow {
                     try {
                         int bookID = db.getBookID(titleLabel.getText(), authorLabel.getText(), isbnLabel.getText(), quantityLabel.getText());
                         editedBorrower.setBookID(bookID);
-                        db.updateBorrower(editedBorrower.getMemberID(), editedBorrower.getReturnDate(), editedBorrower.getBookID(), borrowerList.getSelectedValue().getMemberID(), borrowerList.getSelectedValue().getReturnDate());
+                        db.updateBorrower(editedBorrower.getMemberID(), editedBorrower.getReturnDate(), editedBorrower.getBookID(), borrowerList.getSelectedValue().getMemberID());
                         JOptionPane.showMessageDialog(null, "Borrow updated successfully.", "Borrow update", JOptionPane.INFORMATION_MESSAGE);
                         displayBorrowers();
                     } catch (SQLException ex) {
@@ -453,7 +453,7 @@ public class MainWindow {
                         String fullName = db.selectMemberNameSurnameByMemberID(borrowerList.getSelectedValue().getMemberID());
                         int bookReturned = JOptionPane.showConfirmDialog(null, "Has "+fullName+" returned "+titleLabel.getText()+"?", "Book returned", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                         if (bookReturned == 0) { // if "Yes" pressed
-                            db.deleteBorrower(borrowerList.getSelectedValue().getBookID(), borrowerList.getSelectedValue().getMemberID(), borrowerList.getSelectedValue().getReturnDate());
+                            db.deleteBorrower(borrowerList.getSelectedValue().getBookID(), borrowerList.getSelectedValue().getMemberID());
                             displayBorrowers();
                             updateNumOfBooksBorrowed();
                             updateNumOfBooksAvailable();

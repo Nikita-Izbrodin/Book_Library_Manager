@@ -33,8 +33,8 @@ public class LibraryDB {
     private static final String COUNT_MEMBERS = "SELECT COUNT(*) FROM members";
 
     private static final String INSERT_BORROWER = "INSERT INTO borrowed_books" + " (book_id, member_id, return_date) VALUES " + "(?,?,?);";
-    private static final String UPDATE_BORROWER = "UPDATE borrowed_books SET member_id = ?, return_date = ? WHERE book_id = ? AND member_id = ? AND return_date = ?";
-    private static final String DELETE_BORROWER = "DELETE FROM borrowed_books WHERE book_id = ? AND member_id = ? AND return_date = ?";
+    private static final String UPDATE_BORROWER = "UPDATE borrowed_books SET member_id = ?, return_date = ? WHERE book_id = ? AND member_id = ?";
+    private static final String DELETE_BORROWER = "DELETE FROM borrowed_books WHERE book_id = ? AND member_id = ?";
     private static final String DELETE_BORROWER_BY_BOOK_ID = "DELETE FROM borrowed_books WHERE book_id = ?";
     private static final String DELETE_BORROWER_BY_MEMBER_ID = "DELETE FROM borrowed_books WHERE member_id = ?";
     private static final String SELECT_BORROWERS_BY_BOOK_ID = "SELECT * FROM borrowed_books WHERE book_id = ?";
@@ -344,25 +344,23 @@ public class LibraryDB {
         connection.close();
     }
 
-    public void updateBorrower(int newMemberID, String newReturnDate, int bookID, int oldMemberID, String oldReturnDate) throws SQLException {
+    public void updateBorrower(int newMemberID, String newReturnDate, int bookID, int oldMemberID) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_BORROWER);
         preparedStatement.setInt(1, newMemberID);
         preparedStatement.setString(2, newReturnDate);
         preparedStatement.setInt(3, bookID);
         preparedStatement.setInt(4, oldMemberID);
-        preparedStatement.setString(5, oldReturnDate);
         preparedStatement.executeUpdate();
         preparedStatement.close();
         connection.close();
     }
 
-    public void deleteBorrower(int bookID, int memberID, String returnDate) throws SQLException {
+    public void deleteBorrower(int bookID, int memberID) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(DELETE_BORROWER);
         preparedStatement.setInt(1, bookID);
         preparedStatement.setInt(2, memberID);
-        preparedStatement.setString(3, returnDate);
         preparedStatement.executeUpdate();
         preparedStatement.close();
         connection.close();
