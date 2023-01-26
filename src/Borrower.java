@@ -14,24 +14,12 @@ public class Borrower {
         return bookID;
     }
 
-    public void setBookID(int bookID) {
-        this.bookID = bookID;
-    }
-
     public int getMemberID() {
         return memberID;
     }
 
-    public void setMemberID(int memberID) {
-        this.memberID = memberID;
-    }
-
     public String getReturnDate() {
         return returnDate;
-    }
-
-    public void setReturnDate(String returnDate) {
-        this.returnDate = returnDate;
     }
 
 }

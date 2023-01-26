@@ -1,5 +1,15 @@
-import javax.swing.*;
-import java.awt.event.*;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.KeyStroke;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 
 public class BookDialog extends JDialog {
@@ -10,7 +20,6 @@ public class BookDialog extends JDialog {
     private JTextField titleField;
     private JTextField authorField;
     private JTextField isbnField;
-    private JPanel buttonsPanel;
     private Book book;
 
     public BookDialog(String type, String title, String author, String isbn, String quantity) {
@@ -60,7 +69,6 @@ public class BookDialog extends JDialog {
         if (titleField.getText().isBlank() || authorField.getText().isBlank() || quantityField.getText().isBlank()) {
             return;
         }
-
         LibraryDB db = new LibraryDB();
         try {
             if (db.doesBookExist(titleField.getText(), authorField.getText(), isbnField.getText())) {
@@ -70,7 +78,6 @@ public class BookDialog extends JDialog {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
         }
-
         String title = titleField.getText();
         String author = authorField.getText();
         String isbn = isbnField.getText();

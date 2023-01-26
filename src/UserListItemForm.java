@@ -1,4 +1,5 @@
-import javax.swing.*;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 public class UserListItemForm {
     private JPanel userItemPanel;

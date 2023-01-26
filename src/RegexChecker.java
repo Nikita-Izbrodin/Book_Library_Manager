@@ -15,4 +15,5 @@ public class RegexChecker {
     public boolean matches() {
         return match;
     }
+
 }

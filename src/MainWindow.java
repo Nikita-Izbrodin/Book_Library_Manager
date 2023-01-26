@@ -1,6 +1,19 @@
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,9 +21,6 @@ import java.util.List;
 
 public class MainWindow {
 
-    private JPanel MainWindow;
-    private JPanel statsPanel;
-    private JPanel toolbarPanel;
     private JComboBox menuComboBox;
     private JPanel mainPanel;
     private JButton addNewButton;
@@ -19,7 +29,6 @@ public class MainWindow {
     private JList<Book> bookList;
     private JPanel searchResultsParentCardPanel;
     private JPanel selectedParentCardPanel;
-    private JPanel searchPanel;
     private JPanel bookCardPanel;
     private JPanel memberCardPanel;
     private JPanel userCardPanel;
@@ -53,22 +62,21 @@ public class MainWindow {
     private JLabel totalBooksLabel;
     private JLabel numOfBooksAvailableLabel;
     private JLabel numOfBooksBorrowedLabel;
-    private JList editBorrowerButtonList;
 
     public static void main(String[] args) {
         LibraryDB db = new LibraryDB();
         try {
-            if (db.noStaff()){
+            if (db.noStaff()){ // if there are no users in database
                 UserDialog userDialog = new UserDialog("create", null, null);
                 userDialog.pack();
                 userDialog.setLocationRelativeTo(null);
                 userDialog.show();
                 User newUser = userDialog.getUser();
-                if (newUser == null) {
+                if (newUser == null) { // if cancel pressed on userDialog
                     return; // exit from the application
                 }
                 db.createUser(newUser);
-            } else {
+            } else { // if there are users in database
                 boolean loginLoop = true;
                 while (loginLoop) {
                     UserDialog userDialog = new UserDialog("login", null, null);
@@ -77,9 +85,9 @@ public class MainWindow {
                     userDialog.show();
                     User user = userDialog.getUser();
                     if (user == null) { // cancel pressed on userDialog
-                        return;
+                        return; // exit from application
                     }
-                    if (db.selectUsersByUsernameAndPassword(user.getUsername(), user.getPassword())) {
+                    if (db.selectUsersByUsernameAndPassword(user.getUsername(), user.getPassword())) { // if username and password are correct, log in is successful
                         loginLoop = false;
                     } else {
                         JOptionPane.showMessageDialog(null, "User not found.", "Log In failed", JOptionPane.ERROR_MESSAGE);
@@ -112,7 +120,7 @@ public class MainWindow {
         updateNumOfBooksAvailable();
 
         //
-        // start of ActionListeners
+        // start of ActionListeners related to adding (books, members, borrowers, users)
         //
         addNewButton.addActionListener(new ActionListener() {
             @Override
@@ -216,7 +224,13 @@ public class MainWindow {
                 updateNumOfBooksAvailable();
             }
         });
+        //
+        // end of ActionListeners related to adding (books, members, borrowers, users)
+        //
 
+        //
+        // start of ActionListeners related to editing (books, members, users)
+        //
         editBookButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -242,35 +256,6 @@ public class MainWindow {
                     JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
                 }
                 selectBooksBy();
-            }
-        });
-
-        deleteBookButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (titleLabel.getText().isBlank()) { // if nothing is selected
-                    return;
-                }
-                int answer = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this book?\nTitle: "+titleLabel.getText()+"\nAuthor: "+authorLabel.getText()+"\nISBN: "+isbnLabel.getText()+"\nQuantity: "+quantityLabel.getText(), "Delete book", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-                if (answer == -1 || answer == 1) { // if cross pressed or if "no" pressed
-                    return;
-                }
-                try {
-                    int bookID = db.getBookID(titleLabel.getText(), authorLabel.getText(), isbnLabel.getText(), quantityLabel.getText());
-                    db.deleteBorrowerByBookID(bookID); // removes foreign key to allow deletion
-                    db.deleteBook(db.getBookID(titleLabel.getText(), authorLabel.getText(), isbnLabel.getText(), quantityLabel.getText()));
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
-                }
-                selectBooksBy();
-                displayBorrowers();
-                titleLabel.setText("");
-                authorLabel.setText("");
-                isbnLabel.setText("");
-                quantityLabel.setText("");
-                updateTotalBooks();
-                updateNumOfBooksBorrowed();
-                updateNumOfBooksAvailable();
             }
         });
 
@@ -305,6 +290,71 @@ public class MainWindow {
             }
         });
 
+        editUserButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (usernameLabel.getText().isBlank()) { // if nothing is selected
+                    return;
+                }
+                try {
+                    String oldPassword = (db.selectUsersByUsername(usernameLabel.getText())).get(0).getPassword();
+                    UserDialog userDialog = new UserDialog("edit", usernameLabel.getText(), fullNameLabel.getText());
+                    userDialog.pack();
+                    userDialog.setLocationRelativeTo(null);
+                    userDialog.show();
+                    User editedUser = userDialog.getUser();
+                    if (editedUser == null) { // if cancel pressed
+                        return;
+                    }
+                    if (editedUser.getPassword() == null) {
+                        editedUser.setPassword(oldPassword);
+                    }
+                    db.updateUser(editedUser.getUsername(), editedUser.getFullName(), editedUser.getPassword(), usernameLabel.getText());
+                    JOptionPane.showMessageDialog(null, "User updated successfully.", "User update", JOptionPane.INFORMATION_MESSAGE);
+                    usernameLabel.setText(editedUser.getUsername());
+                    fullNameLabel.setText(editedUser.getFullName());
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                selectUsersBy();
+            }
+        });
+        //
+        // end of ActionListeners related to editing (books, members, users)
+        //
+
+        //
+        // start of ActionListeners related to deleting (books, members, users)
+        //
+        deleteBookButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (titleLabel.getText().isBlank()) { // if nothing is selected
+                    return;
+                }
+                int answer = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this book?\nTitle: "+titleLabel.getText()+"\nAuthor: "+authorLabel.getText()+"\nISBN: "+isbnLabel.getText()+"\nQuantity: "+quantityLabel.getText(), "Delete book", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+                if (answer == -1 || answer == 1) { // if cross pressed or if "no" pressed
+                    return;
+                }
+                try {
+                    int bookID = db.getBookID(titleLabel.getText(), authorLabel.getText(), isbnLabel.getText(), quantityLabel.getText());
+                    db.deleteBorrowerByBookID(bookID); // removes foreign key to allow deletion
+                    db.deleteBook(db.getBookID(titleLabel.getText(), authorLabel.getText(), isbnLabel.getText(), quantityLabel.getText()));
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                selectBooksBy();
+                displayBorrowers();
+                titleLabel.setText("");
+                authorLabel.setText("");
+                isbnLabel.setText("");
+                quantityLabel.setText("");
+                updateTotalBooks();
+                updateNumOfBooksBorrowed();
+                updateNumOfBooksAvailable();
+            }
+        });
+
         deleteMemberButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -335,36 +385,6 @@ public class MainWindow {
             }
         });
 
-        editUserButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (usernameLabel.getText().isBlank()) { // if nothing is selected
-                    return;
-                }
-                try {
-                    String oldPassword = (db.selectUsersByUsername(usernameLabel.getText())).get(0).getPassword();
-                    UserDialog userDialog = new UserDialog("edit", usernameLabel.getText(), fullNameLabel.getText());
-                    userDialog.pack();
-                    userDialog.setLocationRelativeTo(null);
-                    userDialog.show();
-                    User editedUser = userDialog.getUser();
-                    if (editedUser == null) { // if cancel pressed
-                        return;
-                    }
-                    if (editedUser.getPassword() == null) {
-                        editedUser.setPassword(oldPassword);
-                    }
-                    db.updateUser(editedUser.getUsername(), editedUser.getFullName(), editedUser.getPassword(), usernameLabel.getText());
-                    JOptionPane.showMessageDialog(null, "User updated successfully.", "User update", JOptionPane.INFORMATION_MESSAGE);
-                    usernameLabel.setText(editedUser.getUsername());
-                    fullNameLabel.setText(editedUser.getFullName());
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
-                }
-                selectUsersBy();
-            }
-        });
-
         deleteUserButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -385,7 +405,13 @@ public class MainWindow {
                 fullNameLabel.setText("");
             }
         });
+        //
+        // end of ActionListeners related to deleting (books, members, users)
+        //
 
+        //
+        // start of mouseListeners for selecting items (books, members, users)
+        //
         bookList.addMouseListener(new MouseAdapter() { // when item in list is selected
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -419,6 +445,24 @@ public class MainWindow {
             }
         });
 
+        userList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if (userList.getSelectedValue() == null) {
+                    return;
+                }
+                usernameLabel.setText(userList.getSelectedValue().getUsername());
+                fullNameLabel.setText(userList.getSelectedValue().getFullName());
+            }
+        });
+        //
+        // end of mouseListeners for selecting items (books, members, users)
+        //
+
+        //
+        // start of mouseListener for selecting a borrower (allows editing borrower and returning book)
+        //
         borrowerList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -453,9 +497,7 @@ public class MainWindow {
                     }
                     LibraryDB db = new LibraryDB();
                     try {
-                        int bookID = db.getBookID(titleLabel.getText(), authorLabel.getText(), isbnLabel.getText(), quantityLabel.getText());
-                        editedBorrower.setBookID(bookID);
-                        db.updateBorrower(editedBorrower.getMemberID(), editedBorrower.getReturnDate(), editedBorrower.getBookID(), borrowerList.getSelectedValue().getMemberID());
+                        db.updateBorrower(editedBorrower.getMemberID(), editedBorrower.getReturnDate(), db.getBookID(titleLabel.getText(), authorLabel.getText(), isbnLabel.getText(), quantityLabel.getText()), borrowerList.getSelectedValue().getMemberID());
                         JOptionPane.showMessageDialog(null, "Borrow updated successfully.", "Borrow update", JOptionPane.INFORMATION_MESSAGE);
                         displayBorrowers();
                     } catch (SQLException ex) {
@@ -477,48 +519,23 @@ public class MainWindow {
                 }
             }
         });
+        //
+        // end of mouseListener for selecting a borrower (allows editing borrower and returning book)
+        //
 
-        userList.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                if (userList.getSelectedValue() == null) {
-                    return;
-                }
-                usernameLabel.setText(userList.getSelectedValue().getUsername());
-                fullNameLabel.setText(userList.getSelectedValue().getFullName());
-            }
-        });
-
-        searchTextField.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                //super.keyTyped(e); // not sure why this line was added. might remove
-                selectBooksBy();
-                selectMembersBy();
-                selectUsersBy();
-            }
-        });
-
-        searchByComboBox.addActionListener(new ActionListener() {
+        //
+        // start of actionListeners related to combo boxes
+        //
+        searchByComboBox.addActionListener(new ActionListener() { // updates list when the searchByComboBox value is changed
             @Override
             public void actionPerformed(ActionEvent e) {
-                /*System.out.println(searchByComboBox.getSelectedItem().toString());
-                System.out.println(menuComboBox.getSelectedItem().toString());*/
                 selectBooksBy();
                 selectMembersBy();
                 selectUsersBy();
-                /*if (menuComboBox.equals("Books")) {
-                    selectBooksBy();
-                } else if (menuComboBox.equals("Members")) {
-                    selectMembersBy();
-                } else if (menuComboBox.equals("Users")) {
-
-                }*/
             }
         });
 
-        menuComboBox.addActionListener(new ActionListener() {
+        menuComboBox.addActionListener(new ActionListener() { // sets specific values in model of searchByComboBox when menuComboBox value is changed & updates list
             @Override
             public void actionPerformed(ActionEvent e) {
                 selectedParentCardPanel.removeAll();
@@ -567,12 +584,31 @@ public class MainWindow {
             }
         });
         //
-        // end of ActionListeners
+        // end of actionListeners related to combo boxes
         //
+
+        //
+        // start of keyListeners related searching
+        //
+        searchTextField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                //super.keyTyped(e); // not sure why this line was added. might remove
+                selectBooksBy();
+                selectMembersBy();
+                selectUsersBy();
+            }
+        });
+        //
+        // end of keyListeners related to searching
+        //
+
     }
 
-    // updates list of displayed books
-    private void selectBooksBy() {
+    //
+    // start of methods related to displaying items in list
+    //
+    private void selectBooksBy() { // updates list of displayed books
         LibraryDB db = new LibraryDB();
         List<Book> booksList = null;
         if (searchByComboBox.getSelectedItem() == null) { // not sure why this is needed
@@ -601,8 +637,7 @@ public class MainWindow {
         }
     }
 
-    // updates list of displayed members
-    private void selectMembersBy() {
+    private void selectMembersBy() { // updates list of displayed members
         LibraryDB db = new LibraryDB();
         List<Member> membersList = null;
         if (searchByComboBox.getSelectedItem() == null) { // not sure why this is needed
@@ -634,8 +669,7 @@ public class MainWindow {
         }
     }
 
-    // updates list of displayed borrowers
-    private void displayBorrowers() {
+    private void displayBorrowers() { // updates list of displayed borrowers
         LibraryDB db = new LibraryDB();
         List<Borrower> borrowersList = null;
         try {
@@ -652,8 +686,7 @@ public class MainWindow {
         borrowerList.setCellRenderer(new BorrowerCellRenderer());
     }
 
-    // updates list of displayed users
-    private void selectUsersBy() {
+    private void selectUsersBy() { // updates list of displayed users
         LibraryDB db = new LibraryDB();
         List<User> usersList = null;
         if (searchByComboBox.getSelectedItem() == null) {
@@ -676,8 +709,13 @@ public class MainWindow {
             JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+    //
+    // end of methods related to displaying items in list
+    //
 
-    // updates totalMembersLabel
+    //
+    // start of methods related to statsPanel (statistics at bottom of mainWindow)
+    //
     private void updateTotalMembers() {
         LibraryDB db = new LibraryDB();
         int totalMembers = -1;
@@ -689,7 +727,6 @@ public class MainWindow {
         totalMembersLabel.setText(String.valueOf(totalMembers));
     }
 
-    // updates totalBooksLabel
     private void updateTotalBooks() {
         LibraryDB db = new LibraryDB();
         int totalBooks = -1;
@@ -701,7 +738,6 @@ public class MainWindow {
         totalBooksLabel.setText(String.valueOf(totalBooks));
     }
 
-    // updates numOfBooksBorrowedLabel
     private void updateNumOfBooksBorrowed() {
         LibraryDB db = new LibraryDB();
         int numOfBooksBorrowed = -1;
@@ -713,7 +749,6 @@ public class MainWindow {
         numOfBooksBorrowedLabel.setText(String.valueOf(numOfBooksBorrowed));
     }
 
-    // updates numOfBooksAvailableLabel
     private void updateNumOfBooksAvailable() {
         LibraryDB db = new LibraryDB();
         int totalBooks = -1;
@@ -726,4 +761,8 @@ public class MainWindow {
         }
         numOfBooksAvailableLabel.setText(String.valueOf(totalBooks - numOfBooksBorrowed));
     }
+    //
+    // end of methods related to statsPanel (statistics at bottom of mainWindow)
+    //
+
 }
