@@ -24,6 +24,8 @@ public class MemberDialog extends JDialog {
     private JTextField idTextField;
     private Member member;
 
+    private EmailAddressChecker emailAddressChecker = new EmailAddressChecker();
+
     public MemberDialog(String type, int id, String name, String surname, String phone, String email, String address, String postcode) {
         setContentPane(contentPane);
         setModal(true);
@@ -74,8 +76,7 @@ public class MemberDialog extends JDialog {
         if (idTextField.getText().isBlank() || nameTextField.getText().isBlank() || surnameTextField.getText().isBlank() || addressTextField.getText().isBlank() || postcodeTextField.getText().isBlank()) { // phone num and email not checked because some members may not have one
             return;
         }
-        RegexChecker regexChecker = new RegexChecker(emailTextField.getText());
-        if (!regexChecker.matches()) {
+        if (!emailAddressChecker.isValidEmailAddress(emailTextField.getText())) {
             JOptionPane.showMessageDialog(null, emailTextField.getText() + " doesn't look like a valid email address.\n\nPlease check and correct.", "Invalid email address", JOptionPane.ERROR_MESSAGE);
             return;
         }

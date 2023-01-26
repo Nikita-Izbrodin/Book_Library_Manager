@@ -1,30 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Make GUI appear in centre of screen when created.">
+    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Cleaned up code.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Book.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Book.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/BookCellRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BookCellRenderer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BookDialog.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/BookDialog.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BookDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BookDialog.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/BookListItemForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BookListItemForm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Borrower.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Borrower.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/BorrowerCellRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BorrowerCellRenderer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BorrowerDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BorrowerDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BorrowerListItemForm.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/BorrowerListItemForm.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BorrowerListItemForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BorrowerListItemForm.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/LibraryDB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LibraryDB.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MainWindow.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainWindow.form" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MainWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Member.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Member.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MemberCellRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MemberCellRenderer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MemberDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MemberDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MemberListItemForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MemberListItemForm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RegexChecker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RegexChecker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UserCellRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UserCellRenderer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RegexChecker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EmailAddressChecker.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/UserDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UserDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UserListItemForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UserListItemForm.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -358,7 +344,14 @@
       <option name="project" value="LOCAL" />
       <updated>1674688415553</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="Cleaned up code.">
+      <created>1674766012165</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1674766012165</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -393,12 +386,12 @@
     <MESSAGE value="Implemented log in. Fixed adding borrowers." />
     <MESSAGE value="Updated SQL queries for member table." />
     <MESSAGE value="Updated SQL queries for books table." />
-    <MESSAGE value="Cleaned up code." />
     <MESSAGE value="Updated SQL queries for borrowers table." />
     <MESSAGE value="Updated SQL queries for users table." />
     <MESSAGE value="Make gui appear in centre of screen when created." />
     <MESSAGE value="Make GUI appear in centre of screen when created." />
-    <option name="LAST_COMMIT_MESSAGE" value="Make GUI appear in centre of screen when created." />
+    <MESSAGE value="Cleaned up code." />
+    <option name="LAST_COMMIT_MESSAGE" value="Cleaned up code." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

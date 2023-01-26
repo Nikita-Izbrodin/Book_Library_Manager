@@ -73,6 +73,9 @@ public class LibraryDB {
     }
 
     public void updateBook(String newTitle, String newAuthor, String newISBN, String newQuantity, int book_id) throws SQLException {
+
+        // TODO: executeUpdate(UPDATE_BOOK, new Object[]{newTitle, newAuthor,...});
+
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_BOOK);
         preparedStatement.setString(1, newTitle);
@@ -131,6 +134,9 @@ public class LibraryDB {
     }
 
     public boolean doesBookExist(String title, String author, String isbn) throws SQLException {
+
+        // TODO: ResultSet rs = executeQuery(SELECT_BOOK_BY_TITLE_AND_AUTHOR_AND_ISBN, new Object[]{title, author, ...});
+
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BOOK_BY_TITLE_AND_AUTHOR_AND_ISBN);
         preparedStatement.setString(1, title);
@@ -487,7 +493,7 @@ public class LibraryDB {
         return users;
     }
 
-    public boolean selectUsersByUsernameAndPassword(String username, String password) throws SQLException {
+    public boolean isValidUser(String username, String password) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_USERNAME_AND_PASSWORD);
         preparedStatement.setString(1, username);
