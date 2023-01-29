@@ -1,7 +1,5 @@
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import java.sql.SQLException;
 
 public class BorrowerListItemForm {
     private JLabel borrowerIDLabel;
@@ -15,12 +13,7 @@ public class BorrowerListItemForm {
 
     public void setData(Borrower entry) {
         borrowerIDLabel.setText("ID: "+entry.getMemberID());
-        LibraryDB db = new LibraryDB();
-        try {
-            borrowerFullNameLabel.setText("Full name: "+db.selectMemberNameSurnameByMemberID(entry.getMemberID()));
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        borrowerFullNameLabel.setText("Full name: "+entry.getFullName());
         returnDateLabel.setText("Return date: "+entry.getReturnDate());
     }
 

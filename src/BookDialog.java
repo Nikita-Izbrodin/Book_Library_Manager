@@ -22,7 +22,12 @@ public class BookDialog extends JDialog {
     private JTextField isbnField;
     private Book book;
 
-    public BookDialog(String type, String title, String author, String isbn, String quantity) {
+    // dependencies
+    private LibraryDatabase libraryDB;
+
+    public BookDialog(String type, String title, String author, String isbn, String quantity, LibraryDatabase libraryDB) {
+        this.libraryDB = libraryDB;
+
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(leftButton);
@@ -69,9 +74,8 @@ public class BookDialog extends JDialog {
         if (titleField.getText().isBlank() || authorField.getText().isBlank() || quantityField.getText().isBlank()) {
             return;
         }
-        LibraryDB db = new LibraryDB();
         try {
-            if (db.doesBookExist(titleField.getText(), authorField.getText(), isbnField.getText())) {
+            if (this.libraryDB.doesBookExist(titleField.getText(), authorField.getText(), isbnField.getText())) {
                 JOptionPane.showMessageDialog(null, "Book already exists in the database.", "Cannot add book", JOptionPane.ERROR_MESSAGE);
                 return;
             }

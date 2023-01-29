@@ -1,12 +1,23 @@
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * A class for validation of an email address.
+ * Implemented using a regular expression.
+ */
 public class EmailAddressChecker {
 
-    private final String regex = "^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
-    private Pattern pattern;
+    // TODO: detailed explanation what does this regex do!
+    private final Pattern pattern;
 
     public EmailAddressChecker() {
+        /**
+         * The following regular expression defines a pattern that matches any string that:
+         * - has '@' in the middle
+         * - start with ...
+         * - asa
+         */
+        String regex = "^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
         pattern = Pattern.compile(regex);
     }
 

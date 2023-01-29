@@ -20,7 +20,12 @@ public class BorrowerDialog extends JDialog {
     private JButton cancelButton;
     private Borrower borrower;
 
-    public BorrowerDialog(String type, int memberID, String returnDate, int bookID) {
+    // dependencies
+    private LibraryDatabase libraryDB;
+
+    public BorrowerDialog(String type, int memberID, String returnDate, int bookID, LibraryDatabase libraryDB) {
+        this.libraryDB = libraryDB;
+
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(leftButton);
@@ -65,9 +70,8 @@ public class BorrowerDialog extends JDialog {
         if (memberIDField.getText().isBlank() || returnDateField.getText().isBlank()) {
             return;
         }
-        LibraryDB db = new LibraryDB();
         try {
-            if (!db.selectBorrowersByMemberID(bookID, Integer.parseInt(memberIDField.getText())).isEmpty() && type.equals("create")) {
+            if (this.libraryDB.isBookBorrowedByMember(bookID, Integer.parseInt(memberIDField.getText())) && type.equals("create")) {
                 JOptionPane.showMessageDialog(null, "This member has already borrowed this book.", "Cannot create borrower", JOptionPane.ERROR_MESSAGE);
                 return;
             }
@@ -76,7 +80,7 @@ public class BorrowerDialog extends JDialog {
         }
         int memberID = Integer.parseInt(memberIDField.getText());
         String returnDate = returnDateField.getText();
-        borrower = new Borrower(bookID, memberID, returnDate);
+        borrower = new Borrower(bookID, memberID, returnDate, null);
         dispose();
     }
 

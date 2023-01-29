@@ -6,13 +6,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LibraryDB {
+public class MySqlLibraryDatabase implements LibraryDatabase {
 
-    private String jdbcURL = "jdbc:mysql://localhost:3306/booklibrary?allowPublicKeyRetrieval=true&useSSL=false"; // TODO: fix allowPublicKeyRetrieval
-    private String jdbcUsername = "dbmanager";
-    private String jdbcPassword = "manager7349";
+    private static final String jdbcURL = "jdbc:mysql://localhost:3306/booklibrary";
+    private static final String jdbcUsername = "dbmanager";
+    private static final String jdbcPassword = "manager7349";
 
-    // does it need to be static?
     private static final String INSERT_BOOK = "INSERT INTO books" + " (title, author, isbn, quantity) VALUES " + " (?,?,?,?);";
     private static final String UPDATE_BOOK = "UPDATE books SET title = ?, author = ?, isbn = ?, quantity = ? WHERE book_id = ?";
     private static final String DELETE_BOOK = "DELETE FROM books WHERE book_id = ?";
@@ -41,7 +40,7 @@ public class LibraryDB {
     private static final String DELETE_BORROWER = "DELETE FROM borrowed_books WHERE book_id = ? AND member_id = ?";
     private static final String DELETE_BORROWER_BY_BOOK_ID = "DELETE FROM borrowed_books WHERE book_id = ?";
     private static final String DELETE_BORROWER_BY_MEMBER_ID = "DELETE FROM borrowed_books WHERE member_id = ?";
-    private static final String SELECT_BORROWERS_BY_BOOK_ID = "SELECT * FROM borrowed_books WHERE book_id = ?";
+    private static final String SELECT_BORROWERS_BY_BOOK_ID = "SELECT book_id, borrowed_books.member_id, return_date, members.name, members.surname FROM borrowed_books INNER JOIN members on borrowed_books.member_id = members.member_id WHERE book_id = ?";
     private static final String SELECT_BORROWERS_BY_BOOK_ID_AND_MEMBER_ID = "SELECT * FROM borrowed_books WHERE book_id = ? AND member_id = ?";
     private static final String COUNT_BORROWERS = "SELECT COUNT(*) FROM borrowed_books";
 
@@ -60,6 +59,7 @@ public class LibraryDB {
     //
     // start of book commands
     //
+    @Override
     public void createBook(Book newBook) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(INSERT_BOOK);
@@ -72,6 +72,7 @@ public class LibraryDB {
         connection.close();
     }
 
+    @Override
     public void updateBook(String newTitle, String newAuthor, String newISBN, String newQuantity, int book_id) throws SQLException {
 
         // TODO: executeUpdate(UPDATE_BOOK, new Object[]{newTitle, newAuthor,...});
@@ -88,6 +89,7 @@ public class LibraryDB {
         connection.close();
     }
 
+    @Override
     public void deleteBook(int book_id) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(DELETE_BOOK);
@@ -97,6 +99,7 @@ public class LibraryDB {
         connection.close();
     }
 
+    @Override
     public List<Book> selectBooksByTitle(String title) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BOOK_BY_TITLE);
@@ -109,7 +112,8 @@ public class LibraryDB {
         return books;
     }
 
-    public List<Book> selectBooksByAuthor (String author) throws SQLException {
+    @Override
+    public List<Book> selectBooksByAuthor(String author) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BOOK_BY_AUTHOR);
         preparedStatement.setString(1, "%"+author+"%");
@@ -121,7 +125,8 @@ public class LibraryDB {
         return books;
     }
 
-    public List<Book> selectBooksByISBN (String isbn) throws SQLException {
+    @Override
+    public List<Book> selectBooksByISBN(String isbn) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BOOK_BY_ISBN);
         preparedStatement.setString(1, "%"+isbn+"%");
@@ -133,6 +138,7 @@ public class LibraryDB {
         return books;
     }
 
+    @Override
     public boolean doesBookExist(String title, String author, String isbn) throws SQLException {
 
         // TODO: ResultSet rs = executeQuery(SELECT_BOOK_BY_TITLE_AND_AUTHOR_AND_ISBN, new Object[]{title, author, ...});
@@ -148,6 +154,7 @@ public class LibraryDB {
         return bookExists;
     }
 
+    @Override
     public int getBookID(String title, String author, String isbn, String quantity) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BOOK_ID);
@@ -166,6 +173,7 @@ public class LibraryDB {
         return bookID;
     }
 
+    @Override
     public int countBooks() throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(COUNT_BOOKS);
@@ -184,6 +192,7 @@ public class LibraryDB {
     //
     // start of member commands
     //
+    @Override
     public void createMember(Member newMember) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(INSERT_MEMBER);
@@ -199,6 +208,7 @@ public class LibraryDB {
         connection.close();
     }
 
+    @Override
     public void updateMember(int newID, String newName, String newSurname, String newPhoneNo, String newEmail, String newAddress, String newPostcode, int oldID) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_MEMBER);
@@ -215,6 +225,7 @@ public class LibraryDB {
         connection.close();
     }
 
+    @Override
     public void deleteMember(int id) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(DELETE_MEMBER);
@@ -224,6 +235,7 @@ public class LibraryDB {
         connection.close();
     }
 
+    @Override
     public boolean noMembers() throws SQLException {
         try (Connection connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_MEMBERS)) {
@@ -236,6 +248,7 @@ public class LibraryDB {
         }
     }
 
+    @Override
     public List<Member> selectMembersByName(String name) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_MEMBER_BY_NAME);
@@ -248,6 +261,7 @@ public class LibraryDB {
         return members;
     }
 
+    @Override
     public List<Member> selectMembersBySurname(String surname) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_MEMBER_BY_SURNAME);
@@ -260,6 +274,7 @@ public class LibraryDB {
         return members;
     }
 
+    @Override
     public List<Member> selectMembersByPhoneNo(String phoneNo) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_MEMBER_BY_PHONENO);
@@ -272,6 +287,7 @@ public class LibraryDB {
         return members;
     }
 
+    @Override
     public List<Member> selectMembersByEmail(String email) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_MEMBER_BY_EMAIL);
@@ -284,6 +300,7 @@ public class LibraryDB {
         return members;
     }
 
+    @Override
     public List<Member> selectMembersByAddress(String address) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_MEMBER_BY_ADDRESS);
@@ -296,6 +313,7 @@ public class LibraryDB {
         return members;
     }
 
+    @Override
     public List<Member> selectMembersByPostcode(String postcode) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_MEMBER_BY_POSTCODE);
@@ -308,6 +326,7 @@ public class LibraryDB {
         return members;
     }
 
+    @Override
     public String selectMemberNameSurnameByMemberID(int memberID) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_MEMBER_NAME_AND_SURNAME_BY_MEMBER_ID);
@@ -325,6 +344,7 @@ public class LibraryDB {
         return name+" "+surname;
     }
 
+    @Override
     public int countMembers() throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(COUNT_MEMBERS);
@@ -343,6 +363,7 @@ public class LibraryDB {
     //
     // start of borrower commands
     //
+    @Override
     public void createBorrower(Borrower newBorrower) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(INSERT_BORROWER);
@@ -354,6 +375,7 @@ public class LibraryDB {
         connection.close();
     }
 
+    @Override
     public void updateBorrower(int newMemberID, String newReturnDate, int bookID, int oldMemberID) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_BORROWER);
@@ -366,6 +388,7 @@ public class LibraryDB {
         connection.close();
     }
 
+    @Override
     public void deleteBorrower(int bookID, int memberID) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(DELETE_BORROWER);
@@ -376,6 +399,7 @@ public class LibraryDB {
         connection.close();
     }
 
+    @Override
     public void deleteBorrowerByBookID(int bookID) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(DELETE_BORROWER_BY_BOOK_ID);
@@ -385,6 +409,7 @@ public class LibraryDB {
         connection.close();
     }
 
+    @Override
     public void deleteBorrowerByMemberID(int memberID) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(DELETE_BORROWER_BY_MEMBER_ID);
@@ -394,31 +419,40 @@ public class LibraryDB {
         connection.close();
     }
 
+    @Override
     public List<Borrower> selectBorrowersByBookID(int bookID) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BORROWERS_BY_BOOK_ID);
         preparedStatement.setInt(1, bookID);
         ResultSet rs = preparedStatement.executeQuery();
-        List<Borrower> borrowers = getBorrowerList(rs);
+        List<Borrower> borrowers = new ArrayList<>();
+        while (rs.next()) {
+            int memberID = rs.getInt("member_id");
+            String returnDate = rs.getString("return_date");
+            String fullName = rs.getString("name") + " " + rs.getString("surname");
+            borrowers.add(new Borrower(bookID, memberID, fullName, returnDate));
+        }
         rs.close();
         preparedStatement.close();
         connection.close();
         return borrowers;
     }
 
-    public List<Borrower> selectBorrowersByMemberID(int bookID, int memberID) throws SQLException {
+    @Override
+    public boolean isBookBorrowedByMember(int bookID, int memberID) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BORROWERS_BY_BOOK_ID_AND_MEMBER_ID);
         preparedStatement.setInt(1, bookID);
         preparedStatement.setInt(2, memberID);
         ResultSet rs = preparedStatement.executeQuery();
-        List<Borrower> borrowers = getBorrowerList(rs);
+        boolean isBorrowed = rs.next();
         rs.close();
         preparedStatement.close();
         connection.close();
-        return borrowers;
+        return isBorrowed;
     }
 
+    @Override
     public int countBorrowers() throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(COUNT_BORROWERS);
@@ -437,6 +471,7 @@ public class LibraryDB {
     //
     // start of user commands
     //
+    @Override
     public void createUser(User user) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USER);
@@ -448,6 +483,7 @@ public class LibraryDB {
         connection.close();
     }
 
+    @Override
     public void updateUser(String newUsername, String newFullName, String newPassword, String oldUsername) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USER);
@@ -460,6 +496,7 @@ public class LibraryDB {
         connection.close();
     }
 
+    @Override
     public void deleteUser(String username) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(DELETE_USER);
@@ -469,6 +506,7 @@ public class LibraryDB {
         connection.close();
     }
 
+    @Override
     public boolean noStaff() throws SQLException {
         try (Connection connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_USERS)) {
@@ -481,6 +519,7 @@ public class LibraryDB {
         }
     }
 
+    @Override
     public List<User> selectUsersByUsername(String username) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_USERNAME);
@@ -493,6 +532,7 @@ public class LibraryDB {
         return users;
     }
 
+    @Override
     public boolean isValidUser(String username, String password) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_USERNAME_AND_PASSWORD);
@@ -508,6 +548,7 @@ public class LibraryDB {
     }
 
 
+    @Override
     public List<User> selectUsersByFullName(String fullName) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_FULLNAME);
@@ -551,17 +592,6 @@ public class LibraryDB {
             members.add(new Member(id, name, surname, phoneNo, email, address, postcode));
         }
         return members;
-    }
-
-    private static List<Borrower> getBorrowerList(ResultSet rs) throws SQLException {
-        List<Borrower> borrowers = new ArrayList<>();
-        while (rs.next()) {
-            int bookID = rs.getInt("book_id");
-            int memberID = rs.getInt("member_id");
-            String returnDate = rs.getString("return_date");
-            borrowers.add(new Borrower(bookID, memberID, returnDate));
-        }
-        return borrowers;
     }
 
     private static List<User> getUserList(ResultSet rs) throws SQLException {

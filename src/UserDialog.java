@@ -21,13 +21,17 @@ public class UserDialog extends JDialog {
     private JTextField usernameField;
     private User user;
 
+    private HashGenerator hashGenerator;
+
     public enum DialogType {
         CREATE,
         LOGIN,
         EDIT
     }
 
-    public UserDialog(DialogType type, String username, String fullName) {
+    public UserDialog(DialogType type, String username, String fullName, HashGenerator hashGenerator) {
+        this.hashGenerator = hashGenerator;
+
         setContentPane(mainPanel);
         setModal(true);
         getRootPane().setDefaultButton(leftButton);
@@ -76,8 +80,8 @@ public class UserDialog extends JDialog {
 
     }
 
-    public static User getUser(DialogType type) {
-        UserDialog userDialog = new UserDialog(type, null, null);
+    public static User getUser(DialogType type, HashGenerator hashGenerator) {
+        UserDialog userDialog = new UserDialog(type, null, null, hashGenerator);
         userDialog.pack();
         userDialog.setLocationRelativeTo(null);
         userDialog.show();
@@ -97,7 +101,7 @@ public class UserDialog extends JDialog {
         String full_name = fullNameField.getText();
         String password = null;
         if ((type == DialogType.EDIT || type == DialogType.LOGIN) && !passwordField.getText().isBlank()) {
-            password = HashGenerator.getHashValue(String.valueOf(passwordField.getPassword()));
+            password = hashGenerator.getHashValue(String.valueOf(passwordField.getPassword()));
         }
         user = new User(username, full_name, password);
         dispose();
