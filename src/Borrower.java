@@ -27,5 +27,4 @@ public class Borrower {
     public String getReturnDate() {
         return returnDate;
     }
-
 }

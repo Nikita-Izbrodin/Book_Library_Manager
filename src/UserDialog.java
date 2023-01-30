@@ -37,7 +37,9 @@ public class UserDialog extends JDialog {
         getRootPane().setDefaultButton(leftButton);
 
         switch (type) {
-            case CREATE -> leftButton.setText("Create");
+            case CREATE -> {
+                leftButton.setText("Create");
+            }
             case EDIT -> {
                 leftButton.setText("Save");
                 usernameField.setText(username);
@@ -48,6 +50,7 @@ public class UserDialog extends JDialog {
                 fullNameField.disable();
                 fullNameField.setBackground(Color.lightGray);
                 fullNameField.setToolTipText("This field is disabled for log in.");
+                passwordField.setToolTipText(null);
             }
         }
 

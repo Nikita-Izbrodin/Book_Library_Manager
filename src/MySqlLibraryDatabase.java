@@ -40,6 +40,7 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
     private static final String DELETE_BORROWER = "DELETE FROM borrowed_books WHERE book_id = ? AND member_id = ?";
     private static final String DELETE_BORROWER_BY_BOOK_ID = "DELETE FROM borrowed_books WHERE book_id = ?";
     private static final String DELETE_BORROWER_BY_MEMBER_ID = "DELETE FROM borrowed_books WHERE member_id = ?";
+    private static final String SELECT_BORROWERS_BY_MEMBER_ID = "SELECT * FROM borrowed_books WHERE member_id = ?";
     private static final String SELECT_BORROWERS_BY_BOOK_ID = "SELECT book_id, borrowed_books.member_id, return_date, members.name, members.surname FROM borrowed_books INNER JOIN members on borrowed_books.member_id = members.member_id WHERE book_id = ?";
     private static final String SELECT_BORROWERS_BY_BOOK_ID_AND_MEMBER_ID = "SELECT * FROM borrowed_books WHERE book_id = ? AND member_id = ?";
     private static final String COUNT_BORROWERS = "SELECT COUNT(*) FROM borrowed_books";
@@ -383,7 +384,8 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         preparedStatement.setString(2, newReturnDate);
         preparedStatement.setInt(3, bookID);
         preparedStatement.setInt(4, oldMemberID);
-        preparedStatement.executeUpdate();
+        int updatedRowCount = preparedStatement.executeUpdate();
+        assert updatedRowCount == 1 : "A single row is expected to be updated";
         preparedStatement.close();
         connection.close();
     }
@@ -417,6 +419,19 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         preparedStatement.executeUpdate();
         preparedStatement.close();
         connection.close();
+    }
+
+    @Override
+    public boolean hasMemberBorrowedBook(int memberID) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BORROWERS_BY_MEMBER_ID);
+        preparedStatement.setInt(1, memberID);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        boolean isBorrower = resultSet.next();
+        resultSet.close();
+        preparedStatement.close();
+        connection.close();
+        return isBorrower;
     }
 
     @Override

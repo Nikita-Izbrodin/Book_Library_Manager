@@ -76,11 +76,11 @@ public class BorrowerDialog extends JDialog {
                 return;
             }
         } catch (SQLException ex) {
-
+            JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
         }
         int memberID = Integer.parseInt(memberIDField.getText());
         String returnDate = returnDateField.getText();
-        borrower = new Borrower(bookID, memberID, returnDate, null);
+        borrower = new Borrower(bookID, memberID, null, returnDate);
         dispose();
     }
 

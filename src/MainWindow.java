@@ -68,6 +68,9 @@ public class MainWindow {
     private LibraryDatabase libraryDB;
 
     public static void showMainWindow(HashGenerator hashGenerator, LibraryDatabase libraryDB) {
+        assert hashGenerator != null;
+        assert libraryDB != null;
+
         JFrame frame = new JFrame("Book Library Manager");
         MainWindow mainWindow = new MainWindow(hashGenerator, libraryDB);
         frame.setContentPane(mainWindow.mainPanel);
@@ -236,20 +239,23 @@ public class MainWindow {
                 }
                 try {
                     int bookID = libraryDB.getBookID(titleLabel.getText(), authorLabel.getText(), isbnLabel.getText(), quantityLabel.getText());
-                    libraryDB.deleteBorrowerByBookID(bookID); // removes foreign key to allow deletion
-                    libraryDB.deleteBook(libraryDB.getBookID(titleLabel.getText(), authorLabel.getText(), isbnLabel.getText(), quantityLabel.getText()));
+                    if (!libraryDB.selectBorrowersByBookID(bookID).isEmpty()) { // if this book has been borrowed
+                        JOptionPane.showMessageDialog(null,"Cannot delete this book.\nThis book is being borrowed.", "Delete failed", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        libraryDB.deleteBook(libraryDB.getBookID(titleLabel.getText(), authorLabel.getText(), isbnLabel.getText(), quantityLabel.getText()));
+                        selectBooksBy();
+                        displayBorrowers();
+                        titleLabel.setText("");
+                        authorLabel.setText("");
+                        isbnLabel.setText("");
+                        quantityLabel.setText("");
+                        updateTotalBooks();
+                        updateNumOfBooksBorrowed();
+                        updateNumOfBooksAvailable();
+                    }
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
                 }
-                selectBooksBy();
-                displayBorrowers();
-                titleLabel.setText("");
-                authorLabel.setText("");
-                isbnLabel.setText("");
-                quantityLabel.setText("");
-                updateTotalBooks();
-                updateNumOfBooksBorrowed();
-                updateNumOfBooksAvailable();
             }
         });
 
@@ -264,22 +270,25 @@ public class MainWindow {
                     return;
                 }
                 try {
-                    libraryDB.deleteBorrowerByMemberID(Integer.parseInt(idLabel.getText())); // removes foreign key to allow deletion
-                    libraryDB.deleteMember(Integer.parseInt(idLabel.getText()));
+                    if (libraryDB.hasMemberBorrowedBook(Integer.parseInt(idLabel.getText()))) {
+                        JOptionPane.showMessageDialog(null,"Cannot delete this member.\nThis member has borrowed a book.", "Delete failed", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        libraryDB.deleteMember(Integer.parseInt(idLabel.getText()));
+                        selectMembersBy();
+                        idLabel.setText("");
+                        nameLabel.setText("");
+                        surnameLabel.setText("");
+                        phoneNoLabel.setText("");
+                        emailLabel.setText("");
+                        addressLabel.setText("");
+                        postcodeLabel.setText("");
+                        updateTotalMembers();
+                        updateNumOfBooksBorrowed();
+                        updateNumOfBooksAvailable();
+                    }
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
                 }
-                selectMembersBy();
-                idLabel.setText("");
-                nameLabel.setText("");
-                surnameLabel.setText("");
-                phoneNoLabel.setText("");
-                emailLabel.setText("");
-                addressLabel.setText("");
-                postcodeLabel.setText("");
-                updateTotalMembers();
-                updateNumOfBooksBorrowed();
-                updateNumOfBooksAvailable();
             }
         });
 
