@@ -1,9 +1,17 @@
-import javax.swing.*;
+import Dialogs.UserDialog;
+import Forms.MainWindowForm;
+import Entities.User;
+import Utils.HashGenerator;
+import DataAccess.MySqlLibraryDatabase;
+import Utils.Sha256HashGenerator;
+
+import javax.swing.JOptionPane;
 import java.sql.SQLException;
 
 public class Main {
 
     public static void main(String[] args) {
+
         HashGenerator hashGenerator = new Sha256HashGenerator();
         MySqlLibraryDatabase libraryDB = new MySqlLibraryDatabase();
 
@@ -32,7 +40,6 @@ public class Main {
             JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
         }
 
-        MainWindow.showMainWindow(hashGenerator, libraryDB);
+        MainWindowForm.showMainWindow(hashGenerator, libraryDB);
     }
-
 }
