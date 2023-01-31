@@ -12,6 +12,7 @@ import Entities.Book;
 import Entities.Borrower;
 import Entities.Member;
 import Entities.User;
+import Utils.EmailAddressChecker;
 import Utils.HashGenerator;
 import DataAccess.LibraryDatabase;
 
@@ -82,14 +83,16 @@ public class MainWindowForm {
 
     // dependencies
     private HashGenerator hashGenerator;
+    private EmailAddressChecker emailAddressChecker;
     private LibraryDatabase libraryDB;
 
-    public static void showMainWindow(HashGenerator hashGenerator, LibraryDatabase libraryDB) {
+    public static void showMainWindow(HashGenerator hashGenerator, EmailAddressChecker emailAddressChecker, LibraryDatabase libraryDB) {
         assert hashGenerator != null;
+        assert emailAddressChecker!= null;
         assert libraryDB != null;
 
-        JFrame frame = new JFrame("Entities.Book Library Manager");
-        MainWindowForm mainWindowForm = new MainWindowForm(hashGenerator, libraryDB);
+        JFrame frame = new JFrame("Book Library Manager");
+        MainWindowForm mainWindowForm = new MainWindowForm(hashGenerator, emailAddressChecker,libraryDB);
         frame.setContentPane(mainWindowForm.mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setPreferredSize(new Dimension(1000, 800));
@@ -98,8 +101,9 @@ public class MainWindowForm {
         frame.setVisible(true);
     }
 
-    public MainWindowForm(HashGenerator hashGenerator, LibraryDatabase libraryDB) { // constructor
+    public MainWindowForm(HashGenerator hashGenerator, EmailAddressChecker emailAddressChecker, LibraryDatabase libraryDB) { // constructor
         this.hashGenerator = hashGenerator;
+        this.emailAddressChecker = emailAddressChecker;
         this.libraryDB = libraryDB;
         selectBooksBy();
         updateTotalMembers();
@@ -174,7 +178,7 @@ public class MainWindowForm {
                 }
                 try {
                     libraryDB.updateBook(editedBook.getTitle(), editedBook.getAuthor(), String.valueOf(editedBook.getIsbn()), String.valueOf(editedBook.getQuantity()), libraryDB.getBookID(titleLabel.getText(), authorLabel.getText(), isbnLabel.getText(), quantityLabel.getText()));
-                    JOptionPane.showMessageDialog(null, "Entities.Book updated successfully.", "Entities.Book update", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Book updated successfully.", "Book update", JOptionPane.INFORMATION_MESSAGE);
                     titleLabel.setText(editedBook.getTitle());
                     authorLabel.setText(editedBook.getAuthor());
                     isbnLabel.setText(String.valueOf(editedBook.getIsbn()));
@@ -192,7 +196,7 @@ public class MainWindowForm {
                 if (nameLabel.getText().isBlank()) { // if nothing is selected
                     return;
                 }
-                MemberDialog memberDialog = new MemberDialog("edit", Integer.parseInt(idLabel.getText()),nameLabel.getText(), surnameLabel.getText(), phoneNoLabel.getText(), emailLabel.getText(), addressLabel.getText(), postcodeLabel.getText());
+                MemberDialog memberDialog = new MemberDialog("edit", Integer.parseInt(idLabel.getText()),nameLabel.getText(), surnameLabel.getText(), phoneNoLabel.getText(), emailLabel.getText(), addressLabel.getText(), postcodeLabel.getText(), emailAddressChecker);
                 memberDialog.pack();
                 memberDialog.setLocationRelativeTo(null);
                 memberDialog.show();
@@ -202,7 +206,7 @@ public class MainWindowForm {
                 }
                 try {
                     libraryDB.updateMember(editedMember.getID(), editedMember.getName(), editedMember.getSurname(), editedMember.getPhoneNo(), editedMember.getEmail(), editedMember.getAddress(), editedMember.getPostcode(), Integer.parseInt(idLabel.getText()));
-                    JOptionPane.showMessageDialog(null, "Entities.Member updated successfully.", "Entities.Member update", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Member updated successfully.", "Member update", JOptionPane.INFORMATION_MESSAGE);
                     idLabel.setText(String.valueOf(editedMember.getID()));
                     nameLabel.setText(editedMember.getName());
                     surnameLabel.setText(editedMember.getSurname());
@@ -234,7 +238,7 @@ public class MainWindowForm {
                         editedUser.setPassword(oldPassword);
                     }
                     libraryDB.updateUser(editedUser.getUsername(), editedUser.getFullName(), editedUser.getPassword(), usernameLabel.getText());
-                    JOptionPane.showMessageDialog(null, "Entities.User updated successfully.", "Entities.User update", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "User updated successfully.", "User update", JOptionPane.INFORMATION_MESSAGE);
                     usernameLabel.setText(editedUser.getUsername());
                     fullNameLabel.setText(editedUser.getFullName());
                 } catch (SQLException ex) {
@@ -382,7 +386,7 @@ public class MainWindowForm {
                 if (borrowerList.getSelectedValue() == null) {
                     return;
                 }
-                String[] options = {"Edit", "Entities.Book returned"};
+                String[] options = {"Edit", "Book returned"};
                 int answer = JOptionPane.showOptionDialog(
                         null,
                         "Choose an option",
@@ -395,7 +399,7 @@ public class MainWindowForm {
                 );
                 if (answer == 0) { // if "Edit" pressed
                     editBorrower();
-                } else if (answer == 1) { // if "Entities.Book returned" pressed
+                } else if (answer == 1) { // if "Book returned" pressed
                     returnBook();
                 }
             }
@@ -489,7 +493,7 @@ public class MainWindowForm {
             int bookReturned = JOptionPane.showConfirmDialog(
                     null,
                     "Has "+fullName+" returned "+titleLabel.getText()+"?",
-                    "Entities.Book returned",
+                    "Book returned",
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE);
 
@@ -533,13 +537,13 @@ public class MainWindowForm {
     }
 
     private void createNewUser() {
-        User newUser = UserDialog.getUser(UserDialog.DialogType.CREATE, this.hashGenerator);
+        User newUser = UserDialog.getUser(UserDialog.DialogType.CREATE, this.hashGenerator); // TODO: "get" for other entities
         if (newUser == null) {
             return;
         }
         try {
             this.libraryDB.createUser(newUser);
-            JOptionPane.showMessageDialog(null, "Entities.User created successfully.", "Entities.User create", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "User created successfully.", "User create", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -547,7 +551,7 @@ public class MainWindowForm {
     }
 
     private void createNewMember() {
-        MemberDialog memberDialog = new MemberDialog("create", -1, null, null, null, null, null, null);
+        MemberDialog memberDialog = new MemberDialog("create", -1, null, null, null, null, null, null, this.emailAddressChecker);
         memberDialog.pack();
         memberDialog.setLocationRelativeTo(null);
         memberDialog.show();
@@ -557,7 +561,7 @@ public class MainWindowForm {
         }
         try {
             this.libraryDB.createMember(newMember);
-            JOptionPane.showMessageDialog(null, "Entities.Member created successfully.", "Entities.Member create", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Member created successfully.", "Member create", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -576,7 +580,7 @@ public class MainWindowForm {
         }
         try {
             libraryDB.createBook(newBook);
-            JOptionPane.showMessageDialog(null, "Entities.Book created successfully.", "Entities.Book create", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Book created successfully.", "Book create", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
         }

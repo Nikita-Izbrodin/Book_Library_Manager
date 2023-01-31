@@ -35,13 +35,14 @@ public class UserDialog extends JDialog {
     }
 
     public UserDialog(DialogType type, String username, String fullName, HashGenerator hashGenerator) {
+
         this.hashGenerator = hashGenerator;
 
         setContentPane(mainPanel);
         setModal(true);
         getRootPane().setDefaultButton(leftButton);
 
-        switch (type) {
+        switch (type) { // TODO: use enum + case with other dialogs
             case CREATE -> {
                 leftButton.setText("Create");
             }

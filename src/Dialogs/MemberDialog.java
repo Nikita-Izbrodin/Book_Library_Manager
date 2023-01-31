@@ -2,6 +2,7 @@ package Dialogs;
 
 import Entities.Member;
 import Utils.EmailAddressChecker;
+import Utils.RegExEmailAddressChecker;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -29,9 +30,12 @@ public class MemberDialog extends JDialog {
     private JTextField idTextField;
     private Member member;
 
-    private EmailAddressChecker emailAddressChecker = new EmailAddressChecker();
+    private EmailAddressChecker emailAddressChecker;
 
-    public MemberDialog(String type, int id, String name, String surname, String phone, String email, String address, String postcode) {
+    public MemberDialog(String type, int id, String name, String surname, String phone, String email, String address, String postcode, EmailAddressChecker emailAddressChecker) {
+
+        this.emailAddressChecker = emailAddressChecker;
+
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(leftButton);

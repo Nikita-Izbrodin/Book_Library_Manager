@@ -1,8 +1,10 @@
 import Dialogs.UserDialog;
 import Forms.MainWindowForm;
 import Entities.User;
+import Utils.EmailAddressChecker;
 import Utils.HashGenerator;
 import DataAccess.MySqlLibraryDatabase;
+import Utils.RegExEmailAddressChecker;
 import Utils.Sha256HashGenerator;
 
 import javax.swing.JOptionPane;
@@ -13,6 +15,7 @@ public class Main {
     public static void main(String[] args) {
 
         HashGenerator hashGenerator = new Sha256HashGenerator();
+        EmailAddressChecker emailAddressChecker = new RegExEmailAddressChecker();
         MySqlLibraryDatabase libraryDB = new MySqlLibraryDatabase();
 
         try {
@@ -40,6 +43,6 @@ public class Main {
             JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
         }
 
-        MainWindowForm.showMainWindow(hashGenerator, libraryDB);
+        MainWindowForm.showMainWindow(hashGenerator, emailAddressChecker, libraryDB);
     }
 }
