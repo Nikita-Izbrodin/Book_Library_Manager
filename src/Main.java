@@ -35,6 +35,7 @@ public class Main {
                     if (libraryDB.isValidUser(user.username(), user.password())) { // if username and password are correct, log in is successful
                         loginLoop = false;
                     } else {
+                        Thread.sleep(3000); // wait 3 seconds in case of unsuccessful login to make brute force attacks less efficient
                         JOptionPane.showMessageDialog(null, "Invalid username or password.", "Log In failed", JOptionPane.ERROR_MESSAGE);
                     }
                 }
@@ -42,6 +43,8 @@ public class Main {
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 }
