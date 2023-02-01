@@ -10,8 +10,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -26,7 +24,7 @@ public class BorrowerDialog extends JDialog {
     private Borrower borrower;
 
     // dependencies
-    private LibraryDatabase libraryDB;
+    private final LibraryDatabase libraryDB;
 
     public BorrowerDialog(String type, int memberID, String returnDate, int bookID, LibraryDatabase libraryDB) {
         this.libraryDB = libraryDB;
@@ -43,17 +41,9 @@ public class BorrowerDialog extends JDialog {
             returnDateField.setText(returnDate);
         }
 
-        leftButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onOK(bookID, type);
-            }
-        });
+        leftButton.addActionListener(e -> onOK(bookID, type));
 
-        cancelButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        });
+        cancelButton.addActionListener(e -> onCancel());
 
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -64,11 +54,7 @@ public class BorrowerDialog extends JDialog {
         });
 
         // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
     private void onOK(int bookID, String type) {
@@ -96,5 +82,4 @@ public class BorrowerDialog extends JDialog {
     public Borrower getBorrower() {
         return this.borrower;
     }
-
 }

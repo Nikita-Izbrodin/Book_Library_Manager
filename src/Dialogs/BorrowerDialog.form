@@ -61,7 +61,7 @@
         </constraints>
         <properties>
           <focusable value="false"/>
-          <text value="Entities.Member ID:"/>
+          <text value="Member ID:"/>
         </properties>
       </component>
       <component id="38e94" class="javax.swing.JLabel">

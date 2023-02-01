@@ -4,7 +4,7 @@ import Entities.User;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import java.awt.*;
+import java.awt.Color;
 
 public class UserListItemForm {
     private JPanel userItemPanel;

@@ -4,7 +4,7 @@ import Entities.Member;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import java.awt.*;
+import java.awt.Color;
 
 public class MemberListItemForm {
     private JPanel memberItemPanel;

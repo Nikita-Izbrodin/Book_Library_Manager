@@ -12,7 +12,7 @@ public class RegExEmailAddressChecker implements EmailAddressChecker {
     // TODO: detailed explanation what does this regex do!
     private final Pattern pattern;
 
-    public RegExEmailAddressChecker() {
+    public RegExEmailAddressChecker() { // TODO: warning shown here
         /**
          * The following regular expression defines a pattern that matches any string that:
          * - has '@' in the middle

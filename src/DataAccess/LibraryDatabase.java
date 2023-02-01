@@ -66,10 +66,6 @@ public interface LibraryDatabase {
 
     void deleteBorrower(int bookID, int memberID) throws SQLException;
 
-    void deleteBorrowerByBookID(int bookID) throws SQLException;
-
-    void deleteBorrowerByMemberID(int memberID) throws SQLException;
-
     boolean hasMemberBorrowedBook(int memberID) throws SQLException;
 
     List<Borrower> selectBorrowersByBookID(int bookID) throws SQLException;

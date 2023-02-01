@@ -10,8 +10,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -28,7 +26,7 @@ public class BookDialog extends JDialog {
     private Book book;
 
     // dependencies
-    private LibraryDatabase libraryDB;
+    private final LibraryDatabase libraryDB; // TODO: check if final works
 
     public BookDialog(String type, String title, String author, String isbn, String quantity, LibraryDatabase libraryDB) {
         this.libraryDB = libraryDB;
@@ -47,17 +45,9 @@ public class BookDialog extends JDialog {
             quantityField.setText(quantity);
         }
 
-        leftButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onOK();
-            }
-        });
+        leftButton.addActionListener(e -> onOK());
 
-        cancelButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        });
+        cancelButton.addActionListener(e -> onCancel());
 
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -68,11 +58,7 @@ public class BookDialog extends JDialog {
         });
 
         // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
     private void onOK() {
@@ -81,7 +67,7 @@ public class BookDialog extends JDialog {
         }
         try {
             if (this.libraryDB.doesBookExist(titleField.getText(), authorField.getText(), isbnField.getText())) {
-                JOptionPane.showMessageDialog(null, "Entities.Book already exists in the database.", "Cannot add book", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Book already exists in the database.", "Cannot add book", JOptionPane.ERROR_MESSAGE);
                 return;
             }
         } catch (SQLException ex) {
@@ -90,8 +76,12 @@ public class BookDialog extends JDialog {
         String title = titleField.getText();
         String author = authorField.getText();
         String isbn = isbnField.getText();
-        int quantity = Integer.parseInt(quantityField.getText());
-        book = new Book(title, author, isbn, quantity);
+        try {
+            int quantity = Integer.parseInt(quantityField.getText());
+            book = new Book(title, author, isbn, quantity);
+        } catch (NumberFormatException nfe) {
+            return;
+        }
         dispose();
     }
 
@@ -102,5 +92,4 @@ public class BookDialog extends JDialog {
     public Book getBook() {
         return this.book;
     }
-
 }

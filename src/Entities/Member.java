@@ -2,13 +2,13 @@ package Entities;
 
 public class Member {
 
-    private int id;
-    private String name;
-    private String surname;
-    private String phoneNo;
-    private String email;
-    private String address;
-    private String postcode;
+    private final int id;
+    private final String name;
+    private final String surname;
+    private final String phoneNo;
+    private final String email;
+    private final String address;
+    private final String postcode;
 
     public Member(int id, String name, String surname, String phoneNo, String email, String address, String postcode) {
         this.id = id;
@@ -47,5 +47,8 @@ public class Member {
     public String getPostcode() {
         return postcode;
     }
-
 }
+
+/*public record Member(int id, String name, String surname, String phoneNo, String email, String address, String postcode) {
+
+}*/

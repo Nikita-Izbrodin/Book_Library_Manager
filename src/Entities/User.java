@@ -2,9 +2,9 @@ package Entities;
 
 public class User {
 
-    private String username;
-    private String fullName;
-    private String password;
+    private final String username;
+    private final String fullName;
+    private final String password;
 
     public User(String username,String fullName, String password) {
         this.username = username;
@@ -23,9 +23,4 @@ public class User {
     public String getPassword() {
         return password;
     }
-
-    public void setPassword(String password) {
-        this.password = password;
-    } // DO NOT NEED THIS
-
 }

@@ -19,10 +19,10 @@ public class BookListItemForm {
     }
 
     protected void setData(Book entry) {
-        titleLabel.setText("Title: "+ entry.getTitle());
-        authorLabel.setText("Author: "+ entry.getAuthor());
-        isbnLabel.setText("ISBN: "+ entry.getIsbn());
-        quantityLabel.setText("Quantity: "+ entry.getQuantity());
+        titleLabel.setText("Title: "+ entry.title());
+        authorLabel.setText("Author: "+ entry.author());
+        isbnLabel.setText("ISBN: "+ entry.isbn());
+        quantityLabel.setText("Quantity: "+ entry.quantity());
     }
 
     protected void setBackground(boolean isSelected) {

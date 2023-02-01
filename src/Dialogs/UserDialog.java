@@ -11,8 +11,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -26,7 +24,7 @@ public class UserDialog extends JDialog {
     private JTextField usernameField;
     private User user;
 
-    private HashGenerator hashGenerator;
+    private final HashGenerator hashGenerator;
 
     public enum DialogType {
         CREATE,
@@ -60,17 +58,9 @@ public class UserDialog extends JDialog {
             }
         }
 
-        leftButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onOK(type);
-            }
-        });
+        leftButton.addActionListener(e -> onOK(type));
 
-        buttonCancel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        });
+        buttonCancel.addActionListener(e -> onCancel());
 
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -81,11 +71,7 @@ public class UserDialog extends JDialog {
         });
 
         // call onCancel() on ESCAPE
-        mainPanel.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        mainPanel.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
     }
 
@@ -94,8 +80,7 @@ public class UserDialog extends JDialog {
         userDialog.pack();
         userDialog.setLocationRelativeTo(null);
         userDialog.show();
-        User newUser = userDialog.getUser();
-        return newUser;
+        return userDialog.getUser();
     }
 
     private void onOK(DialogType type) {

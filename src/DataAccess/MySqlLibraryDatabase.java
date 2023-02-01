@@ -45,8 +45,6 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
     private static final String INSERT_BORROWER = "INSERT INTO borrowed_books" + " (book_id, member_id, return_date) VALUES " + "(?,?,?);";
     private static final String UPDATE_BORROWER = "UPDATE borrowed_books SET member_id = ?, return_date = ? WHERE book_id = ? AND member_id = ?";
     private static final String DELETE_BORROWER = "DELETE FROM borrowed_books WHERE book_id = ? AND member_id = ?";
-    private static final String DELETE_BORROWER_BY_BOOK_ID = "DELETE FROM borrowed_books WHERE book_id = ?";
-    private static final String DELETE_BORROWER_BY_MEMBER_ID = "DELETE FROM borrowed_books WHERE member_id = ?";
     private static final String SELECT_BORROWERS_BY_MEMBER_ID = "SELECT * FROM borrowed_books WHERE member_id = ?";
     private static final String SELECT_BORROWERS_BY_BOOK_ID = "SELECT book_id, borrowed_books.member_id, return_date, members.name, members.surname FROM borrowed_books INNER JOIN members on borrowed_books.member_id = members.member_id WHERE book_id = ?";
     private static final String SELECT_BORROWERS_BY_BOOK_ID_AND_MEMBER_ID = "SELECT * FROM borrowed_books WHERE book_id = ? AND member_id = ?";
@@ -71,10 +69,10 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
     public void createBook(Book newBook) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(INSERT_BOOK);
-        preparedStatement.setString(1, newBook.getTitle());
-        preparedStatement.setString(2, newBook.getAuthor());
-        preparedStatement.setString(3, newBook.getIsbn());
-        preparedStatement.setInt(4, newBook.getQuantity());
+        preparedStatement.setString(1, newBook.title());
+        preparedStatement.setString(2, newBook.author());
+        preparedStatement.setString(3, newBook.isbn());
+        preparedStatement.setInt(4, newBook.quantity());
         preparedStatement.executeUpdate();
         preparedStatement.close();
         connection.close();
@@ -158,8 +156,7 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         preparedStatement.setString(3, isbn);
         ResultSet rs = preparedStatement.executeQuery();
         List<Book> books = getBookList(rs);
-        boolean bookExists = !books.isEmpty();
-        return bookExists;
+        return !books.isEmpty(); // book exists
     }
 
     @Override
@@ -409,26 +406,6 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
     }
 
     @Override
-    public void deleteBorrowerByBookID(int bookID) throws SQLException {
-        Connection connection = getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(DELETE_BORROWER_BY_BOOK_ID);
-        preparedStatement.setInt(1, bookID);
-        preparedStatement.executeUpdate();
-        preparedStatement.close();
-        connection.close();
-    }
-
-    @Override
-    public void deleteBorrowerByMemberID(int memberID) throws SQLException {
-        Connection connection = getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(DELETE_BORROWER_BY_MEMBER_ID);
-        preparedStatement.setInt(1, memberID);
-        preparedStatement.executeUpdate();
-        preparedStatement.close();
-        connection.close();
-    }
-
-    @Override
     public boolean hasMemberBorrowedBook(int memberID) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BORROWERS_BY_MEMBER_ID);
@@ -565,8 +542,7 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         rs.close();
         preparedStatement.close();
         connection.close();
-        boolean found = !users.isEmpty();
-        return found;
+        return !users.isEmpty(); // found
     }
 
 

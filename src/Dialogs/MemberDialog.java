@@ -2,7 +2,6 @@ package Dialogs;
 
 import Entities.Member;
 import Utils.EmailAddressChecker;
-import Utils.RegExEmailAddressChecker;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -11,8 +10,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -30,7 +27,7 @@ public class MemberDialog extends JDialog {
     private JTextField idTextField;
     private Member member;
 
-    private EmailAddressChecker emailAddressChecker;
+    private final EmailAddressChecker emailAddressChecker;
 
     public MemberDialog(String type, int id, String name, String surname, String phone, String email, String address, String postcode, EmailAddressChecker emailAddressChecker) {
 
@@ -53,17 +50,9 @@ public class MemberDialog extends JDialog {
             postcodeTextField.setText(postcode);
         }
 
-        leftButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onOK();
-            }
-        });
+        leftButton.addActionListener(e -> onOK());
 
-        buttonCancel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        });
+        buttonCancel.addActionListener(e -> onCancel());
 
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -74,11 +63,7 @@ public class MemberDialog extends JDialog {
         });
 
         // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
     private void onOK() {
@@ -89,7 +74,7 @@ public class MemberDialog extends JDialog {
             JOptionPane.showMessageDialog(null, emailTextField.getText() + " doesn't look like a valid email address.\n\nPlease check and correct.", "Invalid email address", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        int id = -1;
+        int id;
         try {
             id = Integer.parseInt(idTextField.getText());
         } catch (Exception ex) { // if idTextField contains a string
