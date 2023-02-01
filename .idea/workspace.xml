@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Corrected inconsistency of staff and users. Changed all to users.">
+    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Got rid of warnings in code.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataAccess/LibraryDatabase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccess/LibraryDatabase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DDL/LibraryDBCreationDDL.sql" beforeDir="false" afterPath="$PROJECT_DIR$/DDL/LibraryDBCreationDDL.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DataAccess/MySqlLibraryDatabase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccess/MySqlLibraryDatabase.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Dialogs/BookDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dialogs/BookDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Dialogs/BorrowerDialog.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dialogs/BorrowerDialog.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Dialogs/BorrowerDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dialogs/BorrowerDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Dialogs/MemberDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dialogs/MemberDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Dialogs/UserDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dialogs/UserDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entities/Book.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entities/Book.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entities/Borrower.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entities/Borrower.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entities/Member.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entities/Member.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entities/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entities/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Forms/BookListItemForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Forms/BookListItemForm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Forms/BorrowerListItemForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Forms/BorrowerListItemForm.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Forms/MainWindowForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Forms/MainWindowForm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Forms/MemberListItemForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Forms/MemberListItemForm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Forms/UserListItemForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Forms/UserListItemForm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,6 +34,9 @@
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectId" id="2JPm5rFeV6ziXCE2IEcQ5YpIPgl" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -418,7 +420,14 @@
       <option name="project" value="LOCAL" />
       <updated>1675281892019</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="Got rid of warnings in code.">
+      <created>1675283799763</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1675283799763</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -433,7 +442,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Total number of books is now displayed." />
     <MESSAGE value="Total number of borrowed books is now displayed." />
     <MESSAGE value="Fixed total number of books displayed." />
     <MESSAGE value="Number of available books is displayed." />
@@ -458,7 +466,8 @@
     <MESSAGE value="Made an interface EmailAddressChecker for RegExEmailAddressChecker class." />
     <MESSAGE value="Item in list is highlighted when selected. Fixed log in. Changed text in forms." />
     <MESSAGE value="Corrected inconsistency of staff and users. Changed all to users." />
-    <option name="LAST_COMMIT_MESSAGE" value="Corrected inconsistency of staff and users. Changed all to users." />
+    <MESSAGE value="Got rid of warnings in code." />
+    <option name="LAST_COMMIT_MESSAGE" value="Got rid of warnings in code." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -473,5 +482,8 @@
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
     <select />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Book_Library_Manager$Main.ic" NAME="Main Coverage Results" MODIFIED="1675285693744" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

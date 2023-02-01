@@ -29,13 +29,11 @@ public class BookListItemForm {
 
         bookItemPanel.setBackground(isSelected ? Color.blue : Color.lightGray);
 
-        titleLabel.setForeground(isSelected ? Color.white : Color.BLACK);
-        authorLabel.setForeground(isSelected ? Color.white : Color.BLACK);
-        isbnLabel.setForeground(isSelected ? Color.white : Color.BLACK);
-        quantityLabel.setForeground(isSelected ? Color.white : Color.BLACK);
-    }
+        Color foregroundColor = isSelected ? Color.white : Color.BLACK;
 
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
+        titleLabel.setForeground(foregroundColor);
+        authorLabel.setForeground(foregroundColor);
+        isbnLabel.setForeground(foregroundColor);
+        quantityLabel.setForeground(foregroundColor);
     }
 }

@@ -32,7 +32,7 @@ public class Main {
                     if (user == null) { // cancel pressed on userDialog
                         return; // exit from application
                     }
-                    if (libraryDB.isValidUser(user.getUsername(), user.getPassword())) { // if username and password are correct, log in is successful
+                    if (libraryDB.isValidUser(user.username(), user.password())) { // if username and password are correct, log in is successful
                         loginLoop = false;
                     } else {
                         JOptionPane.showMessageDialog(null, "Invalid username or password.", "Log In failed", JOptionPane.ERROR_MESSAGE);

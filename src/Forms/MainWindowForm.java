@@ -81,7 +81,7 @@ public class MainWindowForm {
 
     // dependencies
     private final HashGenerator hashGenerator;
-    private final EmailAddressChecker emailAddressChecker; // TODO: why can they be final?
+    private final EmailAddressChecker emailAddressChecker;
     private final LibraryDatabase libraryDB;
 
     public static void showMainWindow(HashGenerator hashGenerator, EmailAddressChecker emailAddressChecker, LibraryDatabase libraryDB) {
@@ -135,9 +135,9 @@ public class MainWindowForm {
                     JOptionPane.showMessageDialog(null,"There are no available books.", "Cannot add borrower", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                BorrowerDialog borrowerDialog = null;
+
                 int bookID =  libraryDB.getBookID(titleLabel.getText(), authorLabel.getText(), isbnLabel.getText(), quantityLabel.getText());
-                borrowerDialog = new BorrowerDialog("create", -1, null, bookID, libraryDB);
+                BorrowerDialog borrowerDialog = new BorrowerDialog("create", -1, null, bookID, libraryDB);
                 borrowerDialog.pack();
                 borrowerDialog.setLocationRelativeTo(null);
                 borrowerDialog.show();
@@ -192,15 +192,15 @@ public class MainWindowForm {
                 return;
             }
             try {
-                libraryDB.updateMember(editedMember.getID(), editedMember.getName(), editedMember.getSurname(), editedMember.getPhoneNo(), editedMember.getEmail(), editedMember.getAddress(), editedMember.getPostcode(), Integer.parseInt(idLabel.getText()));
+                libraryDB.updateMember(editedMember.id(), editedMember.name(), editedMember.surname(), editedMember.phoneNo(), editedMember.email(), editedMember.address(), editedMember.postcode(), Integer.parseInt(idLabel.getText()));
                 JOptionPane.showMessageDialog(null, "Member updated successfully.", "Member update", JOptionPane.INFORMATION_MESSAGE);
-                idLabel.setText(String.valueOf(editedMember.getID()));
-                nameLabel.setText(editedMember.getName());
-                surnameLabel.setText(editedMember.getSurname());
-                phoneNoLabel.setText(editedMember.getPhoneNo());
-                emailLabel.setText(editedMember.getEmail());
-                addressLabel.setText(editedMember.getAddress());
-                postcodeLabel.setText(editedMember.getPostcode());
+                idLabel.setText(String.valueOf(editedMember.id()));
+                nameLabel.setText(editedMember.name());
+                surnameLabel.setText(editedMember.surname());
+                phoneNoLabel.setText(editedMember.phoneNo());
+                emailLabel.setText(editedMember.email());
+                addressLabel.setText(editedMember.address());
+                postcodeLabel.setText(editedMember.postcode());
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -213,19 +213,19 @@ public class MainWindowForm {
             }
             try {
                 // TODO: change!
-                String oldPassword = (libraryDB.selectUsersByUsername(usernameLabel.getText())).get(0).getPassword();
+                String oldPassword = (libraryDB.selectUsersByUsername(usernameLabel.getText())).get(0).password();
                 User editedUser = UserDialog.getUser(UserDialog.DialogType.EDIT, usernameLabel.getText(), fullNameLabel.getText(), hashGenerator);
                 if (editedUser == null) { // if cancel pressed
                     return;
                 }
-                if (editedUser.getPassword() == null) { // TODO: check this change of removing setPassword works
-                    libraryDB.updateUser(editedUser.getUsername(), editedUser.getFullName(), oldPassword, usernameLabel.getText());
+                if (editedUser.password() == null) { // TODO: check this change of removing setPassword works
+                    libraryDB.updateUser(editedUser.username(), editedUser.fullName(), oldPassword, usernameLabel.getText());
                 } else {
-                    libraryDB.updateUser(editedUser.getUsername(), editedUser.getFullName(), editedUser.getPassword(), usernameLabel.getText());
+                    libraryDB.updateUser(editedUser.username(), editedUser.fullName(), editedUser.password(), usernameLabel.getText());
                 }
                 JOptionPane.showMessageDialog(null, "User updated successfully.", "User update", JOptionPane.INFORMATION_MESSAGE);
-                usernameLabel.setText(editedUser.getUsername());
-                fullNameLabel.setText(editedUser.getFullName());
+                usernameLabel.setText(editedUser.username());
+                fullNameLabel.setText(editedUser.fullName());
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -313,7 +313,6 @@ public class MainWindowForm {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                // TODO: make selected item highlighted
                 if (bookList.getSelectedValue() == null) {
                     return;
                 }
@@ -332,13 +331,13 @@ public class MainWindowForm {
                 if (memberList.getSelectedValue() == null) {
                     return;
                 }
-                idLabel.setText(String.valueOf(memberList.getSelectedValue().getID()));
-                nameLabel.setText(memberList.getSelectedValue().getName());
-                surnameLabel.setText(memberList.getSelectedValue().getSurname());
-                phoneNoLabel.setText(memberList.getSelectedValue().getPhoneNo());
-                emailLabel.setText(memberList.getSelectedValue().getEmail());
-                addressLabel.setText(memberList.getSelectedValue().getAddress());
-                postcodeLabel.setText(memberList.getSelectedValue().getPostcode());
+                idLabel.setText(String.valueOf(memberList.getSelectedValue().id()));
+                nameLabel.setText(memberList.getSelectedValue().name());
+                surnameLabel.setText(memberList.getSelectedValue().surname());
+                phoneNoLabel.setText(memberList.getSelectedValue().phoneNo());
+                emailLabel.setText(memberList.getSelectedValue().email());
+                addressLabel.setText(memberList.getSelectedValue().address());
+                postcodeLabel.setText(memberList.getSelectedValue().postcode());
             }
         });
 
@@ -349,8 +348,8 @@ public class MainWindowForm {
                 if (userList.getSelectedValue() == null) {
                     return;
                 }
-                usernameLabel.setText(userList.getSelectedValue().getUsername());
-                fullNameLabel.setText(userList.getSelectedValue().getFullName());
+                usernameLabel.setText(userList.getSelectedValue().username());
+                fullNameLabel.setText(userList.getSelectedValue().fullName());
             }
         });
 
@@ -457,7 +456,7 @@ public class MainWindowForm {
 
     private void returnBook() {
         try {
-            String fullName = this.libraryDB.selectMemberNameSurnameByMemberID(borrowerList.getSelectedValue().getMemberID());
+            String fullName = this.libraryDB.selectMemberNameSurnameByMemberID(borrowerList.getSelectedValue().memberID());
 
             int bookReturned = JOptionPane.showConfirmDialog(
                     null,
@@ -467,7 +466,7 @@ public class MainWindowForm {
                     JOptionPane.QUESTION_MESSAGE);
 
             if (bookReturned == 0) { // if "Yes" pressed
-                this.libraryDB.deleteBorrower(borrowerList.getSelectedValue().getBookID(), borrowerList.getSelectedValue().getMemberID());
+                this.libraryDB.deleteBorrower(borrowerList.getSelectedValue().bookID(), borrowerList.getSelectedValue().memberID());
                 displayBorrowers();
                 updateNumOfBooksBorrowed();
                 updateNumOfBooksAvailable();
@@ -478,27 +477,22 @@ public class MainWindowForm {
     }
 
     private void editBorrower() {
-        BorrowerDialog borrowerDialog = null;
         try {
-            borrowerDialog = new BorrowerDialog(
+            BorrowerDialog borrowerDialog = new BorrowerDialog(
                     "edit",
-                    borrowerList.getSelectedValue().getMemberID(),
-                    borrowerList.getSelectedValue().getReturnDate(),
+                    borrowerList.getSelectedValue().memberID(),
+                    borrowerList.getSelectedValue().returnDate(),
                     this.libraryDB.getBookID(titleLabel.getText(), authorLabel.getText(), isbnLabel.getText(), quantityLabel.getText()),
                     this.libraryDB);
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        assert borrowerDialog != null; // TODO: why did it tell me to put assert here? said "may have null pointer"
-        borrowerDialog.pack();
-        borrowerDialog.setLocationRelativeTo(null);
-        borrowerDialog.show();
-        Borrower editedBorrower = borrowerDialog.getBorrower();
-        if (editedBorrower == null) { // if cancel pressed
-            return;
-        }
-        try {
-            this.libraryDB.updateBorrower(editedBorrower.getMemberID(), editedBorrower.getReturnDate(), this.libraryDB.getBookID(titleLabel.getText(), authorLabel.getText(), isbnLabel.getText(), quantityLabel.getText()), borrowerList.getSelectedValue().getMemberID());
+
+            borrowerDialog.pack();
+            borrowerDialog.setLocationRelativeTo(null);
+            borrowerDialog.show();
+            Borrower editedBorrower = borrowerDialog.getBorrower();
+            if (editedBorrower == null) { // if cancel pressed
+                return;
+            }
+            this.libraryDB.updateBorrower(editedBorrower.memberID(), editedBorrower.returnDate(), this.libraryDB.getBookID(titleLabel.getText(), authorLabel.getText(), isbnLabel.getText(), quantityLabel.getText()), borrowerList.getSelectedValue().memberID());
             JOptionPane.showMessageDialog(null, "Borrow updated successfully.", "Borrow update", JOptionPane.INFORMATION_MESSAGE);
             displayBorrowers();
         } catch (SQLException ex) {
@@ -575,7 +569,7 @@ public class MainWindowForm {
             if (booksList == null) {
                 return;
             }
-            Book[] booksArray = booksList.toArray(new Book[booksList.size()]);
+            Book[] booksArray = booksList.toArray(new Book[0]);
             bookList.setListData(booksArray);
             bookList.setCellRenderer(new BookCellRenderer());
         } catch (SQLException ex) {
@@ -601,7 +595,7 @@ public class MainWindowForm {
             if (membersList == null) {
                 return;
             }
-            Member[] membersArray = membersList.toArray(new Member[membersList.size()]);
+            Member[] membersArray = membersList.toArray(new Member[0]);
             memberList.setListData(membersArray);
             memberList.setCellRenderer(new MemberCellRenderer());
         } catch (SQLException ex) {
@@ -620,7 +614,7 @@ public class MainWindowForm {
         if (borrowersList == null) {
             return;
         }
-        Borrower[] borrowersArray = borrowersList.toArray(new Borrower[borrowersList.size()]);
+        Borrower[] borrowersArray = borrowersList.toArray(new Borrower[0]);
         borrowerList.setListData(borrowersArray);
         borrowerList.setCellRenderer(new BorrowerCellRenderer());
     }
@@ -640,7 +634,7 @@ public class MainWindowForm {
             if (usersList == null) {
                 return;
             }
-            User[] usersArray = usersList.toArray(new User[usersList.size()]);
+            User[] usersArray = usersList.toArray(new User[0]);
             userList.setListData(usersArray);
             userList.setCellRenderer(new UserCellRenderer());
         } catch (SQLException ex) {

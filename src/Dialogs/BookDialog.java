@@ -26,7 +26,7 @@ public class BookDialog extends JDialog {
     private Book book;
 
     // dependencies
-    private final LibraryDatabase libraryDB; // TODO: check if final works
+    private final LibraryDatabase libraryDB;
 
     public BookDialog(String type, String title, String author, String isbn, String quantity, LibraryDatabase libraryDB) {
         this.libraryDB = libraryDB;

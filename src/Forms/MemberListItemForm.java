@@ -21,24 +21,26 @@ public class MemberListItemForm {
     }
 
     public void setData(Member member) {
-        idLabel.setText("ID: "+member.getID());
-        nameLabel.setText("Name: "+member.getName());
-        surnameLabel.setText("Surname: "+member.getSurname());
-        phoneNoLabel.setText("Phone No: "+member.getPhoneNo());
-        emailLabel.setText("Email: "+member.getEmail());
-        addressLabel.setText("Address: "+member.getAddress());
-        postcodeLabel.setText("Postcode: "+member.getPostcode());
+        idLabel.setText("ID: "+member.id());
+        nameLabel.setText("Name: "+member.name());
+        surnameLabel.setText("Surname: "+member.surname());
+        phoneNoLabel.setText("Phone No: "+member.phoneNo());
+        emailLabel.setText("Email: "+member.email());
+        addressLabel.setText("Address: "+member.address());
+        postcodeLabel.setText("Postcode: "+member.postcode());
     }
 
     protected void setBackground(boolean isSelected) {
         memberItemPanel.setBackground(isSelected ? Color.blue : Color.lightGray);
 
-        idLabel.setForeground(isSelected ? Color.white : Color.BLACK);
-        nameLabel.setForeground(isSelected ? Color.white : Color.BLACK);
-        surnameLabel.setForeground(isSelected ? Color.white : Color.BLACK);
-        phoneNoLabel.setForeground(isSelected ? Color.white : Color.BLACK);
-        emailLabel.setForeground(isSelected ? Color.white : Color.BLACK);
-        addressLabel.setForeground(isSelected ? Color.white : Color.BLACK);
-        postcodeLabel.setForeground(isSelected ? Color.white : Color.BLACK);
+        Color foregroundColor = isSelected ? Color.white : Color.BLACK;
+
+        idLabel.setForeground(foregroundColor);
+        nameLabel.setForeground(foregroundColor);
+        surnameLabel.setForeground(foregroundColor);
+        phoneNoLabel.setForeground(foregroundColor);
+        emailLabel.setForeground(foregroundColor);
+        addressLabel.setForeground(foregroundColor);
+        postcodeLabel.setForeground(foregroundColor);
     }
 }

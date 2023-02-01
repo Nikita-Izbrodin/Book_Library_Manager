@@ -201,13 +201,13 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
     public void createMember(Member newMember) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(INSERT_MEMBER);
-        preparedStatement.setInt(1, newMember.getID());
-        preparedStatement.setString(2, newMember.getName());
-        preparedStatement.setString(3, newMember.getSurname());
-        preparedStatement.setString(4, newMember.getPhoneNo());
-        preparedStatement.setString(5, newMember.getEmail());
-        preparedStatement.setString(6, newMember.getAddress());
-        preparedStatement.setString(7, newMember.getPostcode());
+        preparedStatement.setInt(1, newMember.id());
+        preparedStatement.setString(2, newMember.name());
+        preparedStatement.setString(3, newMember.surname());
+        preparedStatement.setString(4, newMember.phoneNo());
+        preparedStatement.setString(5, newMember.email());
+        preparedStatement.setString(6, newMember.address());
+        preparedStatement.setString(7, newMember.postcode());
         preparedStatement.executeUpdate();
         preparedStatement.close();
         connection.close();
@@ -372,9 +372,9 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
     public void createBorrower(Borrower newBorrower) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(INSERT_BORROWER);
-        preparedStatement.setInt(1, newBorrower.getBookID());
-        preparedStatement.setInt(2, newBorrower.getMemberID());
-        preparedStatement.setString(3, newBorrower.getReturnDate());
+        preparedStatement.setInt(1, newBorrower.bookID());
+        preparedStatement.setInt(2, newBorrower.memberID());
+        preparedStatement.setString(3, newBorrower.returnDate());
         preparedStatement.executeUpdate();
         preparedStatement.close();
         connection.close();
@@ -474,9 +474,9 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
     public void createUser(User user) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USER);
-        preparedStatement.setString(1, user.getUsername());
-        preparedStatement.setString(2, user.getFullName());
-        preparedStatement.setString(3, user.getPassword());
+        preparedStatement.setString(1, user.username());
+        preparedStatement.setString(2, user.fullName());
+        preparedStatement.setString(3, user.password());
         preparedStatement.executeUpdate();
         preparedStatement.close();
         connection.close();

@@ -16,8 +16,8 @@ public class BorrowerListItemForm {
     }
 
     public void setData(Borrower entry) {
-        borrowerIDLabel.setText("ID: "+entry.getMemberID());
-        borrowerFullNameLabel.setText("Full name: "+entry.getFullName());
-        returnDateLabel.setText("Return date: "+entry.getReturnDate());
+        borrowerIDLabel.setText("ID: "+entry.memberID());
+        borrowerFullNameLabel.setText("Full name: "+entry.fullName());
+        returnDateLabel.setText("Return date: "+entry.returnDate());
     }
 }

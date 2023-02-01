@@ -16,14 +16,16 @@ public class UserListItemForm {
     }
 
     public void setData(User entry) {
-        usernameLabel.setText("Username: "+ entry.getUsername());
-        fullNameLabel.setText("Full Name: "+ entry.getFullName());
+        usernameLabel.setText("Username: "+ entry.username());
+        fullNameLabel.setText("Full Name: "+ entry.fullName());
     }
 
     protected void setBackground(boolean isSelected) {
         userItemPanel.setBackground(isSelected ? Color.blue : Color.lightGray);
 
-        usernameLabel.setForeground(isSelected ? Color.white : Color.BLACK);
-        fullNameLabel.setForeground(isSelected ? Color.white : Color.BLACK);
+        Color foregroundColor = isSelected ? Color.white : Color.BLACK;
+
+        usernameLabel.setForeground(foregroundColor);
+        fullNameLabel.setForeground(foregroundColor);
     }
 }
