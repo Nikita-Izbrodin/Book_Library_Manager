@@ -52,13 +52,13 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
     private static final String SELECT_BORROWERS_BY_BOOK_ID_AND_MEMBER_ID = "SELECT * FROM borrowed_books WHERE book_id = ? AND member_id = ?";
     private static final String COUNT_BORROWERS = "SELECT COUNT(*) FROM borrowed_books";
 
-    private static final String INSERT_USER = "INSERT INTO staff" + " (username, full_name, password) VALUES " + " (?,?,?);";
-    private static final String UPDATE_USER = "UPDATE staff SET username = ?, full_name = ?, password = ? WHERE username = ?";
-    private static final String DELETE_USER = "DELETE FROM staff WHERE username = ?";
-    private static final String SELECT_ALL_USERS = "SELECT * FROM staff";
-    private static final String SELECT_USER_BY_USERNAME = "SELECT * FROM staff WHERE username LIKE ?";
-    private static final String SELECT_USER_BY_USERNAME_AND_PASSWORD = "SELECT * FROM staff WHERE username = BINARY ? AND password = BINARY ?";
-    private static final String SELECT_USER_BY_FULLNAME = "SELECT * FROM staff WHERE full_name LIKE ?";
+    private static final String INSERT_USER = "INSERT INTO users" + " (username, full_name, password) VALUES " + " (?,?,?);";
+    private static final String UPDATE_USER = "UPDATE users SET username = ?, full_name = ?, password = ? WHERE username = ?";
+    private static final String DELETE_USER = "DELETE FROM users WHERE username = ?";
+    private static final String SELECT_ALL_USERS = "SELECT * FROM users";
+    private static final String SELECT_USER_BY_USERNAME = "SELECT * FROM users WHERE username LIKE ?";
+    private static final String SELECT_USER_BY_USERNAME_AND_PASSWORD = "SELECT * FROM users WHERE username = BINARY ? AND password = BINARY ?";
+    private static final String SELECT_USER_BY_FULLNAME = "SELECT * FROM users WHERE full_name LIKE ?";
 
     protected Connection getConnection() throws SQLException {
         return DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);

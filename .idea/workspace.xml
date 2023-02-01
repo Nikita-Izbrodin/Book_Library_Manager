@@ -1,17 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Made an interface EmailAddressChecker for RegExEmailAddressChecker class.">
+    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Item in list is highlighted when selected. Fixed log in. Changed text in forms.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CellRenderers/BookCellRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CellRenderers/BookCellRenderer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CellRenderers/MemberCellRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CellRenderers/MemberCellRenderer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CellRenderers/UserCellRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CellRenderers/UserCellRenderer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Dialogs/UserDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dialogs/UserDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Forms/BookListItemForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Forms/BookListItemForm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Forms/BorrowerListItemForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Forms/BorrowerListItemForm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Forms/MainWindowForm.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/Forms/MainWindowForm.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Forms/MainWindowForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Forms/MainWindowForm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Forms/MemberListItemForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Forms/MemberListItemForm.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -401,7 +392,14 @@
       <option name="project" value="LOCAL" />
       <updated>1675208952163</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="Item in list is highlighted when selected. Fixed log in. Changed text in forms.">
+      <created>1675270771689</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1675270771689</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -416,7 +414,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Implemented editing and deleting user accounts." />
     <MESSAGE value="Total number of members is now displayed." />
     <MESSAGE value="Total number of books is now displayed." />
     <MESSAGE value="Total number of borrowed books is now displayed." />
@@ -441,7 +438,8 @@
     <MESSAGE value="Corrected tooltips shown in userDialog. Deletion of book/member is not allowed if it is related to a borrower." />
     <MESSAGE value="Grouped classes by packages." />
     <MESSAGE value="Made an interface EmailAddressChecker for RegExEmailAddressChecker class." />
-    <option name="LAST_COMMIT_MESSAGE" value="Made an interface EmailAddressChecker for RegExEmailAddressChecker class." />
+    <MESSAGE value="Item in list is highlighted when selected. Fixed log in. Changed text in forms." />
+    <option name="LAST_COMMIT_MESSAGE" value="Item in list is highlighted when selected. Fixed log in. Changed text in forms." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
