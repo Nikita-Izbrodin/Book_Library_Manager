@@ -230,7 +230,7 @@ public class MainWindowForm {
                 try {
                     // TODO: change!
                     String oldPassword = (libraryDB.selectUsersByUsername(usernameLabel.getText())).get(0).getPassword();
-                    User editedUser = UserDialog.getUser(UserDialog.DialogType.EDIT, hashGenerator);
+                    User editedUser = UserDialog.getUser(UserDialog.DialogType.EDIT, usernameLabel.getText(), fullNameLabel.getText(), hashGenerator);
                     if (editedUser == null) { // if cancel pressed
                         return;
                     }
@@ -537,7 +537,7 @@ public class MainWindowForm {
     }
 
     private void createNewUser() {
-        User newUser = UserDialog.getUser(UserDialog.DialogType.CREATE, this.hashGenerator); // TODO: "get" for other entities
+        User newUser = UserDialog.getUser(UserDialog.DialogType.CREATE, null, null, this.hashGenerator); // TODO: "get" for other entities
         if (newUser == null) {
             return;
         }

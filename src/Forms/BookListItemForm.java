@@ -25,17 +25,14 @@ public class BookListItemForm {
         quantityLabel.setText("Quantity: "+ entry.getQuantity());
     }
 
-    protected void setBackground(boolean isSelected){
+    protected void setBackground(boolean isSelected) {
 
-        bookItemPanel.setBackground(
-                isSelected ?
-                    Color.blue :
-                    Color.lightGray);
+        bookItemPanel.setBackground(isSelected ? Color.blue : Color.lightGray);
 
-        titleLabel.setForeground(
-                isSelected ?
-                    Color.white :
-                    Color.BLACK);
+        titleLabel.setForeground(isSelected ? Color.white : Color.BLACK);
+        authorLabel.setForeground(isSelected ? Color.white : Color.BLACK);
+        isbnLabel.setForeground(isSelected ? Color.white : Color.BLACK);
+        quantityLabel.setForeground(isSelected ? Color.white : Color.BLACK);
     }
 
     private void createUIComponents() {

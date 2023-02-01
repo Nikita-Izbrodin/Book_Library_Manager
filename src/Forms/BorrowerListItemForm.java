@@ -20,5 +20,4 @@ public class BorrowerListItemForm {
         borrowerFullNameLabel.setText("Full name: "+entry.getFullName());
         returnDateLabel.setText("Return date: "+entry.getReturnDate());
     }
-
 }

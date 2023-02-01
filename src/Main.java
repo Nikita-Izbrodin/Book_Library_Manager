@@ -20,7 +20,7 @@ public class Main {
 
         try {
             if (libraryDB.noStaff()){ // if there are no users in database
-                User newUser = UserDialog.getUser(UserDialog.DialogType.CREATE, hashGenerator);
+                User newUser = UserDialog.getUser(UserDialog.DialogType.CREATE, null, null, hashGenerator);
                 if (newUser == null) { // if cancel pressed on userDialog
                     return; // exit from the application
                 }
@@ -28,7 +28,7 @@ public class Main {
             } else { // if there are users in database
                 boolean loginLoop = true;
                 while (loginLoop) {
-                    User user = UserDialog.getUser(UserDialog.DialogType.LOGIN, hashGenerator);
+                    User user = UserDialog.getUser(UserDialog.DialogType.LOGIN, null, null, hashGenerator);
                     if (user == null) { // cancel pressed on userDialog
                         return; // exit from application
                     }

@@ -4,6 +4,7 @@ import Entities.User;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import java.awt.*;
 
 public class UserListItemForm {
     private JPanel userItemPanel;
@@ -19,4 +20,10 @@ public class UserListItemForm {
         fullNameLabel.setText("Full Name: "+ entry.getFullName());
     }
 
+    protected void setBackground(boolean isSelected) {
+        userItemPanel.setBackground(isSelected ? Color.blue : Color.lightGray);
+
+        usernameLabel.setForeground(isSelected ? Color.white : Color.BLACK);
+        fullNameLabel.setForeground(isSelected ? Color.white : Color.BLACK);
+    }
 }

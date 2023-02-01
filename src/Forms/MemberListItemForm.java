@@ -4,6 +4,7 @@ import Entities.Member;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import java.awt.*;
 
 public class MemberListItemForm {
     private JPanel memberItemPanel;
@@ -29,4 +30,15 @@ public class MemberListItemForm {
         postcodeLabel.setText("Postcode: "+member.getPostcode());
     }
 
+    protected void setBackground(boolean isSelected) {
+        memberItemPanel.setBackground(isSelected ? Color.blue : Color.lightGray);
+
+        idLabel.setForeground(isSelected ? Color.white : Color.BLACK);
+        nameLabel.setForeground(isSelected ? Color.white : Color.BLACK);
+        surnameLabel.setForeground(isSelected ? Color.white : Color.BLACK);
+        phoneNoLabel.setForeground(isSelected ? Color.white : Color.BLACK);
+        emailLabel.setForeground(isSelected ? Color.white : Color.BLACK);
+        addressLabel.setForeground(isSelected ? Color.white : Color.BLACK);
+        postcodeLabel.setForeground(isSelected ? Color.white : Color.BLACK);
+    }
 }

@@ -89,8 +89,8 @@ public class UserDialog extends JDialog {
 
     }
 
-    public static User getUser(DialogType type, HashGenerator hashGenerator) {
-        UserDialog userDialog = new UserDialog(type, null, null, hashGenerator);
+    public static User getUser(DialogType type, String username, String fullName, HashGenerator hashGenerator) {
+        UserDialog userDialog = new UserDialog(type, username, fullName, hashGenerator);
         userDialog.pack();
         userDialog.setLocationRelativeTo(null);
         userDialog.show();
@@ -109,7 +109,7 @@ public class UserDialog extends JDialog {
         String username = usernameField.getText();
         String full_name = fullNameField.getText();
         String password = null;
-        if ((type == DialogType.EDIT || type == DialogType.LOGIN) && !passwordField.getText().isBlank()) {
+        if (!passwordField.getText().isBlank()) {
             password = hashGenerator.getHashValue(String.valueOf(passwordField.getPassword()));
         }
         user = new User(username, full_name, password);
