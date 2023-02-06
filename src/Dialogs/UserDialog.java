@@ -3,13 +3,7 @@ package Dialogs;
 import Entities.User;
 import Utils.HashGenerator;
 
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
-import javax.swing.KeyStroke;
+import javax.swing.*;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
@@ -22,6 +16,7 @@ public class UserDialog extends JDialog {
     private JPasswordField passwordField;
     private JTextField fullNameField;
     private JTextField usernameField;
+    private JLabel fullNameLabel;
     private User user;
 
     private final HashGenerator hashGenerator;
@@ -52,7 +47,9 @@ public class UserDialog extends JDialog {
             }
             case LOGIN -> {
                 leftButton.setText("Log In");
+                fullNameLabel.setVisible(false);
                 fullNameField.disable();
+                fullNameField.setVisible(false);
                 fullNameField.setBackground(Color.lightGray);
                 fullNameField.setToolTipText("This field is disabled for log in.");
                 passwordField.setToolTipText(null);
