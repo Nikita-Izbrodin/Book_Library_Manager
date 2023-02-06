@@ -73,7 +73,7 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         preparedStatement.setString(2, newBook.author());
         preparedStatement.setString(3, newBook.isbn());
         preparedStatement.setInt(4, newBook.quantity());
-        preparedStatement.executeUpdate();
+        assert preparedStatement.executeUpdate() == 1 : "A single row is expected to be updated in the books table.";
         preparedStatement.close();
         connection.close();
     }
@@ -90,7 +90,7 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         preparedStatement.setString(3, newISBN);
         preparedStatement.setString(4, newQuantity);
         preparedStatement.setInt(5, book_id);
-        preparedStatement.executeUpdate();
+        assert preparedStatement.executeUpdate() == 1 : "A single row is expected to be updated in the books table.";
         preparedStatement.close();
         connection.close();
     }
@@ -100,7 +100,7 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(DELETE_BOOK);
         preparedStatement.setInt(1, book_id);
-        preparedStatement.executeUpdate();
+        assert preparedStatement.executeUpdate() == 1 : "A single row is expected to be updated in the books table.";
         preparedStatement.close();
         connection.close();
     }
@@ -208,7 +208,7 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         preparedStatement.setString(5, newMember.email());
         preparedStatement.setString(6, newMember.address());
         preparedStatement.setString(7, newMember.postcode());
-        preparedStatement.executeUpdate();
+        assert preparedStatement.executeUpdate() == 1 : "A single row is expected to be updated in the members table.";
         preparedStatement.close();
         connection.close();
     }
@@ -225,7 +225,7 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         preparedStatement.setString(6, newAddress);
         preparedStatement.setString(7, newPostcode);
         preparedStatement.setInt(8, oldID);
-        preparedStatement.executeUpdate();
+        assert preparedStatement.executeUpdate() == 1 : "A single row is expected to be updated in the members table.";
         preparedStatement.close();
         connection.close();
     }
@@ -235,7 +235,7 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(DELETE_MEMBER);
         preparedStatement.setInt(1, id);
-        preparedStatement.executeUpdate();
+        assert preparedStatement.executeUpdate() == 1 : "A single row is expected to be updated in the members table.";
         preparedStatement.close();
         connection.close();
     }
@@ -375,7 +375,7 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         preparedStatement.setInt(1, newBorrower.bookID());
         preparedStatement.setInt(2, newBorrower.memberID());
         preparedStatement.setString(3, newBorrower.returnDate());
-        preparedStatement.executeUpdate();
+        assert preparedStatement.executeUpdate() == 1 : "A single row is expected to be updated in the borrowed_books table.";
         preparedStatement.close();
         connection.close();
     }
@@ -389,7 +389,7 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         preparedStatement.setInt(3, bookID);
         preparedStatement.setInt(4, oldMemberID);
         int updatedRowCount = preparedStatement.executeUpdate();
-        assert updatedRowCount == 1 : "A single row is expected to be updated";
+        assert updatedRowCount == 1 : "A single row is expected to be updated in the borrowed_books table.";
         preparedStatement.close();
         connection.close();
     }
@@ -400,7 +400,7 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         PreparedStatement preparedStatement = connection.prepareStatement(DELETE_BORROWER);
         preparedStatement.setInt(1, bookID);
         preparedStatement.setInt(2, memberID);
-        preparedStatement.executeUpdate();
+        assert preparedStatement.executeUpdate() == 1 : "A single row is expected to be updated in the borrowed_books table.";
         preparedStatement.close();
         connection.close();
     }
@@ -477,7 +477,7 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         preparedStatement.setString(1, user.username());
         preparedStatement.setString(2, user.fullName());
         preparedStatement.setString(3, user.password());
-        preparedStatement.executeUpdate();
+        assert preparedStatement.executeUpdate() == 1 : "A single row is expected to be updated in the users table.";
         preparedStatement.close();
         connection.close();
     }
@@ -490,7 +490,7 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         preparedStatement.setString(2, newFullName);
         preparedStatement.setString(3, newPassword);
         preparedStatement.setString(4, oldUsername);
-        preparedStatement.executeUpdate();
+        assert preparedStatement.executeUpdate() == 1 : "A single row is expected to be updated in the users table.";
         preparedStatement.close();
         connection.close();
     }
@@ -500,7 +500,7 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(DELETE_USER);
         preparedStatement.setString(1, username);
-        preparedStatement.executeUpdate();
+        assert preparedStatement.executeUpdate() == 1 : "A single row is expected to be updated in the users table.";
         preparedStatement.close();
         connection.close();
     }
@@ -605,5 +605,4 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
     //
     // end of list getters
     //
-
 }

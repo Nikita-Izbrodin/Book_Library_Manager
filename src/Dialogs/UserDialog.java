@@ -34,6 +34,7 @@ public class UserDialog extends JDialog {
 
     public UserDialog(DialogType type, String username, String fullName, HashGenerator hashGenerator) {
 
+        assert hashGenerator != null;
         this.hashGenerator = hashGenerator;
 
         setContentPane(mainPanel);

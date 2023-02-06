@@ -39,8 +39,8 @@ public class Main {
                         JOptionPane.showMessageDialog(null, "Invalid username or password.", "Log In failed", JOptionPane.ERROR_MESSAGE);
                     }
                 }
-                MainWindowForm.showMainWindow(hashGenerator, emailAddressChecker, libraryDB);
             }
+            MainWindowForm.showMainWindow(hashGenerator, emailAddressChecker, libraryDB);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
         } catch (InterruptedException e) {

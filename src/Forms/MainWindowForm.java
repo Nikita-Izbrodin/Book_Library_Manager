@@ -131,7 +131,7 @@ public class MainWindowForm {
                     JOptionPane.showMessageDialog(null, "There are no members in the database.", "Cannot add borrower", JOptionPane.INFORMATION_MESSAGE);
                     return;
                 }
-                if (bookList.getSelectedValue().quantity() - borrowerList.getModel().getSize() == 0) {
+                if (Integer.parseInt(quantityLabel.getText()) - borrowerList.getModel().getSize() == 0) {
                     JOptionPane.showMessageDialog(null,"There are no available books.", "Cannot add borrower", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
