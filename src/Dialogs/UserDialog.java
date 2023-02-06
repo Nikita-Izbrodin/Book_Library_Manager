@@ -50,8 +50,6 @@ public class UserDialog extends JDialog {
                 fullNameLabel.setVisible(false);
                 fullNameField.disable();
                 fullNameField.setVisible(false);
-                fullNameField.setBackground(Color.lightGray);
-                fullNameField.setToolTipText("This field is disabled for log in.");
                 passwordField.setToolTipText(null);
             }
         }
