@@ -137,11 +137,7 @@ public class MainWindowForm {
                 }
 
                 int bookID =  libraryDB.getBookID(titleLabel.getText(), authorLabel.getText(), isbnLabel.getText(), quantityLabel.getText());
-                BorrowerDialog borrowerDialog = new BorrowerDialog("create", -1, null, bookID, libraryDB);
-                borrowerDialog.pack();
-                borrowerDialog.setLocationRelativeTo(null);
-                borrowerDialog.show();
-                Borrower newBorrower = borrowerDialog.getBorrower();
+                Borrower newBorrower = BorrowerDialog.getBorrower(BorrowerDialog.DialogType.CREATE, -1, null, bookID, libraryDB);
                 if (newBorrower == null) {
                     return;
                 }
@@ -474,17 +470,13 @@ public class MainWindowForm {
 
     private void editBorrower() {
         try {
-            BorrowerDialog borrowerDialog = new BorrowerDialog(
-                    "edit",
+            Borrower editedBorrower = BorrowerDialog.getBorrower(
+                    BorrowerDialog.DialogType.EDIT,
                     borrowerList.getSelectedValue().memberID(),
                     borrowerList.getSelectedValue().returnDate(),
                     this.libraryDB.getBookID(titleLabel.getText(), authorLabel.getText(), isbnLabel.getText(), quantityLabel.getText()),
-                    this.libraryDB);
-
-            borrowerDialog.pack();
-            borrowerDialog.setLocationRelativeTo(null);
-            borrowerDialog.show();
-            Borrower editedBorrower = borrowerDialog.getBorrower();
+                    this.libraryDB
+            );
             if (editedBorrower == null) { // if cancel pressed
                 return;
             }

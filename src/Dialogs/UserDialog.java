@@ -80,16 +80,15 @@ public class UserDialog extends JDialog {
     }
 
     public static User getUser(DialogType type, String username, String fullName, HashGenerator hashGenerator) {
+
         UserDialog userDialog = new UserDialog(type, username, fullName, hashGenerator);
         userDialog.pack();
         userDialog.setLocationRelativeTo(null);
 
-        if (type == DialogType.CREATE) {
-            userDialog.setTitle("Create user");
-        } else if (type == DialogType.EDIT) {
-            userDialog.setTitle("Edit user");
-        } else if (type == DialogType.LOGIN) {
-            userDialog.setTitle("Log in");
+        switch (type) {
+            case CREATE -> userDialog.setTitle("Create user");
+            case EDIT -> userDialog.setTitle("Edit user");
+            case LOGIN -> userDialog.setTitle("Log in");
         }
 
         userDialog.show();

@@ -70,14 +70,14 @@ public class BookDialog extends JDialog {
     }
 
     public static Book getBook(DialogType type, String title, String author, String isbn, String quantity, LibraryDatabase libraryDB) {
+
         BookDialog bookDialog = new BookDialog(type, title, author, isbn, quantity, libraryDB);
         bookDialog.pack();
         bookDialog.setLocationRelativeTo(null);
 
-        if (type == DialogType.CREATE) {
-            bookDialog.setTitle("Create book");
-        } else if (type == DialogType.EDIT) {
-            bookDialog.setTitle("Edit book");
+        switch (type) {
+            case CREATE -> bookDialog.setTitle("Create book");
+            case EDIT -> bookDialog.setTitle("Edit book");
         }
 
         bookDialog.show();
