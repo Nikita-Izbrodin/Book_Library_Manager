@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Removed redundant changes to full name in log in as it is invisible.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Dialogs/UserDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dialogs/UserDialog.java" afterDir="false" />
+    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Change titled of UserDialog depending on its type.">
+      <change beforePath="$PROJECT_DIR$/src/Dialogs/BookDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dialogs/BookDialog.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,13 +84,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1671987914536</updated>
-    </task>
-    <task id="LOCAL-00004" summary="Refined editing books.">
-      <created>1672334208427</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1672334208427</updated>
     </task>
     <task id="LOCAL-00005" summary="Final polish of editing books.">
       <created>1672335954996</created>
@@ -429,7 +421,14 @@
       <option name="project" value="LOCAL" />
       <updated>1675721352914</updated>
     </task>
-    <option name="localTasksCounter" value="53" />
+    <task id="LOCAL-00053" summary="Change titled of UserDialog depending on its type.">
+      <created>1675809503310</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1675809503310</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -444,7 +443,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Book cannot be borrowed if no books are available." />
     <MESSAGE value="Same member cannot borrow same book more than once." />
     <MESSAGE value="Implemented log in." />
     <MESSAGE value="Implemented log in. Fixed adding borrowers." />
@@ -469,7 +467,8 @@
     <MESSAGE value="Added asserts in MySqlLibraryDatabase. Minor improvements to code in other classes." />
     <MESSAGE value="Made full name label &amp; field invisible on log in." />
     <MESSAGE value="Removed redundant changes to full name in log in as it is invisible." />
-    <option name="LAST_COMMIT_MESSAGE" value="Removed redundant changes to full name in log in as it is invisible." />
+    <MESSAGE value="Change titled of UserDialog depending on its type." />
+    <option name="LAST_COMMIT_MESSAGE" value="Change titled of UserDialog depending on its type." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -478,6 +477,15 @@
           <properties class="java.lang.NullPointerException" package="java.lang" />
           <option name="timeStamp" value="3" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/Dialogs/BookDialog.java</url>
+          <line>63</line>
+          <properties class="Dialogs.BookDialog" method="onOK">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

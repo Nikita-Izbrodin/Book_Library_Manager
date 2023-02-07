@@ -62,7 +62,7 @@ public class BookDialog extends JDialog {
     }
 
     private void onOK() {
-        if (titleField.getText().isBlank() || authorField.getText().isBlank() || quantityField.getText().isBlank()) {
+        if (titleField.getText().isBlank() || authorField.getText().isBlank() || isbnField.getText().isBlank() || quantityField.getText().isBlank()) {
             return;
         }
         try {
