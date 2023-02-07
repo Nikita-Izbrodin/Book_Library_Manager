@@ -92,7 +92,7 @@ public class UserDialog extends JDialog {
         }
 
         userDialog.show();
-        return userDialog.getUser();
+        return userDialog.user;
     }
 
     private void onOK(DialogType type) {
@@ -116,9 +116,4 @@ public class UserDialog extends JDialog {
     private void onCancel() {
         dispose();
     }
-
-    public User getUser(){
-        return this.user;
-    }
-
 }
