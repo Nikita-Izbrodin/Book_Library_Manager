@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Added asserts in MySqlLibraryDatabase. Minor improvements to code in other classes.">
-      <change beforePath="$PROJECT_DIR$/src/Dialogs/UserDialog.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dialogs/UserDialog.form" afterDir="false" />
+    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Removed redundant changes to full name in log in as it is invisible.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Dialogs/UserDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dialogs/UserDialog.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -85,20 +85,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1671987914536</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Implemented searching books by attribute.">
-      <created>1671991372364</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1671991372364</updated>
-    </task>
-    <task id="LOCAL-00003" summary="Implemented editing books. Requires polishing.">
-      <created>1672014629055</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1672014629055</updated>
     </task>
     <task id="LOCAL-00004" summary="Refined editing books.">
       <created>1672334208427</created>
@@ -429,7 +415,21 @@
       <option name="project" value="LOCAL" />
       <updated>1675720827314</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="Made full name label &amp; field invisible on log in.">
+      <created>1675721260697</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1675721260697</updated>
+    </task>
+    <task id="LOCAL-00052" summary="Removed redundant changes to full name in log in as it is invisible.">
+      <created>1675721352914</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1675721352914</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -444,8 +444,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Email is validated with Regex." />
-    <MESSAGE value="Email is now validated with Regex." />
     <MESSAGE value="Book cannot be borrowed if no books are available." />
     <MESSAGE value="Same member cannot borrow same book more than once." />
     <MESSAGE value="Implemented log in." />
@@ -469,7 +467,9 @@
     <MESSAGE value="Cleaned code. Removed errors shown by intelij. Updated DDL." />
     <MESSAGE value="Added waiting 3 seconds for every unsuccessful login attempt (to make brute force attacks less efficient)" />
     <MESSAGE value="Added asserts in MySqlLibraryDatabase. Minor improvements to code in other classes." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added asserts in MySqlLibraryDatabase. Minor improvements to code in other classes." />
+    <MESSAGE value="Made full name label &amp; field invisible on log in." />
+    <MESSAGE value="Removed redundant changes to full name in log in as it is invisible." />
+    <option name="LAST_COMMIT_MESSAGE" value="Removed redundant changes to full name in log in as it is invisible." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

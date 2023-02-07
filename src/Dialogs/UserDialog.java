@@ -3,8 +3,14 @@ package Dialogs;
 import Entities.User;
 import Utils.HashGenerator;
 
-import javax.swing.*;
-import java.awt.Color;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -46,6 +52,7 @@ public class UserDialog extends JDialog {
                 fullNameField.setText(fullName);
             }
             case LOGIN -> {
+
                 leftButton.setText("Log In");
                 fullNameLabel.setVisible(false);
                 fullNameField.disable();
@@ -75,6 +82,15 @@ public class UserDialog extends JDialog {
         UserDialog userDialog = new UserDialog(type, username, fullName, hashGenerator);
         userDialog.pack();
         userDialog.setLocationRelativeTo(null);
+
+        if (type == DialogType.CREATE) {
+            userDialog.setTitle("Create user");
+        } else if (type == DialogType.EDIT) {
+            userDialog.setTitle("Edit user");
+        } else if (type == DialogType.LOGIN) {
+            userDialog.setTitle("Log in");
+        }
+
         userDialog.show();
         return userDialog.getUser();
     }
