@@ -70,7 +70,7 @@
         </constraints>
         <properties>
           <focusable value="false"/>
-          <text value="Return Date:"/>
+          <text value="(YYYY-MM-DD) Return Date:"/>
         </properties>
       </component>
     </children>
