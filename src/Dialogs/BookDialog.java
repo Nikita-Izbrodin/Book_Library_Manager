@@ -28,21 +28,29 @@ public class BookDialog extends JDialog {
     // dependencies
     private final LibraryDatabase libraryDB;
 
-    public BookDialog(String type, String title, String author, String isbn, String quantity, LibraryDatabase libraryDB) {
+    public enum DialogType {
+        CREATE,
+        EDIT
+    }
+
+    public BookDialog(DialogType type, String title, String author, String isbn, String quantity, LibraryDatabase libraryDB) {
         this.libraryDB = libraryDB;
 
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(leftButton);
 
-        if (type.equals("create")) {
-            leftButton.setText("Create");
-        } else if (type.equals("edit")) {
-            leftButton.setText("Save");
-            titleField.setText(title);
-            authorField.setText(author);
-            isbnField.setText(isbn);
-            quantityField.setText(quantity);
+        switch (type) {
+            case CREATE -> {
+                leftButton.setText("Create");
+            }
+            case EDIT -> {
+                leftButton.setText("Save");
+                titleField.setText(title);
+                authorField.setText(author);
+                isbnField.setText(isbn);
+                quantityField.setText(quantity);
+            }
         }
 
         leftButton.addActionListener(e -> onOK());
@@ -59,6 +67,21 @@ public class BookDialog extends JDialog {
 
         // call onCancel() on ESCAPE
         contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+    }
+
+    public static Book getBook(DialogType type, String title, String author, String isbn, String quantity, LibraryDatabase libraryDB) {
+        BookDialog bookDialog = new BookDialog(type, title, author, isbn, quantity, libraryDB);
+        bookDialog.pack();
+        bookDialog.setLocationRelativeTo(null);
+
+        if (type == DialogType.CREATE) {
+            bookDialog.setTitle("Create book");
+        } else if (type == DialogType.EDIT) {
+            bookDialog.setTitle("Edit book");
+        }
+
+        bookDialog.show();
+        return bookDialog.book;
     }
 
     private void onOK() {
@@ -87,9 +110,5 @@ public class BookDialog extends JDialog {
 
     private void onCancel() {
         dispose();
-    }
-
-    public Book getBook() {
-        return this.book;
     }
 }

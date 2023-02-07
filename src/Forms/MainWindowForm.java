@@ -158,11 +158,7 @@ public class MainWindowForm {
             if (titleLabel.getText().isBlank()) { // if nothing is selected
                 return;
             }
-            BookDialog bookDialog = new BookDialog("edit", titleLabel.getText(), authorLabel.getText(), isbnLabel.getText(), quantityLabel.getText(), libraryDB);
-            bookDialog.pack();
-            bookDialog.setLocationRelativeTo(null);
-            bookDialog.show();
-            Book editedBook = bookDialog.getBook();
+            Book editedBook = BookDialog.getBook(BookDialog.DialogType.EDIT, titleLabel.getText(), authorLabel.getText(), isbnLabel.getText(), quantityLabel.getText(), libraryDB);
             if (editedBook == null) { // if cancel pressed
                 return;
             }
@@ -534,11 +530,7 @@ public class MainWindowForm {
     }
 
     private void createNewBook() {
-        BookDialog bookDialog = new BookDialog("create", null, null, null, null, this.libraryDB);
-        bookDialog.pack();
-        bookDialog.setLocationRelativeTo(null);
-        bookDialog.show();
-        Book newBook = bookDialog.getBook();
+        Book newBook = BookDialog.getBook(BookDialog.DialogType.CREATE, null, null, null, null, this.libraryDB);
         if (newBook == null) { // cancel pressed
             return;
         }

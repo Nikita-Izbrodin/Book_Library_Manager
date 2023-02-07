@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Made ISBN not null.">
+    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Removed redundant method.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Dialogs/BorrowerDialog.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dialogs/BorrowerDialog.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Dialogs/BookDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dialogs/BookDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Dialogs/UserDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dialogs/UserDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Forms/MainWindowForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Forms/MainWindowForm.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,20 +87,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1671987914536</updated>
-    </task>
-    <task id="LOCAL-00006" summary="Implemented deleting books.">
-      <created>1672339222026</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1672339222026</updated>
-    </task>
-    <task id="LOCAL-00007" summary="Implemented adding and searching members.">
-      <created>1672363604993</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1672363604993</updated>
     </task>
     <task id="LOCAL-00008" summary="Implemented deleting members.">
       <created>1672446977760</created>
@@ -429,7 +417,21 @@
       <option name="project" value="LOCAL" />
       <updated>1675809909002</updated>
     </task>
-    <option name="localTasksCounter" value="55" />
+    <task id="LOCAL-00055" summary="Displayed date format on return date label for borrowers.">
+      <created>1675810379509</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1675810379509</updated>
+    </task>
+    <task id="LOCAL-00056" summary="Removed redundant method.">
+      <created>1675810577836</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1675810577836</updated>
+    </task>
+    <option name="localTasksCounter" value="57" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -444,8 +446,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Implemented log in." />
-    <MESSAGE value="Implemented log in. Fixed adding borrowers." />
     <MESSAGE value="Updated SQL queries for member table." />
     <MESSAGE value="Updated SQL queries for books table." />
     <MESSAGE value="Updated SQL queries for borrowers table." />
@@ -469,7 +469,9 @@
     <MESSAGE value="Removed redundant changes to full name in log in as it is invisible." />
     <MESSAGE value="Change titled of UserDialog depending on its type." />
     <MESSAGE value="Made ISBN not null." />
-    <option name="LAST_COMMIT_MESSAGE" value="Made ISBN not null." />
+    <MESSAGE value="Displayed date format on return date label for borrowers." />
+    <MESSAGE value="Removed redundant method." />
+    <option name="LAST_COMMIT_MESSAGE" value="Removed redundant method." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

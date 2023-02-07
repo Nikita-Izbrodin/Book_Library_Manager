@@ -25,6 +25,7 @@ public class UserDialog extends JDialog {
     private JLabel fullNameLabel;
     private User user;
 
+    // dependencies
     private final HashGenerator hashGenerator;
 
     public enum DialogType {
