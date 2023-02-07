@@ -40,7 +40,7 @@ public class BorrowerDialog extends JDialog {
 
         switch (type) {
             case CREATE -> {
-                leftButton.setText("Confirm");
+                leftButton.setText("Add Borrower");
             }
             case EDIT -> {
                 leftButton.setText("Save");

@@ -27,9 +27,15 @@ public class MemberDialog extends JDialog {
     private JTextField idTextField;
     private Member member;
 
+    // dependencies
     private final EmailAddressChecker emailAddressChecker;
 
-    public MemberDialog(String type, int id, String name, String surname, String phone, String email, String address, String postcode, EmailAddressChecker emailAddressChecker) {
+    public enum DialogType {
+        CREATE,
+        EDIT
+    }
+
+    public MemberDialog(DialogType type, int id, String name, String surname, String phone, String email, String address, String postcode, EmailAddressChecker emailAddressChecker) {
 
         this.emailAddressChecker = emailAddressChecker;
 
@@ -37,10 +43,10 @@ public class MemberDialog extends JDialog {
         setModal(true);
         getRootPane().setDefaultButton(leftButton);
 
-        if (type.equals("create")) {
+        if (type == DialogType.CREATE) {
             leftButton.setText("Create");
-        } else if (type.equals("edit")) {
-            leftButton.setText("Edit");
+        } else if (type == DialogType.EDIT) {
+            leftButton.setText("Save");
             idTextField.setText(String.valueOf(id));
             nameTextField.setText(name);
             surnameTextField.setText(surname);
@@ -64,6 +70,21 @@ public class MemberDialog extends JDialog {
 
         // call onCancel() on ESCAPE
         contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+    }
+
+    public static Member getMember(DialogType type, int id, String name, String surname, String phone, String email, String address, String postcode, EmailAddressChecker emailAddressChecker) {
+
+        MemberDialog memberDialog = new MemberDialog(type, id, name, surname, phone, email, address, postcode, emailAddressChecker);
+        memberDialog.pack();
+        memberDialog.setLocationRelativeTo(null);
+
+        switch (type) {
+            case CREATE -> memberDialog.setTitle("Create member");
+            case EDIT -> memberDialog.setTitle("Edit member");
+        }
+
+        memberDialog.show();
+        return memberDialog.member;
     }
 
     private void onOK() {
@@ -93,9 +114,4 @@ public class MemberDialog extends JDialog {
     private void onCancel() {
         dispose();
     }
-
-    public Member getMember() {
-        return this.member;
-    }
-
 }

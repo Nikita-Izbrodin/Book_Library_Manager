@@ -175,11 +175,17 @@ public class MainWindowForm {
             if (nameLabel.getText().isBlank()) { // if nothing is selected
                 return;
             }
-            MemberDialog memberDialog = new MemberDialog("edit", Integer.parseInt(idLabel.getText()),nameLabel.getText(), surnameLabel.getText(), phoneNoLabel.getText(), emailLabel.getText(), addressLabel.getText(), postcodeLabel.getText(), emailAddressChecker);
-            memberDialog.pack();
-            memberDialog.setLocationRelativeTo(null);
-            memberDialog.show();
-            Member editedMember = memberDialog.getMember();
+            Member editedMember = MemberDialog.getMember(
+                    MemberDialog.DialogType.EDIT,
+                    Integer.parseInt(idLabel.getText()),
+                    nameLabel.getText(),
+                    surnameLabel.getText(),
+                    phoneNoLabel.getText(),
+                    emailLabel.getText(),
+                    addressLabel.getText(),
+                    postcodeLabel.getText(),
+                    emailAddressChecker
+            );
             if (editedMember == null) { // if cancel pressed
                 return;
             }
@@ -503,11 +509,17 @@ public class MainWindowForm {
     }
 
     private void createNewMember() {
-        MemberDialog memberDialog = new MemberDialog("create", -1, null, null, null, null, null, null, this.emailAddressChecker);
-        memberDialog.pack();
-        memberDialog.setLocationRelativeTo(null);
-        memberDialog.show();
-        Member newMember = memberDialog.getMember();
+        Member newMember = MemberDialog.getMember(
+                MemberDialog.DialogType.CREATE,
+                -1,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                this.emailAddressChecker
+        );
         if (newMember == null) {
             return;
         }
