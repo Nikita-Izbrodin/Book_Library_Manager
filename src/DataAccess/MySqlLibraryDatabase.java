@@ -5,11 +5,8 @@ import Entities.Borrower;
 import Entities.Member;
 import Entities.User;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -385,18 +382,18 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         PreparedStatement preparedStatement = connection.prepareStatement(INSERT_BORROWER);
         preparedStatement.setInt(1, newBorrower.bookID());
         preparedStatement.setInt(2, newBorrower.memberID());
-        preparedStatement.setString(3, newBorrower.returnDate());
+        preparedStatement.setDate(3, Date.valueOf(newBorrower.returnDate()));
         assert preparedStatement.executeUpdate() == 1 : "A single row is expected to be updated in the borrowed_books table.";
         preparedStatement.close();
         connection.close();
     }
 
     @Override
-    public void updateBorrower(int newMemberID, String newReturnDate, int bookID, int oldMemberID) throws SQLException {
+    public void updateBorrower(int newMemberID, LocalDate newReturnDate, int bookID, int oldMemberID) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_BORROWER);
         preparedStatement.setInt(1, newMemberID);
-        preparedStatement.setString(2, newReturnDate);
+        preparedStatement.setDate(2, Date.valueOf(newReturnDate));
         preparedStatement.setInt(3, bookID);
         preparedStatement.setInt(4, oldMemberID);
         int updatedRowCount = preparedStatement.executeUpdate();
@@ -438,7 +435,7 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         List<Borrower> borrowers = new ArrayList<>();
         while (rs.next()) {
             int memberID = rs.getInt("member_id");
-            String returnDate = rs.getString("return_date");
+            LocalDate returnDate = rs.getDate("return_date").toLocalDate();
             String fullName = rs.getString("name") + " " + rs.getString("surname");
             borrowers.add(new Borrower(bookID, memberID, fullName, returnDate));
         }

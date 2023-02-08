@@ -6,6 +6,7 @@ import Entities.Member;
 import Entities.User;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 public interface LibraryDatabase {
@@ -64,7 +65,7 @@ public interface LibraryDatabase {
     //
     void createBorrower(Borrower newBorrower) throws SQLException;
 
-    void updateBorrower(int newMemberID, String newReturnDate, int bookID, int oldMemberID) throws SQLException;
+    void updateBorrower(int newMemberID, LocalDate newReturnDate, int bookID, int oldMemberID) throws SQLException;
 
     void deleteBorrower(int bookID, int memberID) throws SQLException;
 

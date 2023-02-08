@@ -14,6 +14,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
+import java.time.DateTimeException;
+import java.time.LocalDate;
 
 public class BorrowerDialog extends JDialog {
     private JPanel contentPane;
@@ -31,7 +33,7 @@ public class BorrowerDialog extends JDialog {
         EDIT
     }
 
-    public BorrowerDialog(DialogType type, int memberID, String returnDate, int bookID, LibraryDatabase libraryDB) {
+    public BorrowerDialog(DialogType type, int memberID, LocalDate returnDate, int bookID, LibraryDatabase libraryDB) {
         this.libraryDB = libraryDB;
 
         setContentPane(contentPane);
@@ -45,7 +47,7 @@ public class BorrowerDialog extends JDialog {
             case EDIT -> {
                 leftButton.setText("Save");
                 memberIDField.setText(String.valueOf(memberID));
-                returnDateField.setText(returnDate);
+                returnDateField.setText(String.valueOf(returnDate));
             }
         }
 
@@ -65,7 +67,7 @@ public class BorrowerDialog extends JDialog {
         contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
-    public static Borrower getBorrower(DialogType type, int memberID, String returnDate, int bookID, LibraryDatabase libraryDB) {
+    public static Borrower getBorrower(DialogType type, int memberID, LocalDate returnDate, int bookID, LibraryDatabase libraryDB) {
         BorrowerDialog borrowerDialog = new BorrowerDialog(type, memberID, returnDate, bookID, libraryDB);
         borrowerDialog.pack();
         borrowerDialog.setLocationRelativeTo(null);
@@ -98,7 +100,16 @@ public class BorrowerDialog extends JDialog {
         }
 
         int memberID = Integer.parseInt(memberIDField.getText());
-        String returnDate = returnDateField.getText();
+
+        LocalDate returnDate = null;
+        try {
+            returnDate = LocalDate.parse(returnDateField.getText());
+        } catch (DateTimeException ex) {
+            JOptionPane.showMessageDialog(null, "Return date must be in the following format:\nYYYY-MM-DD", "Invalid return date", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+
         borrower = new Borrower(bookID, memberID, null, returnDate);
 
         dispose();

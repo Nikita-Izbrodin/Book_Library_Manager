@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="User is warned of duplicate ID when using MemberDialog.">
+    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Removed error messages that did not work from dialogs.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataAccess/LibraryDatabase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccess/LibraryDatabase.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DataAccess/MySqlLibraryDatabase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccess/MySqlLibraryDatabase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Dialogs/BookDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dialogs/BookDialog.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Dialogs/BorrowerDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dialogs/BorrowerDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Dialogs/MemberDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dialogs/MemberDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Dialogs/UserDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dialogs/UserDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Forms/MainWindowForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Forms/MainWindowForm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entities/Borrower.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entities/Borrower.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,13 +88,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1671987914536</updated>
-    </task>
-    <task id="LOCAL-00013" summary="Implemented manual handling of member ID.">
-      <created>1672680894248</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1672680894248</updated>
     </task>
     <task id="LOCAL-00014" summary="Prevented foreign key constraints when deleting members/books. Prevented illegal operations on empty result set.">
       <created>1672691425035</created>
@@ -434,7 +425,14 @@
       <option name="project" value="LOCAL" />
       <updated>1675850861938</updated>
     </task>
-    <option name="localTasksCounter" value="62" />
+    <task id="LOCAL-00062" summary="Removed error messages that did not work from dialogs.">
+      <created>1675854295391</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1675854295391</updated>
+    </task>
+    <option name="localTasksCounter" value="63" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -449,7 +447,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Make GUI appear in centre of screen when created." />
     <MESSAGE value="Cleaned up code." />
     <MESSAGE value="Cleaned code. Began work on smaller features." />
     <MESSAGE value="Implemented two new interfaces (LibraryDatabase and HashGenerator) whcih are now injected into MainForm from the new Main class." />
@@ -474,7 +471,8 @@
     <MESSAGE value="Improved getMember method in MemberDialog." />
     <MESSAGE value="If the ID inputted on a member dialog is a string, user is informed that the ID must be a number." />
     <MESSAGE value="User is warned of duplicate ID when using MemberDialog." />
-    <option name="LAST_COMMIT_MESSAGE" value="User is warned of duplicate ID when using MemberDialog." />
+    <MESSAGE value="Removed error messages that did not work from dialogs." />
+    <option name="LAST_COMMIT_MESSAGE" value="Removed error messages that did not work from dialogs." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
