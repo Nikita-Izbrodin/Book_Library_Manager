@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Changed returnDate in Borrower from String to LocalDate.">
+    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Implemented searching by member id. Not polished.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DataAccess/LibraryDatabase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccess/LibraryDatabase.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DataAccess/MySqlLibraryDatabase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccess/MySqlLibraryDatabase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Dialogs/MemberDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dialogs/MemberDialog.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Forms/MainWindowForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Forms/MainWindowForm.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -87,13 +88,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1671987914536</updated>
-    </task>
-    <task id="LOCAL-00015" summary="Made ISBN an int. Made ISBN, phone num, and email not mandatory. Checks if is a member is present in the database before creating borrower.">
-      <created>1672694587123</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1672694587123</updated>
     </task>
     <task id="LOCAL-00016" summary="Added tooltip to return date text field. Checks if a member is present before creating a borrower.">
       <created>1673201043003</created>
@@ -431,7 +425,14 @@
       <option name="project" value="LOCAL" />
       <updated>1675855154526</updated>
     </task>
-    <option name="localTasksCounter" value="64" />
+    <task id="LOCAL-00064" summary="Implemented searching by member id. Not polished.">
+      <created>1675856688113</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1675856688113</updated>
+    </task>
+    <option name="localTasksCounter" value="65" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -446,7 +447,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Cleaned code. Began work on smaller features." />
     <MESSAGE value="Implemented two new interfaces (LibraryDatabase and HashGenerator) whcih are now injected into MainForm from the new Main class." />
     <MESSAGE value="Corrected tooltips shown in userDialog. Deletion of book/member is not allowed if it is related to a borrower." />
     <MESSAGE value="Grouped classes by packages." />
@@ -471,7 +471,8 @@
     <MESSAGE value="User is warned of duplicate ID when using MemberDialog." />
     <MESSAGE value="Removed error messages that did not work from dialogs." />
     <MESSAGE value="Changed returnDate in Borrower from String to LocalDate." />
-    <option name="LAST_COMMIT_MESSAGE" value="Changed returnDate in Borrower from String to LocalDate." />
+    <MESSAGE value="Implemented searching by member id. Not polished." />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented searching by member id. Not polished." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -484,11 +485,6 @@
           <properties class="java.lang.NumberFormatException" package="java.lang" />
           <option name="timeStamp" value="14" />
         </breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/DataAccess/MySqlLibraryDatabase.java</url>
-          <line>320</line>
-          <option name="timeStamp" value="13" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

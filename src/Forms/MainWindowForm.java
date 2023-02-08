@@ -184,7 +184,8 @@ public class MainWindowForm {
                     emailLabel.getText(),
                     addressLabel.getText(),
                     postcodeLabel.getText(),
-                    emailAddressChecker
+                    emailAddressChecker,
+                    this.libraryDB
             );
             if (editedMember == null) { // if cancel pressed
                 return;
@@ -518,7 +519,8 @@ public class MainWindowForm {
                 null,
                 null,
                 null,
-                this.emailAddressChecker
+                this.emailAddressChecker,
+                this.libraryDB
         );
         if (newMember == null) {
             return;

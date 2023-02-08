@@ -1,5 +1,6 @@
 package Dialogs;
 
+import DataAccess.LibraryDatabase;
 import Entities.Member;
 import Utils.EmailAddressChecker;
 
@@ -13,6 +14,7 @@ import javax.swing.KeyStroke;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.SQLException;
 
 public class MemberDialog extends JDialog {
     private JPanel contentPane;
@@ -29,15 +31,17 @@ public class MemberDialog extends JDialog {
 
     // dependencies
     private final EmailAddressChecker emailAddressChecker;
+    private final LibraryDatabase libraryDB;
 
     public enum DialogType {
         CREATE,
         EDIT
     }
 
-    public MemberDialog(DialogType type, int id, String name, String surname, String phone, String email, String address, String postcode, EmailAddressChecker emailAddressChecker) {
+    public MemberDialog(DialogType type, int id, String name, String surname, String phone, String email, String address, String postcode, EmailAddressChecker emailAddressChecker, LibraryDatabase libraryDB) {
 
         this.emailAddressChecker = emailAddressChecker;
+        this.libraryDB = libraryDB;
 
         setContentPane(contentPane);
         setModal(true);
@@ -56,7 +60,7 @@ public class MemberDialog extends JDialog {
             postcodeTextField.setText(postcode);
         }
 
-        leftButton.addActionListener(e -> onOK());
+        leftButton.addActionListener(e -> onOK(type, email));
 
         buttonCancel.addActionListener(e -> onCancel());
 
@@ -72,9 +76,9 @@ public class MemberDialog extends JDialog {
         contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
-    public static Member getMember(DialogType type, int id, String name, String surname, String phone, String email, String address, String postcode, EmailAddressChecker emailAddressChecker) {
+    public static Member getMember(DialogType type, int id, String name, String surname, String phone, String email, String address, String postcode, EmailAddressChecker emailAddressChecker, LibraryDatabase libraryDB) {
 
-        MemberDialog memberDialog = new MemberDialog(type, id, name, surname, phone, email, address, postcode, emailAddressChecker);
+        MemberDialog memberDialog = new MemberDialog(type, id, name, surname, phone, email, address, postcode, emailAddressChecker, libraryDB);
         memberDialog.pack();
         memberDialog.setLocationRelativeTo(null);
 
@@ -87,7 +91,7 @@ public class MemberDialog extends JDialog {
         return memberDialog.member;
     }
 
-    private void onOK() {
+    private void onOK(DialogType type, String oldEmail) {
 
         if (idTextField.getText().isBlank() || nameTextField.getText().isBlank() || surnameTextField.getText().isBlank() || addressTextField.getText().isBlank() || postcodeTextField.getText().isBlank()) { // phone num and email not checked because some members may not have one
             return;
@@ -96,6 +100,18 @@ public class MemberDialog extends JDialog {
         if (!emailAddressChecker.isValidEmailAddress(emailTextField.getText())) {
             JOptionPane.showMessageDialog(null, emailTextField.getText() + " doesn't look like a valid email address.\n\nPlease check and correct.", "Invalid email address", JOptionPane.ERROR_MESSAGE);
             return;
+        }
+
+        try {
+            if (libraryDB.isEmailUsed(emailTextField.getText()) && type == DialogType.CREATE) {
+                JOptionPane.showMessageDialog(null, "A member with this email already exists.", "Invalid email", JOptionPane.ERROR_MESSAGE);
+                return;
+            } else if (!emailTextField.getText().equals(oldEmail) && libraryDB.isEmailUsed(emailTextField.getText()) && type == DialogType.EDIT) {
+                JOptionPane.showMessageDialog(null, "A member with this email already exists.", "Invalid email", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
         }
 
         int id;

@@ -289,6 +289,19 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
     }
 
     @Override
+    public boolean isEmailUsed(String email) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_MEMBER_BY_EMAIL);
+        preparedStatement.setString(1, email);
+        ResultSet rs = preparedStatement.executeQuery();
+        List<Member> members = getMemberList(rs);
+        rs.close();
+        preparedStatement.close();
+        connection.close();
+        return !members.isEmpty();
+    }
+
+    @Override
     public List<Member> selectMembersByAddress(String address) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_MEMBER_BY_ADDRESS);
