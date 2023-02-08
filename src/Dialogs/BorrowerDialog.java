@@ -80,9 +80,11 @@ public class BorrowerDialog extends JDialog {
     }
 
     private void onOK(int bookID, DialogType type) {
+
         if (memberIDField.getText().isBlank() || returnDateField.getText().isBlank()) {
             return;
         }
+
         try {
             if (this.libraryDB.isBookBorrowedByMember(bookID, Integer.parseInt(memberIDField.getText())) && type == DialogType.CREATE) {
                 JOptionPane.showMessageDialog(null, "This member has already borrowed this book.", "Cannot create borrower", JOptionPane.ERROR_MESSAGE);
@@ -90,10 +92,15 @@ public class BorrowerDialog extends JDialog {
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (NumberFormatException nfe) {
+            JOptionPane.showMessageDialog(null, "Member ID must be a number.", "Invalid member ID", JOptionPane.ERROR_MESSAGE);
+            return;
         }
+
         int memberID = Integer.parseInt(memberIDField.getText());
         String returnDate = returnDateField.getText();
         borrower = new Borrower(bookID, memberID, null, returnDate);
+
         dispose();
     }
 

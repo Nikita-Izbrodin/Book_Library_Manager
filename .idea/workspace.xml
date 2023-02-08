@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="If the ID inputted on a member dialog is a string, user is informed that the ID must be a number.">
+    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="User is warned of duplicate ID when using MemberDialog.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataAccess/LibraryDatabase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccess/LibraryDatabase.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DataAccess/MySqlLibraryDatabase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccess/MySqlLibraryDatabase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Dialogs/BookDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dialogs/BookDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Dialogs/BorrowerDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dialogs/BorrowerDialog.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Dialogs/MemberDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dialogs/MemberDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Dialogs/UserDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dialogs/UserDialog.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Forms/MainWindowForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Forms/MainWindowForm.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -88,13 +90,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1671987914536</updated>
-    </task>
-    <task id="LOCAL-00012" summary="Implemented returning of books.">
-      <created>1672676999055</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1672676999055</updated>
     </task>
     <task id="LOCAL-00013" summary="Implemented manual handling of member ID.">
       <created>1672680894248</created>
@@ -432,7 +427,14 @@
       <option name="project" value="LOCAL" />
       <updated>1675850025755</updated>
     </task>
-    <option name="localTasksCounter" value="61" />
+    <task id="LOCAL-00061" summary="User is warned of duplicate ID when using MemberDialog.">
+      <created>1675850861938</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1675850861938</updated>
+    </task>
+    <option name="localTasksCounter" value="62" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -447,7 +449,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Make gui appear in centre of screen when created." />
     <MESSAGE value="Make GUI appear in centre of screen when created." />
     <MESSAGE value="Cleaned up code." />
     <MESSAGE value="Cleaned code. Began work on smaller features." />
@@ -472,7 +473,8 @@
     <MESSAGE value="Improved getBook method in BorrowerDialog." />
     <MESSAGE value="Improved getMember method in MemberDialog." />
     <MESSAGE value="If the ID inputted on a member dialog is a string, user is informed that the ID must be a number." />
-    <option name="LAST_COMMIT_MESSAGE" value="If the ID inputted on a member dialog is a string, user is informed that the ID must be a number." />
+    <MESSAGE value="User is warned of duplicate ID when using MemberDialog." />
+    <option name="LAST_COMMIT_MESSAGE" value="User is warned of duplicate ID when using MemberDialog." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

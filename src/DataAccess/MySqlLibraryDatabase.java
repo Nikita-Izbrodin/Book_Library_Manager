@@ -339,7 +339,7 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         preparedStatement.setInt(1, memberID);
         ResultSet rs = preparedStatement.executeQuery();
         List<Member> members = getMemberList(rs);
-        return !members.isEmpty(); // book exists
+        return !members.isEmpty(); // member exists
     }
 
     @Override

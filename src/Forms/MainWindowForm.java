@@ -154,7 +154,7 @@ public class MainWindowForm {
             if (titleLabel.getText().isBlank()) { // if nothing is selected
                 return;
             }
-            Book editedBook = BookDialog.getBook(BookDialog.DialogType.EDIT, titleLabel.getText(), authorLabel.getText(), isbnLabel.getText(), quantityLabel.getText(), libraryDB);
+            Book editedBook = BookDialog.getBook(BookDialog.DialogType.EDIT, titleLabel.getText(), authorLabel.getText(), isbnLabel.getText(), quantityLabel.getText());
             if (editedBook == null) { // if cancel pressed
                 return;
             }
@@ -184,8 +184,7 @@ public class MainWindowForm {
                     emailLabel.getText(),
                     addressLabel.getText(),
                     postcodeLabel.getText(),
-                    emailAddressChecker,
-                    libraryDB
+                    emailAddressChecker
             );
             if (editedMember == null) { // if cancel pressed
                 return;
@@ -519,8 +518,7 @@ public class MainWindowForm {
                 null,
                 null,
                 null,
-                this.emailAddressChecker,
-                libraryDB
+                this.emailAddressChecker
         );
         if (newMember == null) {
             return;
@@ -536,7 +534,7 @@ public class MainWindowForm {
     }
 
     private void createNewBook() {
-        Book newBook = BookDialog.getBook(BookDialog.DialogType.CREATE, null, null, null, null, this.libraryDB);
+        Book newBook = BookDialog.getBook(BookDialog.DialogType.CREATE, null, null, null, null);
         if (newBook == null) { // cancel pressed
             return;
         }

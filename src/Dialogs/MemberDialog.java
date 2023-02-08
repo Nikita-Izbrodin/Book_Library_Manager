@@ -1,6 +1,5 @@
 package Dialogs;
 
-import DataAccess.LibraryDatabase;
 import Entities.Member;
 import Utils.EmailAddressChecker;
 
@@ -14,7 +13,6 @@ import javax.swing.KeyStroke;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.sql.SQLException;
 
 public class MemberDialog extends JDialog {
     private JPanel contentPane;
@@ -31,17 +29,15 @@ public class MemberDialog extends JDialog {
 
     // dependencies
     private final EmailAddressChecker emailAddressChecker;
-    private final LibraryDatabase libraryDB;
 
     public enum DialogType {
         CREATE,
         EDIT
     }
 
-    public MemberDialog(DialogType type, int id, String name, String surname, String phone, String email, String address, String postcode, EmailAddressChecker emailAddressChecker, LibraryDatabase libraryDB) {
+    public MemberDialog(DialogType type, int id, String name, String surname, String phone, String email, String address, String postcode, EmailAddressChecker emailAddressChecker) {
 
         this.emailAddressChecker = emailAddressChecker;
-        this.libraryDB = libraryDB;
 
         setContentPane(contentPane);
         setModal(true);
@@ -76,9 +72,9 @@ public class MemberDialog extends JDialog {
         contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
-    public static Member getMember(DialogType type, int id, String name, String surname, String phone, String email, String address, String postcode, EmailAddressChecker emailAddressChecker, LibraryDatabase libraryDB) {
+    public static Member getMember(DialogType type, int id, String name, String surname, String phone, String email, String address, String postcode, EmailAddressChecker emailAddressChecker) {
 
-        MemberDialog memberDialog = new MemberDialog(type, id, name, surname, phone, email, address, postcode, emailAddressChecker, libraryDB);
+        MemberDialog memberDialog = new MemberDialog(type, id, name, surname, phone, email, address, postcode, emailAddressChecker);
         memberDialog.pack();
         memberDialog.setLocationRelativeTo(null);
 
@@ -110,15 +106,6 @@ public class MemberDialog extends JDialog {
             return;
         }
 
-        try {
-            if (libraryDB.doesMemberExist(id)) {
-                JOptionPane.showMessageDialog(null, "This member ID already exists.", "Invalid member ID", JOptionPane.ERROR_MESSAGE);
-            }
-            return;
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-
         String name = nameTextField.getText();
         String surname = surnameTextField.getText();
         String phoneNo = phoneNoTextField.getText();
@@ -126,6 +113,7 @@ public class MemberDialog extends JDialog {
         String address = addressTextField.getText();
         String postcode = postcodeTextField.getText();
         member = new Member(id, name, surname, phoneNo, email, address, postcode);
+
         dispose();
     }
 

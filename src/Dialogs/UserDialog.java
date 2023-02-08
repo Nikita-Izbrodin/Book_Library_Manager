@@ -96,6 +96,7 @@ public class UserDialog extends JDialog {
     }
 
     private void onOK(DialogType type) {
+
         if (type == DialogType.CREATE && (usernameField.getText().isBlank() || fullNameField.getText().isBlank() || passwordField.getText().isBlank())) {
             return;
         } else if (type == DialogType.EDIT && (usernameField.getText().isBlank() || fullNameField.getText().isBlank())) {
@@ -103,6 +104,7 @@ public class UserDialog extends JDialog {
         } else if (type == DialogType.LOGIN && (usernameField.getText().isBlank() || passwordField.getText().isBlank())) {
             return;
         }
+
         String username = usernameField.getText();
         String full_name = fullNameField.getText();
         String password = null;
@@ -110,6 +112,7 @@ public class UserDialog extends JDialog {
             password = hashGenerator.getHashValue(String.valueOf(passwordField.getPassword()));
         }
         user = new User(username, full_name, password);
+
         dispose();
     }
 
