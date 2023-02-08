@@ -22,7 +22,7 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
     private static final String SELECT_BOOK_BY_TITLE = "SELECT * FROM books WHERE title LIKE ?";
     private static final String SELECT_BOOK_BY_AUTHOR = "SELECT * FROM books WHERE author LIKE ?";
     private static final String SELECT_BOOK_BY_ISBN = "SELECT * FROM books WHERE isbn LIKE ?";
-    private static final String SELECT_BOOK_BY_TITLE_AND_AUTHOR_AND_ISBN = "SELECT * FROM books WHERE title = ? AND author = ? AND isbn = ?";
+    //private static final String SELECT_BOOK_BY_TITLE_AND_AUTHOR_AND_ISBN = "SELECT * FROM books WHERE title = ? AND author = ? AND isbn = ?";
     private static final String SELECT_BOOK_ID = "SELECT book_id FROM books WHERE title = ? AND author = ? AND isbn = ? AND quantity = ?";
     private static final String COUNT_BOOKS = "SELECT SUM(quantity) FROM books";
 
@@ -140,21 +140,6 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         preparedStatement.close();
         connection.close();
         return books;
-    }
-
-    @Override
-    public boolean doesBookExist(String title, String author, String isbn) throws SQLException {
-
-        // TODO: ResultSet rs = executeQuery(SELECT_BOOK_BY_TITLE_AND_AUTHOR_AND_ISBN, new Object[]{title, author, ...});
-
-        Connection connection = getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BOOK_BY_TITLE_AND_AUTHOR_AND_ISBN);
-        preparedStatement.setString(1, title);
-        preparedStatement.setString(2, author);
-        preparedStatement.setString(3, isbn);
-        ResultSet rs = preparedStatement.executeQuery();
-        List<Book> books = getBookList(rs);
-        return !books.isEmpty(); // book exists
     }
 
     @Override
@@ -330,13 +315,16 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
     }
 
     @Override
-    public boolean doesMemberExist(int memberID) throws SQLException {
+    public List<Member> selectMembersByID(int id) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_MEMBER_BY_MEMBER_ID);
-        preparedStatement.setInt(1, memberID);
+        preparedStatement.setInt(1, id);
         ResultSet rs = preparedStatement.executeQuery();
         List<Member> members = getMemberList(rs);
-        return !members.isEmpty(); // member exists
+        rs.close();
+        preparedStatement.close();
+        connection.close();
+        return members;
     }
 
     @Override

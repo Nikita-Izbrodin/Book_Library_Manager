@@ -25,8 +25,6 @@ public interface LibraryDatabase {
 
     List<Book> selectBooksByISBN(String isbn) throws SQLException;
 
-    boolean doesBookExist(String title, String author, String isbn) throws SQLException;
-
     int getBookID(String title, String author, String isbn, String quantity) throws SQLException;
 
     int countBooks() throws SQLException;
@@ -54,7 +52,7 @@ public interface LibraryDatabase {
 
     List<Member> selectMembersByPostcode(String postcode) throws SQLException;
 
-    boolean doesMemberExist(int memberID) throws SQLException;
+    List<Member> selectMembersByID(int id) throws SQLException;
 
     String selectMemberNameSurnameByMemberID(int memberID) throws SQLException;
 

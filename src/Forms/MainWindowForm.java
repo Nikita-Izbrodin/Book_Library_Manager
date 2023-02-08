@@ -430,7 +430,7 @@ public class MainWindowForm {
         searchResultsParentCardPanel.add(memberSearchCardPanel);
         DefaultComboBoxModel memberModel = (DefaultComboBoxModel) searchByComboBox.getModel();
         memberModel.removeAllElements();
-        ArrayList<String> types = new ArrayList<>(Arrays.asList("Name", "Surname", "Phone No", "Email", "Address", "Postcode"));
+        ArrayList<String> types = new ArrayList<>(Arrays.asList("ID", "Name", "Surname", "Phone No", "Email", "Address", "Postcode"));
         for (String type : types) {
             memberModel.addElement(type);
         }
@@ -581,6 +581,7 @@ public class MainWindowForm {
         String searchBy = searchByComboBox.getSelectedItem().toString();
         try {
             switch (searchBy) {
+                case "ID" -> membersList = this.libraryDB.selectMembersByID(Integer.parseInt(searchTextField.getText()));
                 case "Name" -> membersList = this.libraryDB.selectMembersByName(searchTextField.getText());
                 case "Surname" -> membersList = this.libraryDB.selectMembersBySurname(searchTextField.getText());
                 case "Phone No" -> membersList = this.libraryDB.selectMembersByPhoneNo(searchTextField.getText());
@@ -596,6 +597,8 @@ public class MainWindowForm {
             memberList.setCellRenderer(new MemberCellRenderer());
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (NumberFormatException ex) {
+            // do nothing
         }
     }
 
