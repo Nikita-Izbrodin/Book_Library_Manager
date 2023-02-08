@@ -99,6 +99,7 @@ public class MemberDialog extends JDialog {
         try {
             id = Integer.parseInt(idTextField.getText());
         } catch (Exception ex) { // if idTextField contains a string
+            JOptionPane.showMessageDialog(null, "Member ID must be a number.", "Invalid Member ID", JOptionPane.ERROR_MESSAGE);
             return;
         }
         String name = nameTextField.getText();
