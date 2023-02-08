@@ -104,6 +104,11 @@ public class BorrowerDialog extends JDialog {
         LocalDate returnDate = null;
         try {
             returnDate = LocalDate.parse(returnDateField.getText());
+            LocalDate currentDate = java.time.LocalDate.now();
+            if (returnDate.isBefore(currentDate) || returnDate.equals(currentDate)) {
+                JOptionPane.showMessageDialog(null, "Return date must be in the future.", "Invalid return date", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
         } catch (DateTimeException ex) {
             JOptionPane.showMessageDialog(null, "Return date must be in the following format:\nYYYY-MM-DD", "Invalid return date", JOptionPane.ERROR_MESSAGE);
             return;

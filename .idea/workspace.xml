@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Implemented searching by member id. Not polished.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataAccess/LibraryDatabase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccess/LibraryDatabase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataAccess/MySqlLibraryDatabase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccess/MySqlLibraryDatabase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Dialogs/MemberDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dialogs/MemberDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Forms/MainWindowForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Forms/MainWindowForm.java" afterDir="false" />
+    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Users cannot have the same email address anymore.">
+      <change beforePath="$PROJECT_DIR$/src/Dialogs/BorrowerDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dialogs/BorrowerDialog.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,13 +84,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1671987914536</updated>
-    </task>
-    <task id="LOCAL-00016" summary="Added tooltip to return date text field. Checks if a member is present before creating a borrower.">
-      <created>1673201043003</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1673201043003</updated>
     </task>
     <task id="LOCAL-00017" summary="Implemented adding users from main window.">
       <created>1673204094762</created>
@@ -432,7 +421,14 @@
       <option name="project" value="LOCAL" />
       <updated>1675856688113</updated>
     </task>
-    <option name="localTasksCounter" value="65" />
+    <task id="LOCAL-00065" summary="Users cannot have the same email address anymore.">
+      <created>1675857794861</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1675857794861</updated>
+    </task>
+    <option name="localTasksCounter" value="66" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -447,7 +443,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Implemented two new interfaces (LibraryDatabase and HashGenerator) whcih are now injected into MainForm from the new Main class." />
     <MESSAGE value="Corrected tooltips shown in userDialog. Deletion of book/member is not allowed if it is related to a borrower." />
     <MESSAGE value="Grouped classes by packages." />
     <MESSAGE value="Made an interface EmailAddressChecker for RegExEmailAddressChecker class." />
@@ -472,7 +467,8 @@
     <MESSAGE value="Removed error messages that did not work from dialogs." />
     <MESSAGE value="Changed returnDate in Borrower from String to LocalDate." />
     <MESSAGE value="Implemented searching by member id. Not polished." />
-    <option name="LAST_COMMIT_MESSAGE" value="Implemented searching by member id. Not polished." />
+    <MESSAGE value="Users cannot have the same email address anymore." />
+    <option name="LAST_COMMIT_MESSAGE" value="Users cannot have the same email address anymore." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
