@@ -34,7 +34,10 @@ public interface LibraryDatabase {
     //
     void createMember(Member newMember) throws SQLException;
 
-    void updateMember(int newID, String newName, String newSurname, String newPhoneNo, String newEmail, String newAddress, String newPostcode, int oldID) throws SQLException;
+    void updateMember(int newID, String newName, String newSurname,
+                      String newPhoneNo, String newEmail, String newAddress, String newPostcode,
+                      int oldID)
+            throws SQLException;
 
     void deleteMember(int id) throws SQLException;
 

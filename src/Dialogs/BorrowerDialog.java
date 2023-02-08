@@ -34,6 +34,7 @@ public class BorrowerDialog extends JDialog {
     }
 
     public BorrowerDialog(DialogType type, int memberID, LocalDate returnDate, int bookID, LibraryDatabase libraryDB) {
+
         this.libraryDB = libraryDB;
 
         setContentPane(contentPane);
@@ -71,12 +72,10 @@ public class BorrowerDialog extends JDialog {
         BorrowerDialog borrowerDialog = new BorrowerDialog(type, memberID, returnDate, bookID, libraryDB);
         borrowerDialog.pack();
         borrowerDialog.setLocationRelativeTo(null);
-
         switch (type) {
             case CREATE -> borrowerDialog.setTitle("Create borrower");
             case EDIT -> borrowerDialog.setTitle("Edit borrower");
         }
-
         borrowerDialog.show();
         return borrowerDialog.borrower;
     }
@@ -88,36 +87,29 @@ public class BorrowerDialog extends JDialog {
         }
 
         try {
+
             if (this.libraryDB.isBookBorrowedByMember(bookID, Integer.parseInt(memberIDField.getText())) && type == DialogType.CREATE) {
                 JOptionPane.showMessageDialog(null, "This member has already borrowed this book.", "Cannot create borrower", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (NumberFormatException nfe) {
-            JOptionPane.showMessageDialog(null, "Member ID must be a number.", "Invalid member ID", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+            int memberID = Integer.parseInt(memberIDField.getText());
 
-        int memberID = Integer.parseInt(memberIDField.getText());
-
-        LocalDate returnDate = null;
-        try {
-            returnDate = LocalDate.parse(returnDateField.getText());
+            LocalDate returnDate = LocalDate.parse(returnDateField.getText());
             LocalDate currentDate = java.time.LocalDate.now();
             if (returnDate.isBefore(currentDate) || returnDate.equals(currentDate)) {
                 JOptionPane.showMessageDialog(null, "Return date must be in the future.", "Invalid return date", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+
+            borrower = new Borrower(bookID, memberID, null, returnDate);
+            dispose();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (NumberFormatException nfe) {
+            JOptionPane.showMessageDialog(null, "Member ID must be a number.", "Invalid member ID", JOptionPane.ERROR_MESSAGE);
         } catch (DateTimeException ex) {
             JOptionPane.showMessageDialog(null, "Return date must be in the following format:\nYYYY-MM-DD", "Invalid return date", JOptionPane.ERROR_MESSAGE);
-            return;
         }
-
-
-        borrower = new Borrower(bookID, memberID, null, returnDate);
-
-        dispose();
     }
 
     private void onCancel() {

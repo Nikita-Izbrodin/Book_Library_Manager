@@ -24,7 +24,6 @@
         </constraints>
         <properties>
           <text value=""/>
-          <toolTipText value="YYYY-MM-DD"/>
         </properties>
       </component>
       <grid id="70cd4" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
@@ -41,7 +40,7 @@
             </constraints>
             <properties>
               <focusable value="false"/>
-              <text value="leftButton"/>
+              <text value="Left Button"/>
             </properties>
           </component>
           <component id="6c907" class="javax.swing.JButton" binding="cancelButton" default-binding="true">

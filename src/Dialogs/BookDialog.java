@@ -64,39 +64,34 @@ public class BookDialog extends JDialog {
     }
 
     public static Book getBook(DialogType type, String title, String author, String isbn, String quantity) {
-
         BookDialog bookDialog = new BookDialog(type, title, author, isbn, quantity);
         bookDialog.pack();
         bookDialog.setLocationRelativeTo(null);
-
         switch (type) {
             case CREATE -> bookDialog.setTitle("Create book");
             case EDIT -> bookDialog.setTitle("Edit book");
         }
-
         bookDialog.show();
         return bookDialog.book;
     }
 
     private void onOK() {
-
-        if (titleField.getText().isBlank() || authorField.getText().isBlank() || isbnField.getText().isBlank() || quantityField.getText().isBlank()) {
-            return;
-        }
-
-        String title = titleField.getText();
-        String author = authorField.getText();
-        String isbn = isbnField.getText();
-        int quantity;
         try {
-            quantity = Integer.parseInt(quantityField.getText());
+
+            if (titleField.getText().isBlank() || authorField.getText().isBlank() || isbnField.getText().isBlank() || quantityField.getText().isBlank()) {
+                return;
+            }
+
+            String title = titleField.getText();
+            String author = authorField.getText();
+            String isbn = isbnField.getText();
+            int quantity = Integer.parseInt(quantityField.getText());
+
+            book = new Book(title, author, isbn, quantity);
+            dispose();
         } catch (NumberFormatException nfe) {
             JOptionPane.showMessageDialog(null, "Quantity must be a number.", "Invalid quantity", JOptionPane.ERROR_MESSAGE);
-            return;
         }
-        book = new Book(title, author, isbn, quantity);
-
-        dispose();
     }
 
     private void onCancel() {
