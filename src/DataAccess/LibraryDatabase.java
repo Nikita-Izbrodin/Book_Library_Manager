@@ -53,6 +53,8 @@ public interface LibraryDatabase {
 
     List<Member> selectMembersByPostcode(String postcode) throws SQLException;
 
+    boolean doesMemberExist(int memberID) throws SQLException;
+
     String selectMemberNameSurnameByMemberID(int memberID) throws SQLException;
 
     int countMembers() throws SQLException;

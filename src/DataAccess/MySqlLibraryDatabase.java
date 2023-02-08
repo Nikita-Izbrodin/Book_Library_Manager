@@ -39,6 +39,7 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
     private static final String SELECT_MEMBER_BY_EMAIL = "SELECT * FROM members WHERE email LIKE ?";
     private static final String SELECT_MEMBER_BY_ADDRESS = "SELECT * FROM members WHERE address LIKE ?";
     private static final String SELECT_MEMBER_BY_POSTCODE = "SELECT * FROM members WHERE postcode LIKE ?";
+    private static final String SELECT_MEMBER_BY_MEMBER_ID = "SELECT * FROM members WHERE member_id = ?";
     private static final String SELECT_MEMBER_NAME_AND_SURNAME_BY_MEMBER_ID = "SELECT name, surname FROM members WHERE member_id = ?";
     private static final String COUNT_MEMBERS = "SELECT COUNT(*) FROM members";
 
@@ -329,6 +330,16 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         preparedStatement.close();
         connection.close();
         return members;
+    }
+
+    @Override
+    public boolean doesMemberExist(int memberID) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_MEMBER_BY_MEMBER_ID);
+        preparedStatement.setInt(1, memberID);
+        ResultSet rs = preparedStatement.executeQuery();
+        List<Member> members = getMemberList(rs);
+        return !members.isEmpty(); // book exists
     }
 
     @Override
