@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Users cannot have the same email address anymore.">
+    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Return date entered in BorrowerDialog can only be a future date.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Dialogs/BorrowerDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dialogs/BorrowerDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Forms/BorrowerListItemForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Forms/BorrowerListItemForm.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,13 +86,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1671987914536</updated>
-    </task>
-    <task id="LOCAL-00017" summary="Implemented adding users from main window.">
-      <created>1673204094762</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1673204094762</updated>
     </task>
     <task id="LOCAL-00018" summary="Implemented searching users.">
       <created>1673209911620</created>
@@ -428,7 +423,14 @@
       <option name="project" value="LOCAL" />
       <updated>1675857794861</updated>
     </task>
-    <option name="localTasksCounter" value="66" />
+    <task id="LOCAL-00066" summary="Return date entered in BorrowerDialog can only be a future date.">
+      <created>1675858367274</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1675858367274</updated>
+    </task>
+    <option name="localTasksCounter" value="67" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -443,7 +445,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Corrected tooltips shown in userDialog. Deletion of book/member is not allowed if it is related to a borrower." />
     <MESSAGE value="Grouped classes by packages." />
     <MESSAGE value="Made an interface EmailAddressChecker for RegExEmailAddressChecker class." />
     <MESSAGE value="Item in list is highlighted when selected. Fixed log in. Changed text in forms." />
@@ -468,7 +469,8 @@
     <MESSAGE value="Changed returnDate in Borrower from String to LocalDate." />
     <MESSAGE value="Implemented searching by member id. Not polished." />
     <MESSAGE value="Users cannot have the same email address anymore." />
-    <option name="LAST_COMMIT_MESSAGE" value="Users cannot have the same email address anymore." />
+    <MESSAGE value="Return date entered in BorrowerDialog can only be a future date." />
+    <option name="LAST_COMMIT_MESSAGE" value="Return date entered in BorrowerDialog can only be a future date." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
