@@ -53,7 +53,6 @@ public class UserDialog extends JDialog {
                 fullNameField.setText(fullName);
             }
             case LOGIN -> {
-
                 leftButton.setText("Log In");
                 fullNameLabel.setVisible(false);
                 fullNameField.disable();
@@ -75,7 +74,9 @@ public class UserDialog extends JDialog {
         });
 
         // call onCancel() on ESCAPE
-        mainPanel.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        mainPanel.registerKeyboardAction(e -> {
+            onCancel();
+        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
     }
 
@@ -97,11 +98,18 @@ public class UserDialog extends JDialog {
 
     private void onOK(DialogType type) {
 
-        if (type == DialogType.CREATE && (usernameField.getText().isBlank() || fullNameField.getText().isBlank() || passwordField.getText().isBlank())) {
+        if (
+                type == DialogType.CREATE
+                && (usernameField.getText().isBlank() || fullNameField.getText().isBlank() || passwordField.getText().isBlank()))
+        {
             return;
-        } else if (type == DialogType.EDIT && (usernameField.getText().isBlank() || fullNameField.getText().isBlank())) {
+        } else if (
+                type == DialogType.EDIT
+                && (usernameField.getText().isBlank() || fullNameField.getText().isBlank())) {
             return;
-        } else if (type == DialogType.LOGIN && (usernameField.getText().isBlank() || passwordField.getText().isBlank())) {
+        } else if (
+                type == DialogType.LOGIN
+                && (usernameField.getText().isBlank() || passwordField.getText().isBlank())) {
             return;
         }
 

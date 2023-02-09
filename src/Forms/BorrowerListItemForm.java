@@ -4,7 +4,7 @@ import Entities.Borrower;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import java.awt.*;
+import java.awt.Color;
 import java.time.LocalDate;
 
 public class BorrowerListItemForm {

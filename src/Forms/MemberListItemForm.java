@@ -31,6 +31,7 @@ public class MemberListItemForm {
     }
 
     protected void setBackground(boolean isSelected) {
+
         memberItemPanel.setBackground(isSelected ? Color.blue : Color.lightGray);
 
         Color foregroundColor = isSelected ? Color.white : Color.BLACK;

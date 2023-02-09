@@ -21,6 +21,7 @@ public class UserListItemForm {
     }
 
     protected void setBackground(boolean isSelected) {
+
         userItemPanel.setBackground(isSelected ? Color.blue : Color.lightGray);
 
         Color foregroundColor = isSelected ? Color.white : Color.BLACK;

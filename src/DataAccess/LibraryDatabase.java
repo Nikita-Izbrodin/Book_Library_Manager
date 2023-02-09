@@ -57,8 +57,6 @@ public interface LibraryDatabase {
 
     List<Member> selectMembersByPostcode(String postcode) throws SQLException;
 
-    List<Member> selectMembersByID(int id) throws SQLException;
-
     String selectMemberNameSurnameByMemberID(int memberID) throws SQLException;
 
     int countMembers() throws SQLException;

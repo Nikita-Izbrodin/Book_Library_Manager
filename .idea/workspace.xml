@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="If return date is in the past then text for that borrower will be red in borrower list.">
+    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Changed code format for page fitting in CellRenderers &amp; DataAccess.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DataAccess/LibraryDatabase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccess/LibraryDatabase.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DataAccess/MySqlLibraryDatabase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccess/MySqlLibraryDatabase.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Dialogs/BookDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dialogs/BookDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Dialogs/BorrowerDialog.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dialogs/BorrowerDialog.form" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Dialogs/BorrowerDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dialogs/BorrowerDialog.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Dialogs/MemberDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dialogs/MemberDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Dialogs/UserDialog.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dialogs/UserDialog.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Dialogs/UserDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dialogs/UserDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Forms/BorrowerListItemForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Forms/BorrowerListItemForm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Forms/MainWindowForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Forms/MainWindowForm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Forms/MemberListItemForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Forms/MemberListItemForm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Forms/UserListItemForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Forms/UserListItemForm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Utils/Sha256HashGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Utils/Sha256HashGenerator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,22 +47,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Downloaded.Files.Path.Enabled": "false",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH": "296",
-    "last_opened_file_path": "C:/Users/nizbr/IdeaProjects/GUI Test",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "editor.preferences.fonts.default"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH&quot;: &quot;296&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/nizbr/IdeaProjects/GUI Test&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\nizbr\IdeaProjects\Book_Library_Manager\src\Forms" />
@@ -90,13 +97,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1671987914536</updated>
-    </task>
-    <task id="LOCAL-00019" summary="Implemented scroll bars.">
-      <created>1673211617654</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1673211617654</updated>
     </task>
     <task id="LOCAL-00020" summary="Implemented selecting users.">
       <created>1673212387742</created>
@@ -434,7 +434,14 @@
       <option name="project" value="LOCAL" />
       <updated>1675888565827</updated>
     </task>
-    <option name="localTasksCounter" value="68" />
+    <task id="LOCAL-00068" summary="Changed code format for page fitting in CellRenderers &amp; DataAccess.">
+      <created>1675894217399</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1675894217399</updated>
+    </task>
+    <option name="localTasksCounter" value="69" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -449,7 +456,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Made an interface EmailAddressChecker for RegExEmailAddressChecker class." />
     <MESSAGE value="Item in list is highlighted when selected. Fixed log in. Changed text in forms." />
     <MESSAGE value="Corrected inconsistency of staff and users. Changed all to users." />
     <MESSAGE value="Got rid of warnings in code." />
@@ -474,7 +480,8 @@
     <MESSAGE value="Users cannot have the same email address anymore." />
     <MESSAGE value="Return date entered in BorrowerDialog can only be a future date." />
     <MESSAGE value="If return date is in the past then text for that borrower will be red in borrower list." />
-    <option name="LAST_COMMIT_MESSAGE" value="If return date is in the past then text for that borrower will be red in borrower list." />
+    <MESSAGE value="Changed code format for page fitting in CellRenderers &amp; DataAccess." />
+    <option name="LAST_COMMIT_MESSAGE" value="Changed code format for page fitting in CellRenderers &amp; DataAccess." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

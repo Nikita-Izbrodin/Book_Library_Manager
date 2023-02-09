@@ -38,13 +38,11 @@ public class MemberDialog extends JDialog {
         EDIT
     }
 
-    public MemberDialog
-            (
-                    DialogType type,
-                    int id, String name, String surname, String phone, String email, String address, String postcode,
-                    EmailAddressChecker emailAddressChecker, LibraryDatabase libraryDB
-            )
-    {
+    public MemberDialog(
+            DialogType type,
+            int id, String name, String surname, String phone, String email, String address, String postcode,
+            EmailAddressChecker emailAddressChecker, LibraryDatabase libraryDB
+    ) {
 
         this.emailAddressChecker = emailAddressChecker;
         this.libraryDB = libraryDB;
@@ -81,18 +79,21 @@ public class MemberDialog extends JDialog {
         });
 
         // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        contentPane.registerKeyboardAction(e -> {
+            onCancel();
+        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
-    public static Member getMember
-            (
+    public static Member getMember(
             DialogType type,
             int id, String name, String surname, String phone, String email, String address, String postcode,
             EmailAddressChecker emailAddressChecker, LibraryDatabase libraryDB
-            )
-    {
+    ) {
 
-        MemberDialog memberDialog = new MemberDialog(type, id, name, surname, phone, email, address, postcode, emailAddressChecker, libraryDB);
+        MemberDialog memberDialog = new MemberDialog(
+                type, id, name, surname, phone, email, address, postcode,
+                emailAddressChecker, libraryDB
+        );
         memberDialog.pack();
         memberDialog.setLocationRelativeTo(null);
 
@@ -107,22 +108,44 @@ public class MemberDialog extends JDialog {
 
     private void onOK(DialogType type, String oldEmail) {
 
-        if (idTextField.getText().isBlank() || nameTextField.getText().isBlank() || surnameTextField.getText().isBlank() || addressTextField.getText().isBlank() || postcodeTextField.getText().isBlank()) { // phone num and email not checked because some members may not have one
+        if (
+                idTextField.getText().isBlank()
+                || nameTextField.getText().isBlank()
+                || surnameTextField.getText().isBlank()
+                || addressTextField.getText().isBlank()
+                || postcodeTextField.getText().isBlank())
+        { // phone num and email not checked because some members may not have one
             return;
         }
 
         if (!emailAddressChecker.isValidEmailAddress(emailTextField.getText())) {
-            JOptionPane.showMessageDialog(null, emailTextField.getText() + " doesn't look like a valid email address.\n\nPlease check and correct.", "Invalid email address", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(
+                    null,
+                    emailTextField.getText() + " doesn't look like a valid email address.\n\nPlease check and correct.",
+                    "Invalid email address",
+                    JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         try {
 
             if (libraryDB.isEmailUsed(emailTextField.getText()) && type == DialogType.CREATE) {
-                JOptionPane.showMessageDialog(null, "A member with this email already exists.", "Invalid email", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(
+                        null,
+                        "A member with this email already exists.",
+                        "Invalid email", JOptionPane.ERROR_MESSAGE
+                );
                 return;
-            } else if (!emailTextField.getText().equals(oldEmail) && libraryDB.isEmailUsed(emailTextField.getText()) && type == DialogType.EDIT) {
-                JOptionPane.showMessageDialog(null, "A member with this email already exists.", "Invalid email", JOptionPane.ERROR_MESSAGE);
+            } else if (
+                    !emailTextField.getText().equals(oldEmail)
+                    && libraryDB.isEmailUsed(emailTextField.getText())
+                    && type == DialogType.EDIT)
+            {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "A member with this email already exists.",
+                        "Invalid email",
+                        JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
@@ -137,9 +160,18 @@ public class MemberDialog extends JDialog {
             member = new Member(id, name, surname, phoneNo, email, address, postcode);
             dispose();
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,("Database error\n\nDetails:\n" + ex), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(
+                    null,
+                    ("Database error\n\nDetails:\n" + ex),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
         } catch (Exception ex) { // if idTextField contains a string
-            JOptionPane.showMessageDialog(null, "Member ID must be a number.", "Invalid member ID", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Member ID must be a number.",
+                    "Invalid member ID",
+                    JOptionPane.ERROR_MESSAGE
+            );
         }
     }
 
