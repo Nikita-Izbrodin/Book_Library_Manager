@@ -166,7 +166,7 @@ public class MainWindowForm {
 
                 Borrower newBorrower = BorrowerDialog.getBorrower(
                         BorrowerDialog.DialogType.CREATE,
-                        -1, // TODO: does it have to be -1?
+                        -1,
                         null,
                         bookID,
                         libraryDatabase
@@ -306,8 +306,10 @@ public class MainWindowForm {
 
                 if (!usernameLabel.getText().isBlank()) { // if a user is selected
 
-                    // TODO: change!
-                    String oldPassword = (libraryDatabase.selectUsersByUsername(usernameLabel.getText())).get(0).password();
+                    String oldPassword = (
+                            libraryDatabase.selectUsersByUsername(usernameLabel.getText())
+                    ).get(0).password();
+
                     User editedUser = UserDialog.getUser(
                             UserDialog.DialogType.EDIT,
                             usernameLabel.getText(),
@@ -316,7 +318,7 @@ public class MainWindowForm {
                     );
 
                     if (editedUser != null) { // can be null if cancel pressed on UserDialog
-                        if (editedUser.password() == null) { // TODO: check this change of removing setPassword works
+                        if (editedUser.password() == null) {
                             libraryDatabase.updateUser(
                                     editedUser.username(),
                                     editedUser.fullName(),
@@ -573,11 +575,16 @@ public class MainWindowForm {
             }
         });
 
-        // TODO: change so that not everything is updated
         searchByComboBox.addActionListener(e -> { // updates list when the searchByComboBox value is changed
-            selectBooksBy();
-            selectMembersBy();
-            selectUsersBy();
+
+            assert menuComboBox.getSelectedItem() != null; /* method invocation 'toString' in switch expression
+                                                              may produce NullPointerException if
+                                                              menuComboBox.getSelectedItem() is null */
+            switch (menuComboBox.getSelectedItem().toString()) {
+                case "Books" -> selectBooksBy();
+                case "Members" -> selectMembersBy();
+                case "Users" -> selectUsersBy();
+            }
         });
 
 
@@ -799,7 +806,7 @@ public class MainWindowForm {
 
             Member newMember = MemberDialog.getMember(
                     MemberDialog.DialogType.CREATE,
-                    -1, // TODO: does it have to be -1
+                    -1,
                     null,
                     null,
                     null,
@@ -876,7 +883,7 @@ public class MainWindowForm {
 
         try {
 
-            if (searchByComboBox.getSelectedItem() != null) {
+            if (searchByComboBox.getSelectedItem() != null) { // TODO: maybe change to assert
 
                 String searchBy = searchByComboBox.getSelectedItem().toString();
                 List<Book> booksList = switch (searchBy) {
