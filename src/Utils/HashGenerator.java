@@ -1,5 +1,5 @@
 package Utils;
 
 public interface HashGenerator {
-    String getHashValue(String text);
+    String getHashValueOf(String text);
 }

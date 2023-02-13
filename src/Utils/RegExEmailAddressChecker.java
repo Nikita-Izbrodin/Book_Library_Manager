@@ -28,5 +28,4 @@ public class RegExEmailAddressChecker implements EmailAddressChecker {
         Matcher matcher = pattern.matcher(emailAddress);
         return matcher.matches();
     }
-
 }

@@ -117,7 +117,7 @@ public class UserDialog extends JDialog {
         String full_name = fullNameField.getText();
         String password = null;
         if (!passwordField.getText().isBlank()) {
-            password = hashGenerator.getHashValue(String.valueOf(passwordField.getPassword()));
+            password = hashGenerator.getHashValueOf(String.valueOf(passwordField.getPassword()));
         }
         user = new User(username, full_name, password);
 

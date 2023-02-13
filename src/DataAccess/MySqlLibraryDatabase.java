@@ -99,8 +99,13 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
     }
 
     @Override
-    public void updateBook(String newTitle, String newAuthor, String newISBN, String newQuantity, int book_id)
-            throws SQLException {
+    public void updateBook(
+            String newTitle,
+            String newAuthor,
+            String newISBN,
+            String newQuantity,
+            int book_id
+    ) throws SQLException {
 
         // TODO: executeUpdate(UPDATE_BOOK, new Object[]{newTitle, newAuthor,...});
 
@@ -220,9 +225,16 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
     }
 
     @Override
-    public void updateMember(int newID, String newName, String newSurname,
-                             String newPhoneNo, String newEmail, String newAddress, String newPostcode, int oldID)
-            throws SQLException {
+    public void updateMember(
+            int newID,
+            String newName,
+            String newSurname,
+            String newPhoneNo,
+            String newEmail,
+            String newAddress,
+            String newPostcode,
+            int oldID
+    ) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_MEMBER);
         preparedStatement.setInt(1, newID);
@@ -250,15 +262,14 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
 
     @Override
     public boolean noMembers() throws SQLException {
-        try (Connection connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_MEMBERS)) {
-            ResultSet rs = preparedStatement.executeQuery();
-            boolean isEmptyResultSet = !rs.next();
-            rs.close();
-            preparedStatement.close();
-            connection.close();
-            return isEmptyResultSet;
-        }
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_MEMBERS);
+        ResultSet rs = preparedStatement.executeQuery();
+        boolean isEmptyResultSet = !rs.next();
+        rs.close();
+        preparedStatement.close();
+        connection.close();
+        return isEmptyResultSet;
     }
 
     @Override
@@ -402,7 +413,12 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
     }
 
     @Override
-    public void updateBorrower(int newMemberID, LocalDate newReturnDate, int bookID, int oldMemberID) throws SQLException {
+    public void updateBorrower(
+            int newMemberID,
+            LocalDate newReturnDate,
+            int bookID,
+            int oldMemberID
+    ) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_BORROWER);
         preparedStatement.setInt(1, newMemberID);
@@ -504,7 +520,12 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
     }
 
     @Override
-    public void updateUser(String newUsername, String newFullName, String newPassword, String oldUsername) throws SQLException {
+    public void updateUser(
+            String newUsername,
+            String newFullName,
+            String newPassword,
+            String oldUsername
+    ) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USER);
         preparedStatement.setString(1, newUsername);
@@ -528,15 +549,14 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
 
     @Override
     public boolean noStaff() throws SQLException {
-        try (Connection connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_USERS)) {
-            ResultSet rs = preparedStatement.executeQuery();
-            boolean isEmptyResultSet = !rs.next();
-            rs.close();
-            preparedStatement.close();
-            connection.close();
-            return isEmptyResultSet;
-        }
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_USERS);
+        ResultSet rs = preparedStatement.executeQuery();
+        boolean isEmptyResultSet = !rs.next();
+        rs.close();
+        preparedStatement.close();
+        connection.close();
+        return isEmptyResultSet;
     }
 
     @Override

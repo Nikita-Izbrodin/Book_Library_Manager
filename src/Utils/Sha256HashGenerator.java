@@ -1,42 +1,47 @@
 package Utils;
 
+import javax.swing.JOptionPane;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+// The SHA-256 algorithm generates an almost unique, fixed-size 256-bit (32-byte) hash.
+// This is a one-way function, so the result cannot be decrypted back to the original value.
 public class Sha256HashGenerator implements HashGenerator {
 
-    public String getHashValue(String text) {
+    public String getHashValueOf(String originalString) {
 
-        MessageDigest digest = null;
+        MessageDigest messageDigest = null;
 
         try {
-            digest = MessageDigest.getInstance("SHA-256");
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            messageDigest = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    ex,
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
         }
 
-        if (digest == null) {
-            return null;
-        }
+        assert messageDigest != null;
 
-        byte[] encodedHash = digest.digest(text.getBytes(StandardCharsets.UTF_8));
-        return bytesToHex(encodedHash);
+        byte[] hashedString = messageDigest.digest(originalString.getBytes(StandardCharsets.UTF_8));
+        return bytesToHex(hashedString);
     }
 
-    private String bytesToHex(byte[] hash) {
+    private String bytesToHex(byte[] hashedString) {
 
-        StringBuilder hexString = new StringBuilder(2 * hash.length);
+        StringBuilder hexadecimalString = new StringBuilder(2 * hashedString.length);
 
-        for (byte b : hash) {
+        for (byte b : hashedString) {
             String hex = Integer.toHexString(0xff & b);
             if (hex.length() == 1) {
-                hexString.append('0');
+                hexadecimalString.append('0');
             }
-            hexString.append(hex);
+            hexadecimalString.append(hex);
         }
 
-        return hexString.toString();
+        return hexadecimalString.toString();
     }
-
 }

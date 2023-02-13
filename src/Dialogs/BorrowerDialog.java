@@ -88,11 +88,11 @@ public class BorrowerDialog extends JDialog {
 
     private void onOK(int bookID, DialogType type) {
 
-        if (memberIDField.getText().isBlank() || returnDateField.getText().isBlank()) {
-            return;
-        }
-
         try {
+
+            if (memberIDField.getText().isBlank() || returnDateField.getText().isBlank()) {
+                return;
+            }
 
             if (
                     this.libraryDB.isBookBorrowedByMember(bookID, Integer.parseInt(memberIDField.getText()))

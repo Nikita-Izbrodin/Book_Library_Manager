@@ -106,11 +106,13 @@ public class MainWindowForm {
     public MainWindowForm(
             HashGenerator hashGenerator,
             EmailAddressChecker emailAddressChecker,
-            LibraryDatabase libraryDB)
+            LibraryDatabase libraryDB) // TODO: change to libraryDatabase
     { // constructor
+
         this.hashGenerator = hashGenerator;
         this.emailAddressChecker = emailAddressChecker;
         this.libraryDB = libraryDB;
+
         selectBooksBy();
         updateTotalMembers();
         updateTotalBooks();
@@ -118,23 +120,23 @@ public class MainWindowForm {
         updateNumOfBooksAvailable();
 
         addNewButton.addActionListener(e -> {
-            if (menuComboBox.getSelectedItem() == null) {
-                return;
-            }
-            if (menuComboBox.getSelectedItem().toString().equals("Books")) {
-                createNewBook();
-            } else if (menuComboBox.getSelectedItem().toString().equals("Members")) {
-                createNewMember();
-            } else if (menuComboBox.getSelectedItem().toString().equals("Users")) {
-                createNewUser();
+            if (menuComboBox.getSelectedItem() != null) {
+                switch (menuComboBox.getSelectedItem().toString()) {
+                    case "Books" -> createNewBook();
+                    case "Members" -> createNewMember();
+                    case "Users" -> createNewUser();
+                }
             }
         });
 
         addBorrowerButton.addActionListener(e -> {
-            if (titleLabel.getText().isBlank()) { // if nothing is selected
-                return;
-            }
+
             try {
+
+                if (titleLabel.getText().isBlank()) { // if nothing is selected
+                    return;
+                }
+
                 if (libraryDB.noMembers()) {
                     JOptionPane.showMessageDialog(
                             null,
@@ -144,6 +146,7 @@ public class MainWindowForm {
                     );
                     return;
                 }
+
                 if (Integer.parseInt(quantityLabel.getText()) - borrowerList.getModel().getSize() == 0) {
                     JOptionPane.showMessageDialog(
                             null,
@@ -160,6 +163,7 @@ public class MainWindowForm {
                         isbnLabel.getText(),
                         quantityLabel.getText()
                 );
+
                 Borrower newBorrower = BorrowerDialog.getBorrower(
                         BorrowerDialog.DialogType.CREATE,
                         -1, // TODO: does it have to be -1?
@@ -167,10 +171,14 @@ public class MainWindowForm {
                         bookID,
                         libraryDB
                 );
-                if (newBorrower == null) {
-                    return;
+
+                if (newBorrower != null) { // can be null if cancel pressed on BorrowerDialog
+                    libraryDB.createBorrower(newBorrower);
+
+                    displayBorrowers();
+                    updateNumOfBooksBorrowed();
+                    updateNumOfBooksAvailable();
                 }
-                libraryDB.createBorrower(newBorrower);
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(
                         null,
@@ -179,45 +187,50 @@ public class MainWindowForm {
                         JOptionPane.ERROR_MESSAGE
                 );
             }
-            displayBorrowers();
-            updateNumOfBooksBorrowed();
-            updateNumOfBooksAvailable();
         });
 
         editBookButton.addActionListener(e -> {
-            if (titleLabel.getText().isBlank()) { // if nothing is selected
-                return;
-            }
-            Book editedBook = BookDialog.getBook(
-                    BookDialog.DialogType.EDIT,
-                    titleLabel.getText(),
-                    authorLabel.getText(),
-                    isbnLabel.getText(),
-                    quantityLabel.getText()
-            );
-            if (editedBook == null) { // if cancel pressed
-                return;
-            }
+
             try {
-                libraryDB.updateBook(
-                        editedBook.title(),
-                        editedBook.author(),
-                        String.valueOf(editedBook.isbn()),
-                        String.valueOf(editedBook.quantity()),
-                        libraryDB.getBookID(titleLabel.getText(),
-                        authorLabel.getText(),
-                        isbnLabel.getText(),
-                        quantityLabel.getText())
-                );
-                JOptionPane.showMessageDialog(
-                        null,
-                        "Book updated successfully.",
-                        "Book update",
-                        JOptionPane.INFORMATION_MESSAGE);
-                titleLabel.setText(editedBook.title());
-                authorLabel.setText(editedBook.author());
-                isbnLabel.setText(String.valueOf(editedBook.isbn()));
-                quantityLabel.setText(String.valueOf(editedBook.quantity()));
+
+                if (!titleLabel.getText().isBlank()) { // if a book is selected
+                    Book editedBook = BookDialog.getBook(
+                            BookDialog.DialogType.EDIT,
+                            titleLabel.getText(),
+                            authorLabel.getText(),
+                            isbnLabel.getText(),
+                            quantityLabel.getText()
+                    );
+
+                    if (editedBook != null) { // can be null if cancel pressed on BookDialog
+                        libraryDB.updateBook(
+                                editedBook.title(),
+                                editedBook.author(),
+                                String.valueOf(editedBook.isbn()),
+                                String.valueOf(editedBook.quantity()),
+                                libraryDB.getBookID(titleLabel.getText(),
+                                        authorLabel.getText(),
+                                        isbnLabel.getText(),
+                                        quantityLabel.getText())
+                        );
+
+                        JOptionPane.showMessageDialog(
+                                null,
+                                "Book updated successfully.",
+                                "Book update",
+                                JOptionPane.INFORMATION_MESSAGE
+                        );
+
+                        titleLabel.setText(editedBook.title());
+                        authorLabel.setText(editedBook.author());
+                        isbnLabel.setText(String.valueOf(editedBook.isbn()));
+                        quantityLabel.setText(String.valueOf(editedBook.quantity()));
+
+                        selectBooksBy();
+                        updateTotalBooks();
+                        updateNumOfBooksAvailable();
+                    }
+                }
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(
                         null,
@@ -226,52 +239,57 @@ public class MainWindowForm {
                         JOptionPane.ERROR_MESSAGE
                 );
             }
-            selectBooksBy();
         });
 
         editMemberButton.addActionListener(e -> {
-            if (nameLabel.getText().isBlank()) { // if nothing is selected
-                return;
-            }
-            Member editedMember = MemberDialog.getMember(
-                    MemberDialog.DialogType.EDIT,
-                    Integer.parseInt(idLabel.getText()),
-                    nameLabel.getText(),
-                    surnameLabel.getText(),
-                    phoneNoLabel.getText(),
-                    emailLabel.getText(),
-                    addressLabel.getText(),
-                    postcodeLabel.getText(),
-                    emailAddressChecker,
-                    this.libraryDB
-            );
-            if (editedMember == null) { // if cancel pressed
-                return;
-            }
+
             try {
-                libraryDB.updateMember(
-                        editedMember.id(),
-                        editedMember.name(),
-                        editedMember.surname(),
-                        editedMember.phoneNo(),
-                        editedMember.email(),
-                        editedMember.address(),
-                        editedMember.postcode(),
-                        Integer.parseInt(idLabel.getText())
-                );
-                JOptionPane.showMessageDialog(
-                        null,
-                        "Member updated successfully.",
-                        "Member update",
-                        JOptionPane.INFORMATION_MESSAGE
-                );
-                idLabel.setText(String.valueOf(editedMember.id()));
-                nameLabel.setText(editedMember.name());
-                surnameLabel.setText(editedMember.surname());
-                phoneNoLabel.setText(editedMember.phoneNo());
-                emailLabel.setText(editedMember.email());
-                addressLabel.setText(editedMember.address());
-                postcodeLabel.setText(editedMember.postcode());
+
+                if (!nameLabel.getText().isBlank()) { // if a member is selected
+
+                    Member editedMember = MemberDialog.getMember(
+                            MemberDialog.DialogType.EDIT,
+                            Integer.parseInt(idLabel.getText()),
+                            nameLabel.getText(),
+                            surnameLabel.getText(),
+                            phoneNoLabel.getText(),
+                            emailLabel.getText(),
+                            addressLabel.getText(),
+                            postcodeLabel.getText(),
+                            emailAddressChecker,
+                            this.libraryDB
+                    );
+
+                    if (editedMember != null) { // can be null if cancel pressed on MemberDialog
+                        libraryDB.updateMember(
+                                editedMember.id(),
+                                editedMember.name(),
+                                editedMember.surname(),
+                                editedMember.phoneNo(),
+                                editedMember.email(),
+                                editedMember.address(),
+                                editedMember.postcode(),
+                                Integer.parseInt(idLabel.getText())
+                        );
+
+                        JOptionPane.showMessageDialog(
+                                null,
+                                "Member updated successfully.",
+                                "Member update",
+                                JOptionPane.INFORMATION_MESSAGE
+                        );
+
+                        idLabel.setText(String.valueOf(editedMember.id()));
+                        nameLabel.setText(editedMember.name());
+                        surnameLabel.setText(editedMember.surname());
+                        phoneNoLabel.setText(editedMember.phoneNo());
+                        emailLabel.setText(editedMember.email());
+                        addressLabel.setText(editedMember.address());
+                        postcodeLabel.setText(editedMember.postcode());
+
+                        selectMembersBy();
+                    }
+                }
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(
                         null,
@@ -280,48 +298,53 @@ public class MainWindowForm {
                         JOptionPane.ERROR_MESSAGE
                 );
             }
-            selectMembersBy();
         });
 
         editUserButton.addActionListener(e -> {
-            if (usernameLabel.getText().isBlank()) { // if nothing is selected
-                return;
-            }
+
             try {
-                // TODO: change!
-                String oldPassword = (libraryDB.selectUsersByUsername(usernameLabel.getText())).get(0).password();
-                User editedUser = UserDialog.getUser(
-                        UserDialog.DialogType.EDIT,
-                        usernameLabel.getText(),
-                        fullNameLabel.getText(),
-                        hashGenerator
-                );
-                if (editedUser == null) { // if cancel pressed
-                    return;
-                }
-                if (editedUser.password() == null) { // TODO: check this change of removing setPassword works
-                    libraryDB.updateUser(
-                            editedUser.username(),
-                            editedUser.fullName(),
-                            oldPassword,
-                            usernameLabel.getText()
+
+                if (!usernameLabel.getText().isBlank()) { // if a user is selected
+
+                    // TODO: change!
+                    String oldPassword = (libraryDB.selectUsersByUsername(usernameLabel.getText())).get(0).password();
+                    User editedUser = UserDialog.getUser(
+                            UserDialog.DialogType.EDIT,
+                            usernameLabel.getText(),
+                            fullNameLabel.getText(),
+                            hashGenerator
                     );
-                } else {
-                    libraryDB.updateUser(
-                            editedUser.username(),
-                            editedUser.fullName(),
-                            editedUser.password(),
-                            usernameLabel.getText()
-                    );
+
+                    if (editedUser != null) { // can be null if cancel pressed on UserDialog
+                        if (editedUser.password() == null) { // TODO: check this change of removing setPassword works
+                            libraryDB.updateUser(
+                                    editedUser.username(),
+                                    editedUser.fullName(),
+                                    oldPassword,
+                                    usernameLabel.getText()
+                            );
+                        } else {
+                            libraryDB.updateUser(
+                                    editedUser.username(),
+                                    editedUser.fullName(),
+                                    editedUser.password(),
+                                    usernameLabel.getText()
+                            );
+                        }
+
+                        JOptionPane.showMessageDialog(
+                                null,
+                                "User updated successfully.",
+                                "User update",
+                                JOptionPane.INFORMATION_MESSAGE
+                        );
+
+                        usernameLabel.setText(editedUser.username());
+                        fullNameLabel.setText(editedUser.fullName());
+
+                        selectUsersBy();
+                    }
                 }
-                JOptionPane.showMessageDialog(
-                        null,
-                        "User updated successfully.",
-                        "User update",
-                        JOptionPane.INFORMATION_MESSAGE
-                );
-                usernameLabel.setText(editedUser.username());
-                fullNameLabel.setText(editedUser.fullName());
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(
                         null,
@@ -330,54 +353,61 @@ public class MainWindowForm {
                         JOptionPane.ERROR_MESSAGE
                 );
             }
-            selectUsersBy();
         });
 
         deleteBookButton.addActionListener(e -> {
-            if (titleLabel.getText().isBlank()) { // if nothing is selected
-                return;
-            }
-            int answer = JOptionPane.showConfirmDialog(
-                    null,
-                    "Are you sure you want to delete this book?" +
-                    "\nTitle: "+titleLabel.getText() +
-                    "\nAuthor: "+authorLabel.getText() +
-                    "\nISBN: "+isbnLabel.getText() +
-                    "\nQuantity: "+quantityLabel.getText(),
-                    "Delete book", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-            if (answer == -1 || answer == 1) { // if cross pressed or if "no" pressed
-                return;
-            }
+
             try {
-                int bookID = libraryDB.getBookID(
-                        titleLabel.getText(),
-                        authorLabel.getText(),
-                        isbnLabel.getText(),
-                        quantityLabel.getText()
-                );
-                if (!libraryDB.selectBorrowersByBookID(bookID).isEmpty()) { // if this book has been borrowed
-                    JOptionPane.showMessageDialog(
+
+                if (!titleLabel.getText().isBlank()) { // if a book is selected
+                    int answer = JOptionPane.showConfirmDialog(
                             null,
-                            "Cannot delete this book.\nThis book is being borrowed.",
-                            "Delete failed",
-                            JOptionPane.ERROR_MESSAGE
+                            "Are you sure you want to delete this book?" +
+                                    "\nTitle: "+titleLabel.getText() +
+                                    "\nAuthor: "+authorLabel.getText() +
+                                    "\nISBN: "+isbnLabel.getText() +
+                                    "\nQuantity: "+quantityLabel.getText(),
+                            "Delete book", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE
                     );
-                } else {
-                    libraryDB.deleteBook(
-                            libraryDB.getBookID(titleLabel.getText(),
-                            authorLabel.getText(),
-                            isbnLabel.getText(),
-                            quantityLabel.getText())
-                    );
-                    selectBooksBy();
-                    displayBorrowers();
-                    titleLabel.setText("");
-                    authorLabel.setText("");
-                    isbnLabel.setText("");
-                    quantityLabel.setText("");
-                    updateTotalBooks();
-                    updateNumOfBooksBorrowed();
-                    updateNumOfBooksAvailable();
+
+                    if (answer == 0) { // if yes pressed
+
+                        int bookID = libraryDB.getBookID(
+                                titleLabel.getText(),
+                                authorLabel.getText(),
+                                isbnLabel.getText(),
+                                quantityLabel.getText()
+                        );
+
+                        if (libraryDB.selectBorrowersByBookID(bookID).isEmpty()) { // if this book is not being borrowed
+
+                            libraryDB.deleteBook(
+                                    libraryDB.getBookID(
+                                            titleLabel.getText(),
+                                            authorLabel.getText(),
+                                            isbnLabel.getText(),
+                                            quantityLabel.getText()
+                                    )
+                            );
+
+                            titleLabel.setText("");
+                            authorLabel.setText("");
+                            isbnLabel.setText("");
+                            quantityLabel.setText("");
+
+                            selectBooksBy();
+                            displayBorrowers();
+                            updateTotalBooks();
+                            updateNumOfBooksAvailable();
+                        } else {
+                            JOptionPane.showMessageDialog(
+                                    null,
+                                    "Cannot delete this book.\nThis book is being borrowed.",
+                                    "Delete failed",
+                                    JOptionPane.ERROR_MESSAGE
+                            );
+                        }
+                    }
                 }
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(
@@ -389,46 +419,49 @@ public class MainWindowForm {
         });
 
         deleteMemberButton.addActionListener(e -> {
-            if (nameLabel.getText().isBlank()) { // if nothing is selected
-                return;
-            }
-            int answer = JOptionPane.showConfirmDialog(
-                    null,
-                    "Are you sure you want to delete this member?" +
-                    "\nName: "+nameLabel.getText() +
-                    "\nSurname: "+surnameLabel.getText() +
-                    "\nPhone No: "+phoneNoLabel.getText() +
-                    "\nEmail: "+emailLabel.getText() +
-                    "\nAddress: "+addressLabel.getText() +
-                    "\nPostcode: "+postcodeLabel.getText(),
-                    "Delete member",
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.WARNING_MESSAGE
-            );
-            if (answer == -1 || answer == 1) { // if cross pressed or if "no" pressed
-                return;
-            }
+
             try {
-                if (libraryDB.hasMemberBorrowedBook(Integer.parseInt(idLabel.getText()))) {
-                    JOptionPane.showMessageDialog(
+
+                if (!nameLabel.getText().isBlank()) { // if a member is selected
+
+                    int answer = JOptionPane.showConfirmDialog(
                             null,
-                            "Cannot delete this member." +
-                            "\nThis member has borrowed a book.",
-                            "Delete failed",
-                            JOptionPane.ERROR_MESSAGE);
-                } else {
-                    libraryDB.deleteMember(Integer.parseInt(idLabel.getText()));
-                    selectMembersBy();
-                    idLabel.setText("");
-                    nameLabel.setText("");
-                    surnameLabel.setText("");
-                    phoneNoLabel.setText("");
-                    emailLabel.setText("");
-                    addressLabel.setText("");
-                    postcodeLabel.setText("");
-                    updateTotalMembers();
-                    updateNumOfBooksBorrowed();
-                    updateNumOfBooksAvailable();
+                            "Are you sure you want to delete this member?" +
+                            "\nName: "+nameLabel.getText() +
+                            "\nSurname: "+surnameLabel.getText() +
+                            "\nPhone No: "+phoneNoLabel.getText() +
+                            "\nEmail: "+emailLabel.getText() +
+                            "\nAddress: "+addressLabel.getText() +
+                            "\nPostcode: "+postcodeLabel.getText(),
+                            "Delete member",
+                            JOptionPane.YES_NO_OPTION,
+                            JOptionPane.WARNING_MESSAGE
+                    );
+
+                    if (answer == 0) { // if yes pressed
+                        if (libraryDB.hasMemberBorrowedBook(Integer.parseInt(idLabel.getText()))) {
+                            JOptionPane.showMessageDialog(
+                                    null,
+                                    "Cannot delete this member." +
+                                            "\nThis member is borrowing a book.",
+                                    "Delete failed",
+                                    JOptionPane.ERROR_MESSAGE);
+                        } else {
+
+                            libraryDB.deleteMember(Integer.parseInt(idLabel.getText()));
+
+                            idLabel.setText("");
+                            nameLabel.setText("");
+                            surnameLabel.setText("");
+                            phoneNoLabel.setText("");
+                            emailLabel.setText("");
+                            addressLabel.setText("");
+                            postcodeLabel.setText("");
+
+                            selectMembersBy();
+                            updateTotalMembers();
+                        }
+                    }
                 }
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(
@@ -440,21 +473,28 @@ public class MainWindowForm {
         });
 
         deleteUserButton.addActionListener(e -> {
-            if (usernameLabel.getText().isBlank()) { // if nothing is selected
-                return;
-            }
-            int answer = JOptionPane.showConfirmDialog(
-                    null, "Are you sure you want to delete this user?" +
+
+            try {
+
+                if (!usernameLabel.getText().isBlank()) { // if a user is selected
+                    int answer = JOptionPane.showConfirmDialog(
+                            null, "Are you sure you want to delete this user?" +
                             "\nUsername: "+usernameLabel.getText() +
                             "\nFull Name: "+fullNameLabel.getText(),
-                    "Delete user",
-                    JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE
-            );
-            if (answer == -1 || answer == 1) { // if cross pressed or if "no" pressed
-                return;
-            }
-            try {
-                libraryDB.deleteUser(usernameLabel.getText());
+                            "Delete user",
+                            JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE
+                    );
+
+                    if (answer == 0) { // if yes pressed
+
+                        libraryDB.deleteUser(usernameLabel.getText());
+
+                        usernameLabel.setText("");
+                        fullNameLabel.setText("");
+
+                        selectUsersBy();
+                    }
+                }
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(
                         null, ("Database error\n\nDetails:\n" + ex),
@@ -462,108 +502,108 @@ public class MainWindowForm {
                         JOptionPane.ERROR_MESSAGE
                 );
             }
-            selectUsersBy();
-            usernameLabel.setText("");
-            fullNameLabel.setText("");
         });
 
-        bookList.addMouseListener(new MouseAdapter() { // when item in list is selected
+        bookList.addMouseListener(new MouseAdapter() { // when item in book list is selected with cursor
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                if (bookList.getSelectedValue() == null) {
-                    return;
-                }
-                titleLabel.setText(bookList.getSelectedValue().title());
-                authorLabel.setText(bookList.getSelectedValue().author());
-                isbnLabel.setText(bookList.getSelectedValue().isbn());
-                quantityLabel.setText(String.valueOf(bookList.getSelectedValue().quantity()));
-                displayBorrowers();
-            }
-        });
-
-        memberList.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                if (memberList.getSelectedValue() == null) {
-                    return;
-                }
-                idLabel.setText(String.valueOf(memberList.getSelectedValue().id()));
-                nameLabel.setText(memberList.getSelectedValue().name());
-                surnameLabel.setText(memberList.getSelectedValue().surname());
-                phoneNoLabel.setText(memberList.getSelectedValue().phoneNo());
-                emailLabel.setText(memberList.getSelectedValue().email());
-                addressLabel.setText(memberList.getSelectedValue().address());
-                postcodeLabel.setText(memberList.getSelectedValue().postcode());
-            }
-        });
-
-        userList.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                if (userList.getSelectedValue() == null) {
-                    return;
-                }
-                usernameLabel.setText(userList.getSelectedValue().username());
-                fullNameLabel.setText(userList.getSelectedValue().fullName());
-            }
-        });
-
-        borrowerList.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                if (borrowerList.getSelectedValue() == null) {
-                    return;
-                }
-                String[] options = {"Edit", "Book returned"};
-                int answer = JOptionPane.showOptionDialog(
-                        null,
-                        "Choose an option",
-                        "Edit / Returned",
-                        JOptionPane.YES_NO_OPTION,
-                        JOptionPane.WARNING_MESSAGE,
-                        null,
-                        options, // custom buttons
-                        options[1] // default button
-                );
-                if (answer == 0) { // if "Edit" pressed
-                    editBorrower();
-                } else if (answer == 1) { // if "Book returned" pressed
-                    returnBook();
+                if (bookList.getSelectedValue() != null) {
+                    titleLabel.setText(bookList.getSelectedValue().title());
+                    authorLabel.setText(bookList.getSelectedValue().author());
+                    isbnLabel.setText(bookList.getSelectedValue().isbn());
+                    quantityLabel.setText(String.valueOf(bookList.getSelectedValue().quantity()));
+                    displayBorrowers();
                 }
             }
         });
 
-        // updates list when the searchByComboBox value is changed
-        searchByComboBox.addActionListener(e -> {
+        memberList.addMouseListener(new MouseAdapter() { // when item in member list is selected with cursor
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if (memberList.getSelectedValue() != null) {
+                    idLabel.setText(String.valueOf(memberList.getSelectedValue().id()));
+                    nameLabel.setText(memberList.getSelectedValue().name());
+                    surnameLabel.setText(memberList.getSelectedValue().surname());
+                    phoneNoLabel.setText(memberList.getSelectedValue().phoneNo());
+                    emailLabel.setText(memberList.getSelectedValue().email());
+                    addressLabel.setText(memberList.getSelectedValue().address());
+                    postcodeLabel.setText(memberList.getSelectedValue().postcode());
+                }
+            }
+        });
+
+        userList.addMouseListener(new MouseAdapter() { // when item in user list is selected with cursor
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if (userList.getSelectedValue() != null) {
+                    usernameLabel.setText(userList.getSelectedValue().username());
+                    fullNameLabel.setText(userList.getSelectedValue().fullName());
+                }
+            }
+        });
+
+        borrowerList.addMouseListener(new MouseAdapter() { // when item in borrower list is selected with cursor
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if (borrowerList.getSelectedValue() != null) {
+
+                    String[] options = {"Edit", "Book returned"};
+                    int answer = JOptionPane.showOptionDialog(
+                            null,
+                            "Choose an option",
+                            "Edit / Returned",
+                            JOptionPane.YES_NO_OPTION,
+                            JOptionPane.WARNING_MESSAGE,
+                            null,
+                            options, // adds custom buttons
+                            options[1] // stated default button
+                    );
+
+                    switch (answer) {
+                        case 0 ->  // if "Edit" pressed
+                                editBorrower();
+                        case 1 ->  // if "Book returned" pressed
+                                returnBook();
+                    }
+                }
+            }
+        });
+
+        // TODO: change so that not everything is updated
+        searchByComboBox.addActionListener(e -> { // updates list when the searchByComboBox value is changed
             selectBooksBy();
             selectMembersBy();
             selectUsersBy();
         });
 
-        // sets specific values in model of searchByComboBox when menuComboBox value is changed & updates list
-        menuComboBox.addActionListener(e -> {
+
+        menuComboBox.addActionListener(e -> { /* sets specific values in model of searchByComboBox
+                                                 when menuComboBox value is changed & changes type of list displayed */
+
             selectedParentCardPanel.removeAll();
             searchResultsParentCardPanel.removeAll();
-            if (menuComboBox.getSelectedItem() == null) {
-                return;
+
+            if (menuComboBox.getSelectedItem() != null) {
+
+                String menuOption = menuComboBox.getSelectedItem().toString();
+                switch (menuOption) {
+                    case "Books" -> showBookCardPanel();
+                    case "Members" -> showMemberCardPanel();
+                    case "Users" -> showUserCardPanel();
+                }
+
+                selectedParentCardPanel.repaint();
+                selectedParentCardPanel.revalidate();
             }
-            String menuOption = menuComboBox.getSelectedItem().toString();
-            switch (menuOption) {
-                case "Books" -> showBookCardPanel();
-                case "Members" -> showMemberCardPanel();
-                case "Users" -> showUserCardPanel();
-            }
-            selectedParentCardPanel.repaint();
-            selectedParentCardPanel.revalidate();
         });
 
         searchTextField.addKeyListener(new KeyAdapter() {
             @Override
-            public void keyTyped(KeyEvent e) {
+            public void keyTyped(KeyEvent e) { // TODO: change so that not everything is updated
                 //super.keyTyped(e); // TODO: not sure why this line was added. might remove
                 selectBooksBy();
                 selectMembersBy();
@@ -573,8 +613,10 @@ public class MainWindowForm {
     }
 
     private void showUserCardPanel() {
+
         selectedParentCardPanel.add(userCardPanel);
         searchResultsParentCardPanel.add(userSearchCardPanel);
+
         DefaultComboBoxModel userModel = (DefaultComboBoxModel) searchByComboBox.getModel();
         userModel.removeAllElements();
         ArrayList<String> types = new ArrayList<>(Arrays.asList(
@@ -585,12 +627,15 @@ public class MainWindowForm {
             userModel.addElement(type);
         }
         searchByComboBox.setModel(userModel);
+
         selectUsersBy();
     }
 
     private void showMemberCardPanel() {
+
         selectedParentCardPanel.add(memberCardPanel);
         searchResultsParentCardPanel.add(memberSearchCardPanel);
+
         DefaultComboBoxModel memberModel = (DefaultComboBoxModel) searchByComboBox.getModel();
         memberModel.removeAllElements();
         ArrayList<String> types = new ArrayList<>(Arrays.asList(
@@ -605,12 +650,15 @@ public class MainWindowForm {
             memberModel.addElement(type);
         }
         searchByComboBox.setModel(memberModel);
+
         selectMembersBy();
     }
 
     private void showBookCardPanel() {
+
         selectedParentCardPanel.add(bookCardPanel);
         searchResultsParentCardPanel.add(bookSearchCardPanel);
+
         DefaultComboBoxModel bookModel = (DefaultComboBoxModel) searchByComboBox.getModel();
         bookModel.removeAllElements();
         ArrayList<String> types = new ArrayList<>(Arrays.asList(
@@ -622,12 +670,14 @@ public class MainWindowForm {
             bookModel.addElement(type);
         }
         searchByComboBox.setModel(bookModel);
+
         selectBooksBy();
-        displayBorrowers();
     }
 
     private void returnBook() {
+
         try {
+
             String fullName = this.libraryDB.selectMemberNameSurnameByMemberID(
                     borrowerList.getSelectedValue().memberID()
             );
@@ -639,11 +689,13 @@ public class MainWindowForm {
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE);
 
-            if (bookReturned == 0) { // if "Yes" pressed
+            if (bookReturned == 0) { // if yes pressed
+
                 this.libraryDB.deleteBorrower(
                         borrowerList.getSelectedValue().bookID(),
                         borrowerList.getSelectedValue().memberID()
                 );
+
                 displayBorrowers();
                 updateNumOfBooksBorrowed();
                 updateNumOfBooksAvailable();
@@ -658,7 +710,9 @@ public class MainWindowForm {
     }
 
     private void editBorrower() {
+
         try {
+
             Borrower editedBorrower = BorrowerDialog.getBorrower(
                     BorrowerDialog.DialogType.EDIT,
                     borrowerList.getSelectedValue().memberID(),
@@ -671,25 +725,28 @@ public class MainWindowForm {
                     ),
                     this.libraryDB
             );
-            if (editedBorrower == null) { // if cancel pressed
-                return;
+
+            if (editedBorrower != null) { // can be null if cancel pressed on BorrowerDialog
+
+                this.libraryDB.updateBorrower(
+                        editedBorrower.memberID(),
+                        editedBorrower.returnDate(),
+                        this.libraryDB.getBookID(titleLabel.getText(),
+                                authorLabel.getText(),
+                                isbnLabel.getText(),
+                                quantityLabel.getText()),
+                        borrowerList.getSelectedValue().memberID()
+                );
+
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Borrow updated successfully.",
+                        "Borrow update",
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+
+                displayBorrowers();
             }
-            this.libraryDB.updateBorrower(
-                    editedBorrower.memberID(),
-                    editedBorrower.returnDate(),
-                    this.libraryDB.getBookID(titleLabel.getText(),
-                    authorLabel.getText(),
-                    isbnLabel.getText(),
-                    quantityLabel.getText()),
-                    borrowerList.getSelectedValue().memberID()
-            );
-            JOptionPane.showMessageDialog(
-                    null,
-                    "Borrow updated successfully.",
-                    "Borrow update",
-                    JOptionPane.INFORMATION_MESSAGE
-            );
-            displayBorrowers();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(
                     null,
@@ -701,58 +758,70 @@ public class MainWindowForm {
     }
 
     private void createNewUser() {
-        User newUser = UserDialog.getUser(
-                UserDialog.DialogType.CREATE,
-                null,
-                null,
-                this.hashGenerator
-        ); // TODO: "get" for other entities
-        if (newUser == null) {
-            return;
-        }
+
         try {
-            this.libraryDB.createUser(newUser);
-            JOptionPane.showMessageDialog(
+
+            User newUser = UserDialog.getUser(
+                    UserDialog.DialogType.CREATE,
                     null,
-                    "User created successfully.",
-                    "User create",
-                    JOptionPane.INFORMATION_MESSAGE
-            );
+                    null,
+                    this.hashGenerator
+            ); // TODO: "get" for other entities
+
+            if (newUser != null) { // can be null if cancel pressed on UserDialog
+
+                this.libraryDB.createUser(newUser);
+
+                JOptionPane.showMessageDialog(
+                        null,
+                        "User created successfully.",
+                        "User create",
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+
+                selectUsersBy();
+            }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(
-                    null,
-                    ("Database error\n\nDetails:\n" + ex),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE
+                null,
+                ("Database error\n\nDetails:\n" + ex),
+                "Error",
+                JOptionPane.ERROR_MESSAGE
             );
         }
-        selectUsersBy();
     }
 
     private void createNewMember() {
-        Member newMember = MemberDialog.getMember(
-                MemberDialog.DialogType.CREATE,
-                -1,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                this.emailAddressChecker,
-                this.libraryDB
-        );
-        if (newMember == null) {
-            return;
-        }
+
         try {
-            this.libraryDB.createMember(newMember);
-            JOptionPane.showMessageDialog(
+
+            Member newMember = MemberDialog.getMember(
+                    MemberDialog.DialogType.CREATE,
+                    -1, // TODO: does it have to be -1
                     null,
-                    "Member created successfully.",
-                    "Member create",
-                    JOptionPane.INFORMATION_MESSAGE
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    this.emailAddressChecker,
+                    this.libraryDB
             );
+
+            if (newMember != null) { // can be null if cancel pressed on MemberDialog
+
+                this.libraryDB.createMember(newMember);
+
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Member created successfully.",
+                        "Member create",
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+
+                selectMembersBy();
+                updateTotalMembers();
+            }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(
                     null,
@@ -761,29 +830,35 @@ public class MainWindowForm {
                     JOptionPane.ERROR_MESSAGE
             );
         }
-        selectMembersBy();
-        updateTotalMembers();
     }
 
     private void createNewBook() {
-        Book newBook = BookDialog.getBook(
-                BookDialog.DialogType.CREATE,
-                null,
-                null,
-                null,
-                null
-        );
-        if (newBook == null) { // cancel pressed
-            return;
-        }
+
         try {
-            libraryDB.createBook(newBook);
-            JOptionPane.showMessageDialog(
+
+            Book newBook = BookDialog.getBook(
+                    BookDialog.DialogType.CREATE,
                     null,
-                    "Book created successfully.",
-                    "Book create",
-                    JOptionPane.INFORMATION_MESSAGE
+                    null,
+                    null,
+                    null
             );
+
+            if (newBook != null) { // can be null if cancel pressed on BookDialog
+
+                libraryDB.createBook(newBook);
+
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Book created successfully.",
+                        "Book create",
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+
+                selectBooksBy();
+                updateTotalBooks();
+                updateNumOfBooksAvailable();
+            }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(
                     null,
@@ -792,30 +867,29 @@ public class MainWindowForm {
                     JOptionPane.ERROR_MESSAGE
             );
         }
-        selectBooksBy();
-        updateTotalBooks();
-        updateNumOfBooksAvailable();
     }
 
 
     private void selectBooksBy() { // updates list of displayed books
-        List<Book> booksList = null;
-        if (searchByComboBox.getSelectedItem() == null) { // not sure why this is needed
-            return;
-        }
-        String searchBy = searchByComboBox.getSelectedItem().toString();
+
         try {
-            switch (searchBy) {
-                case "Title" -> booksList = this.libraryDB.selectBooksByTitle(searchTextField.getText());
-                case "Author" -> booksList = this.libraryDB.selectBooksByAuthor(searchTextField.getText());
-                case "ISBN" -> booksList = this.libraryDB.selectBooksByISBN(searchTextField.getText());
+
+            if (searchByComboBox.getSelectedItem() != null) {
+
+                String searchBy = searchByComboBox.getSelectedItem().toString();
+                List<Book> booksList = switch (searchBy) {
+                    case "Title" -> this.libraryDB.selectBooksByTitle(searchTextField.getText());
+                    case "Author" -> this.libraryDB.selectBooksByAuthor(searchTextField.getText());
+                    case "ISBN" -> this.libraryDB.selectBooksByISBN(searchTextField.getText());
+                    default -> null;
+                };
+
+                if (booksList != null) {
+                    Book[] booksArray = booksList.toArray(new Book[0]);
+                    bookList.setListData(booksArray);
+                    bookList.setCellRenderer(new BookCellRenderer());
+                }
             }
-            if (booksList == null) {
-                return;
-            }
-            Book[] booksArray = booksList.toArray(new Book[0]);
-            bookList.setListData(booksArray);
-            bookList.setCellRenderer(new BookCellRenderer());
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(
                     null,
@@ -827,26 +901,28 @@ public class MainWindowForm {
     }
 
     private void selectMembersBy() { // updates list of displayed members
-        List<Member> membersList = null;
-        if (searchByComboBox.getSelectedItem() == null) { // not sure why this is needed
-            return;
-        }
-        String searchBy = searchByComboBox.getSelectedItem().toString();
+
         try {
-            switch (searchBy) {
-                case "Name" -> membersList = this.libraryDB.selectMembersByName(searchTextField.getText());
-                case "Surname" -> membersList = this.libraryDB.selectMembersBySurname(searchTextField.getText());
-                case "Phone No" -> membersList = this.libraryDB.selectMembersByPhoneNo(searchTextField.getText());
-                case "Email" -> membersList = this.libraryDB.selectMembersByEmail(searchTextField.getText());
-                case "Address" -> membersList = this.libraryDB.selectMembersByAddress(searchTextField.getText());
-                case "Postcode" -> membersList = this.libraryDB.selectMembersByPostcode(searchTextField.getText());
+
+            if (searchByComboBox.getSelectedItem() != null) {
+
+                String searchBy = searchByComboBox.getSelectedItem().toString();
+                List<Member> membersList = switch (searchBy) {
+                    case "Name" -> this.libraryDB.selectMembersByName(searchTextField.getText());
+                    case "Surname" -> this.libraryDB.selectMembersBySurname(searchTextField.getText());
+                    case "Phone No" -> this.libraryDB.selectMembersByPhoneNo(searchTextField.getText());
+                    case "Email" -> this.libraryDB.selectMembersByEmail(searchTextField.getText());
+                    case "Address" -> this.libraryDB.selectMembersByAddress(searchTextField.getText());
+                    case "Postcode" -> this.libraryDB.selectMembersByPostcode(searchTextField.getText());
+                    default -> null;
+                };
+
+                if (membersList != null) {
+                    Member[] membersArray = membersList.toArray(new Member[0]);
+                    memberList.setListData(membersArray);
+                    memberList.setCellRenderer(new MemberCellRenderer());
+                }
             }
-            if (membersList == null) {
-                return;
-            }
-            Member[] membersArray = membersList.toArray(new Member[0]);
-            memberList.setListData(membersArray);
-            memberList.setCellRenderer(new MemberCellRenderer());
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(
                     null,
@@ -854,21 +930,26 @@ public class MainWindowForm {
                     "Error",
                     JOptionPane.ERROR_MESSAGE
             );
-        } catch (NumberFormatException ex) {
-            // do nothing
         }
     }
 
     private void displayBorrowers() { // updates list of displayed borrowers
-        List<Borrower> borrowersList = null;
+
         try {
+
             int bookID = this.libraryDB.getBookID(
                     titleLabel.getText(),
                     authorLabel.getText(),
                     isbnLabel.getText(),
                     quantityLabel.getText()
             );
-            borrowersList = this.libraryDB.selectBorrowersByBookID(bookID);
+            List<Borrower> borrowersList = this.libraryDB.selectBorrowersByBookID(bookID); // TODO: can it start off as an array instead of a model?
+
+            if (borrowersList != null) {
+                Borrower[] borrowersArray = borrowersList.toArray(new Borrower[0]);
+                borrowerList.setListData(borrowersArray);
+                borrowerList.setCellRenderer(new BorrowerCellRenderer());
+            }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(
                     null,
@@ -877,32 +958,27 @@ public class MainWindowForm {
                     JOptionPane.ERROR_MESSAGE
             );
         }
-        if (borrowersList == null) {
-            return;
-        }
-        Borrower[] borrowersArray = borrowersList.toArray(new Borrower[0]);
-        borrowerList.setListData(borrowersArray);
-        borrowerList.setCellRenderer(new BorrowerCellRenderer());
     }
 
     private void selectUsersBy() { // updates list of displayed users
-        List<User> usersList = null;
-        if (searchByComboBox.getSelectedItem() == null) {
-            return;
-        }
-        String searchBy = searchByComboBox.getSelectedItem().toString();
+
         try {
-            if (searchBy.equals("Username")) {
-                usersList = this.libraryDB.selectUsersByUsername(searchTextField.getText());
-            } else if (searchBy.equals("Full Name")) {
-                usersList = this.libraryDB.selectUsersByFullName(searchTextField.getText());
+
+            if (searchByComboBox.getSelectedItem() != null) {
+
+                String searchBy = searchByComboBox.getSelectedItem().toString();
+                List<User> usersList = switch (searchBy) {
+                    case "Username" -> this.libraryDB.selectUsersByUsername(searchTextField.getText());
+                    case "Full Name" -> this.libraryDB.selectUsersByFullName(searchTextField.getText());
+                    default -> null;
+                };
+
+                if (usersList != null) {
+                    User[] usersArray = usersList.toArray(new User[0]);
+                    userList.setListData(usersArray);
+                    userList.setCellRenderer(new UserCellRenderer());
+                }
             }
-            if (usersList == null) {
-                return;
-            }
-            User[] usersArray = usersList.toArray(new User[0]);
-            userList.setListData(usersArray);
-            userList.setCellRenderer(new UserCellRenderer());
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(
                     null,
@@ -914,9 +990,9 @@ public class MainWindowForm {
     }
 
     private void updateTotalMembers() {
-        int totalMembers = -1;
         try {
-            totalMembers = this.libraryDB.countMembers();
+            int totalMembers = this.libraryDB.countMembers();
+            totalMembersLabel.setText(String.valueOf(totalMembers));
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(
                     null,
@@ -925,13 +1001,12 @@ public class MainWindowForm {
                     JOptionPane.ERROR_MESSAGE
             );
         }
-        totalMembersLabel.setText(String.valueOf(totalMembers));
     }
 
     private void updateTotalBooks() {
-        int totalBooks = -1;
         try {
-            totalBooks = this.libraryDB.countBooks();
+            int totalBooks = this.libraryDB.countBooks();
+            totalBooksLabel.setText(String.valueOf(totalBooks));
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(
                     null,
@@ -940,13 +1015,12 @@ public class MainWindowForm {
                     JOptionPane.ERROR_MESSAGE
             );
         }
-        totalBooksLabel.setText(String.valueOf(totalBooks));
     }
 
     private void updateNumOfBooksBorrowed() {
-        int numOfBooksBorrowed = -1;
         try {
-            numOfBooksBorrowed = this.libraryDB.countBorrowers();
+            int numOfBooksBorrowed = this.libraryDB.countBorrowers();
+            numOfBooksBorrowedLabel.setText(String.valueOf(numOfBooksBorrowed));
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(
                     null,
@@ -955,15 +1029,13 @@ public class MainWindowForm {
                     JOptionPane.ERROR_MESSAGE
             );
         }
-        numOfBooksBorrowedLabel.setText(String.valueOf(numOfBooksBorrowed));
     }
 
     private void updateNumOfBooksAvailable() {
-        int totalBooks = -1;
-        int numOfBooksBorrowed = -1;
         try {
-            totalBooks = this.libraryDB.countBooks();
-            numOfBooksBorrowed = this.libraryDB.countBorrowers();
+            int totalBooks = this.libraryDB.countBooks();
+            int numOfBooksBorrowed = this.libraryDB.countBorrowers();
+            numOfBooksAvailableLabel.setText(String.valueOf(totalBooks - numOfBooksBorrowed));
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(
                     null,
@@ -972,6 +1044,5 @@ public class MainWindowForm {
                     JOptionPane.ERROR_MESSAGE
             );
         }
-        numOfBooksAvailableLabel.setText(String.valueOf(totalBooks - numOfBooksBorrowed));
     }
 }

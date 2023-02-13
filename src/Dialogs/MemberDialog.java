@@ -108,26 +108,26 @@ public class MemberDialog extends JDialog {
 
     private void onOK(DialogType type, String oldEmail) {
 
-        if (
-                idTextField.getText().isBlank()
-                || nameTextField.getText().isBlank()
-                || surnameTextField.getText().isBlank()
-                || addressTextField.getText().isBlank()
-                || postcodeTextField.getText().isBlank())
-        { // phone num and email not checked because some members may not have one
-            return;
-        }
-
-        if (!emailAddressChecker.isValidEmailAddress(emailTextField.getText())) {
-            JOptionPane.showMessageDialog(
-                    null,
-                    emailTextField.getText() + " doesn't look like a valid email address.\n\nPlease check and correct.",
-                    "Invalid email address",
-                    JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
         try {
+
+            if (
+                    idTextField.getText().isBlank()
+                            || nameTextField.getText().isBlank()
+                            || surnameTextField.getText().isBlank()
+                            || addressTextField.getText().isBlank()
+                            || postcodeTextField.getText().isBlank())
+            { // phone num and email not checked because some members may not have one
+                return;
+            }
+
+            if (!emailAddressChecker.isValidEmailAddress(emailTextField.getText())) {
+                JOptionPane.showMessageDialog(
+                        null,
+                        emailTextField.getText() + " doesn't look like a valid email address.\n\nPlease check and correct.",
+                        "Invalid email address",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
             if (libraryDB.isEmailUsed(emailTextField.getText()) && type == DialogType.CREATE) {
                 JOptionPane.showMessageDialog(

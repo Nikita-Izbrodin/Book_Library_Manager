@@ -1,5 +1,7 @@
 package Entities;
 
-public record User(String username, String fullName, String password) {
-
-}
+public record User(
+        String username,
+        String fullName,
+        String password
+) {}
