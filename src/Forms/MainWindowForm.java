@@ -608,13 +608,19 @@ public class MainWindowForm {
             }
         });
 
-        searchTextField.addKeyListener(new KeyAdapter() {
+        searchTextField.addKeyListener(new KeyAdapter() { // updates list when user types in search bar
             @Override
-            public void keyTyped(KeyEvent e) { // TODO: change so that not everything is updated
-                //super.keyTyped(e); // TODO: not sure why this line was added. might remove
-                selectBooksBy();
-                selectMembersBy();
-                selectUsersBy();
+            public void keyTyped(KeyEvent e) {
+                super.keyTyped(e);
+
+                assert menuComboBox.getSelectedItem() != null; /* method invocation 'toString' in switch expression
+                                                              may produce NullPointerException if
+                                                              menuComboBox.getSelectedItem() is null */
+                switch (menuComboBox.getSelectedItem().toString()) {
+                    case "Books" -> selectBooksBy();
+                    case "Members" -> selectMembersBy();
+                    case "Users" -> selectUsersBy();
+                }
             }
         });
     }
