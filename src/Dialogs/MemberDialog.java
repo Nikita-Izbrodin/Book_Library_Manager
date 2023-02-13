@@ -31,7 +31,7 @@ public class MemberDialog extends JDialog {
 
     // dependencies
     private final EmailAddressChecker emailAddressChecker;
-    private final LibraryDatabase libraryDB;
+    private final LibraryDatabase libraryDatabase;
 
     public enum DialogType {
         CREATE,
@@ -41,11 +41,11 @@ public class MemberDialog extends JDialog {
     public MemberDialog(
             DialogType type,
             int id, String name, String surname, String phone, String email, String address, String postcode,
-            EmailAddressChecker emailAddressChecker, LibraryDatabase libraryDB
+            EmailAddressChecker emailAddressChecker, LibraryDatabase libraryDatabase
     ) {
 
         this.emailAddressChecker = emailAddressChecker;
-        this.libraryDB = libraryDB;
+        this.libraryDatabase = libraryDatabase;
 
         setContentPane(contentPane);
         setModal(true);
@@ -87,12 +87,12 @@ public class MemberDialog extends JDialog {
     public static Member getMember(
             DialogType type,
             int id, String name, String surname, String phone, String email, String address, String postcode,
-            EmailAddressChecker emailAddressChecker, LibraryDatabase libraryDB
+            EmailAddressChecker emailAddressChecker, LibraryDatabase libraryDatabase
     ) {
 
         MemberDialog memberDialog = new MemberDialog(
                 type, id, name, surname, phone, email, address, postcode,
-                emailAddressChecker, libraryDB
+                emailAddressChecker, libraryDatabase
         );
         memberDialog.pack();
         memberDialog.setLocationRelativeTo(null);
@@ -129,7 +129,7 @@ public class MemberDialog extends JDialog {
                 return;
             }
 
-            if (libraryDB.isEmailUsed(emailTextField.getText()) && type == DialogType.CREATE) {
+            if (libraryDatabase.isEmailUsed(emailTextField.getText()) && type == DialogType.CREATE) {
                 JOptionPane.showMessageDialog(
                         null,
                         "A member with this email already exists.",
@@ -138,7 +138,7 @@ public class MemberDialog extends JDialog {
                 return;
             } else if (
                     !emailTextField.getText().equals(oldEmail)
-                    && libraryDB.isEmailUsed(emailTextField.getText())
+                    && libraryDatabase.isEmailUsed(emailTextField.getText())
                     && type == DialogType.EDIT)
             {
                 JOptionPane.showMessageDialog(

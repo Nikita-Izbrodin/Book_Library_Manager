@@ -26,16 +26,16 @@ public class BorrowerDialog extends JDialog {
     private Borrower borrower;
 
     // dependencies
-    private final LibraryDatabase libraryDB;
+    private final LibraryDatabase libraryDatabase;
 
     public enum DialogType {
         CREATE,
         EDIT
     }
 
-    public BorrowerDialog(DialogType type, int memberID, LocalDate returnDate, int bookID, LibraryDatabase libraryDB) {
+    public BorrowerDialog(DialogType type, int memberID, LocalDate returnDate, int bookID, LibraryDatabase libraryDatabase) {
 
-        this.libraryDB = libraryDB;
+        this.libraryDatabase = libraryDatabase;
 
         setContentPane(contentPane);
         setModal(true);
@@ -73,9 +73,9 @@ public class BorrowerDialog extends JDialog {
     public static Borrower getBorrower(
             DialogType type,
             int memberID, LocalDate returnDate, int bookID,
-            LibraryDatabase libraryDB
+            LibraryDatabase libraryDatabase
     ) {
-        BorrowerDialog borrowerDialog = new BorrowerDialog(type, memberID, returnDate, bookID, libraryDB);
+        BorrowerDialog borrowerDialog = new BorrowerDialog(type, memberID, returnDate, bookID, libraryDatabase);
         borrowerDialog.pack();
         borrowerDialog.setLocationRelativeTo(null);
         switch (type) {
@@ -95,7 +95,7 @@ public class BorrowerDialog extends JDialog {
             }
 
             if (
-                    this.libraryDB.isBookBorrowedByMember(bookID, Integer.parseInt(memberIDField.getText()))
+                    this.libraryDatabase.isBookBorrowedByMember(bookID, Integer.parseInt(memberIDField.getText()))
                     && type == DialogType.CREATE
             ) {
                 JOptionPane.showMessageDialog(

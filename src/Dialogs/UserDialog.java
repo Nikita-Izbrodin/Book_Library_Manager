@@ -43,7 +43,7 @@ public class UserDialog extends JDialog {
         setModal(true);
         getRootPane().setDefaultButton(leftButton);
 
-        switch (type) { // TODO: use enum + case with other dialogs
+        switch (type) {
             case CREATE -> {
                 leftButton.setText("Create");
             }

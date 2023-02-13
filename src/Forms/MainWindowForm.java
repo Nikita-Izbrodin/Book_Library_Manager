@@ -82,19 +82,19 @@ public class MainWindowForm {
     // dependencies
     private final HashGenerator hashGenerator;
     private final EmailAddressChecker emailAddressChecker;
-    private final LibraryDatabase libraryDB;
+    private final LibraryDatabase libraryDatabase;
 
     public static void showMainWindow(
             HashGenerator hashGenerator,
             EmailAddressChecker emailAddressChecker,
-            LibraryDatabase libraryDB)
+            LibraryDatabase libraryDatabase)
     {
         assert hashGenerator != null;
         assert emailAddressChecker!= null;
-        assert libraryDB != null;
+        assert libraryDatabase != null;
 
         JFrame frame = new JFrame("Book Library Manager");
-        MainWindowForm mainWindowForm = new MainWindowForm(hashGenerator, emailAddressChecker,libraryDB);
+        MainWindowForm mainWindowForm = new MainWindowForm(hashGenerator, emailAddressChecker,libraryDatabase);
         frame.setContentPane(mainWindowForm.mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setPreferredSize(new Dimension(1000, 800));
@@ -106,12 +106,12 @@ public class MainWindowForm {
     public MainWindowForm(
             HashGenerator hashGenerator,
             EmailAddressChecker emailAddressChecker,
-            LibraryDatabase libraryDB) // TODO: change to libraryDatabase
+            LibraryDatabase libraryDatabase)
     { // constructor
 
         this.hashGenerator = hashGenerator;
         this.emailAddressChecker = emailAddressChecker;
-        this.libraryDB = libraryDB;
+        this.libraryDatabase = libraryDatabase;
 
         selectBooksBy();
         updateTotalMembers();
@@ -137,7 +137,7 @@ public class MainWindowForm {
                     return;
                 }
 
-                if (libraryDB.noMembers()) {
+                if (libraryDatabase.noMembers()) {
                     JOptionPane.showMessageDialog(
                             null,
                             "There are no members in the database.",
@@ -157,7 +157,7 @@ public class MainWindowForm {
                     return;
                 }
 
-                int bookID =  libraryDB.getBookID(
+                int bookID =  libraryDatabase.getBookID(
                         titleLabel.getText(),
                         authorLabel.getText(),
                         isbnLabel.getText(),
@@ -169,11 +169,11 @@ public class MainWindowForm {
                         -1, // TODO: does it have to be -1?
                         null,
                         bookID,
-                        libraryDB
+                        libraryDatabase
                 );
 
                 if (newBorrower != null) { // can be null if cancel pressed on BorrowerDialog
-                    libraryDB.createBorrower(newBorrower);
+                    libraryDatabase.createBorrower(newBorrower);
 
                     displayBorrowers();
                     updateNumOfBooksBorrowed();
@@ -203,12 +203,12 @@ public class MainWindowForm {
                     );
 
                     if (editedBook != null) { // can be null if cancel pressed on BookDialog
-                        libraryDB.updateBook(
+                        libraryDatabase.updateBook(
                                 editedBook.title(),
                                 editedBook.author(),
                                 String.valueOf(editedBook.isbn()),
                                 String.valueOf(editedBook.quantity()),
-                                libraryDB.getBookID(titleLabel.getText(),
+                                libraryDatabase.getBookID(titleLabel.getText(),
                                         authorLabel.getText(),
                                         isbnLabel.getText(),
                                         quantityLabel.getText())
@@ -257,11 +257,11 @@ public class MainWindowForm {
                             addressLabel.getText(),
                             postcodeLabel.getText(),
                             emailAddressChecker,
-                            this.libraryDB
+                            this.libraryDatabase
                     );
 
                     if (editedMember != null) { // can be null if cancel pressed on MemberDialog
-                        libraryDB.updateMember(
+                        libraryDatabase.updateMember(
                                 editedMember.id(),
                                 editedMember.name(),
                                 editedMember.surname(),
@@ -307,7 +307,7 @@ public class MainWindowForm {
                 if (!usernameLabel.getText().isBlank()) { // if a user is selected
 
                     // TODO: change!
-                    String oldPassword = (libraryDB.selectUsersByUsername(usernameLabel.getText())).get(0).password();
+                    String oldPassword = (libraryDatabase.selectUsersByUsername(usernameLabel.getText())).get(0).password();
                     User editedUser = UserDialog.getUser(
                             UserDialog.DialogType.EDIT,
                             usernameLabel.getText(),
@@ -317,14 +317,14 @@ public class MainWindowForm {
 
                     if (editedUser != null) { // can be null if cancel pressed on UserDialog
                         if (editedUser.password() == null) { // TODO: check this change of removing setPassword works
-                            libraryDB.updateUser(
+                            libraryDatabase.updateUser(
                                     editedUser.username(),
                                     editedUser.fullName(),
                                     oldPassword,
                                     usernameLabel.getText()
                             );
                         } else {
-                            libraryDB.updateUser(
+                            libraryDatabase.updateUser(
                                     editedUser.username(),
                                     editedUser.fullName(),
                                     editedUser.password(),
@@ -363,26 +363,26 @@ public class MainWindowForm {
                     int answer = JOptionPane.showConfirmDialog(
                             null,
                             "Are you sure you want to delete this book?" +
-                                    "\nTitle: "+titleLabel.getText() +
-                                    "\nAuthor: "+authorLabel.getText() +
-                                    "\nISBN: "+isbnLabel.getText() +
-                                    "\nQuantity: "+quantityLabel.getText(),
+                            "\nTitle: "+titleLabel.getText() +
+                            "\nAuthor: "+authorLabel.getText() +
+                            "\nISBN: "+isbnLabel.getText() +
+                            "\nQuantity: "+quantityLabel.getText(),
                             "Delete book", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE
                     );
 
                     if (answer == 0) { // if yes pressed
 
-                        int bookID = libraryDB.getBookID(
+                        int bookID = libraryDatabase.getBookID(
                                 titleLabel.getText(),
                                 authorLabel.getText(),
                                 isbnLabel.getText(),
                                 quantityLabel.getText()
                         );
 
-                        if (libraryDB.selectBorrowersByBookID(bookID).isEmpty()) { // if this book is not being borrowed
+                        if (libraryDatabase.selectBorrowersByBookID(bookID).isEmpty()) { // if this book is not being borrowed
 
-                            libraryDB.deleteBook(
-                                    libraryDB.getBookID(
+                            libraryDatabase.deleteBook(
+                                    libraryDatabase.getBookID(
                                             titleLabel.getText(),
                                             authorLabel.getText(),
                                             isbnLabel.getText(),
@@ -439,16 +439,16 @@ public class MainWindowForm {
                     );
 
                     if (answer == 0) { // if yes pressed
-                        if (libraryDB.hasMemberBorrowedBook(Integer.parseInt(idLabel.getText()))) {
+                        if (libraryDatabase.hasMemberBorrowedBook(Integer.parseInt(idLabel.getText()))) {
                             JOptionPane.showMessageDialog(
                                     null,
                                     "Cannot delete this member." +
-                                            "\nThis member is borrowing a book.",
+                                    "\nThis member is borrowing a book.",
                                     "Delete failed",
                                     JOptionPane.ERROR_MESSAGE);
                         } else {
 
-                            libraryDB.deleteMember(Integer.parseInt(idLabel.getText()));
+                            libraryDatabase.deleteMember(Integer.parseInt(idLabel.getText()));
 
                             idLabel.setText("");
                             nameLabel.setText("");
@@ -487,7 +487,7 @@ public class MainWindowForm {
 
                     if (answer == 0) { // if yes pressed
 
-                        libraryDB.deleteUser(usernameLabel.getText());
+                        libraryDatabase.deleteUser(usernameLabel.getText());
 
                         usernameLabel.setText("");
                         fullNameLabel.setText("");
@@ -678,7 +678,7 @@ public class MainWindowForm {
 
         try {
 
-            String fullName = this.libraryDB.selectMemberNameSurnameByMemberID(
+            String fullName = this.libraryDatabase.selectMemberNameSurnameByMemberID(
                     borrowerList.getSelectedValue().memberID()
             );
 
@@ -691,7 +691,7 @@ public class MainWindowForm {
 
             if (bookReturned == 0) { // if yes pressed
 
-                this.libraryDB.deleteBorrower(
+                this.libraryDatabase.deleteBorrower(
                         borrowerList.getSelectedValue().bookID(),
                         borrowerList.getSelectedValue().memberID()
                 );
@@ -717,24 +717,26 @@ public class MainWindowForm {
                     BorrowerDialog.DialogType.EDIT,
                     borrowerList.getSelectedValue().memberID(),
                     borrowerList.getSelectedValue().returnDate(),
-                    this.libraryDB.getBookID(
+                    this.libraryDatabase.getBookID(
                             titleLabel.getText(),
                             authorLabel.getText(),
                             isbnLabel.getText(),
                             quantityLabel.getText()
                     ),
-                    this.libraryDB
+                    this.libraryDatabase
             );
 
             if (editedBorrower != null) { // can be null if cancel pressed on BorrowerDialog
 
-                this.libraryDB.updateBorrower(
+                this.libraryDatabase.updateBorrower(
                         editedBorrower.memberID(),
                         editedBorrower.returnDate(),
-                        this.libraryDB.getBookID(titleLabel.getText(),
+                        this.libraryDatabase.getBookID(
+                                titleLabel.getText(),
                                 authorLabel.getText(),
                                 isbnLabel.getText(),
-                                quantityLabel.getText()),
+                                quantityLabel.getText()
+                        ),
                         borrowerList.getSelectedValue().memberID()
                 );
 
@@ -770,7 +772,7 @@ public class MainWindowForm {
 
             if (newUser != null) { // can be null if cancel pressed on UserDialog
 
-                this.libraryDB.createUser(newUser);
+                this.libraryDatabase.createUser(newUser);
 
                 JOptionPane.showMessageDialog(
                         null,
@@ -805,12 +807,12 @@ public class MainWindowForm {
                     null,
                     null,
                     this.emailAddressChecker,
-                    this.libraryDB
+                    this.libraryDatabase
             );
 
             if (newMember != null) { // can be null if cancel pressed on MemberDialog
 
-                this.libraryDB.createMember(newMember);
+                this.libraryDatabase.createMember(newMember);
 
                 JOptionPane.showMessageDialog(
                         null,
@@ -846,7 +848,7 @@ public class MainWindowForm {
 
             if (newBook != null) { // can be null if cancel pressed on BookDialog
 
-                libraryDB.createBook(newBook);
+                libraryDatabase.createBook(newBook);
 
                 JOptionPane.showMessageDialog(
                         null,
@@ -878,9 +880,9 @@ public class MainWindowForm {
 
                 String searchBy = searchByComboBox.getSelectedItem().toString();
                 List<Book> booksList = switch (searchBy) {
-                    case "Title" -> this.libraryDB.selectBooksByTitle(searchTextField.getText());
-                    case "Author" -> this.libraryDB.selectBooksByAuthor(searchTextField.getText());
-                    case "ISBN" -> this.libraryDB.selectBooksByISBN(searchTextField.getText());
+                    case "Title" -> this.libraryDatabase.selectBooksByTitle(searchTextField.getText());
+                    case "Author" -> this.libraryDatabase.selectBooksByAuthor(searchTextField.getText());
+                    case "ISBN" -> this.libraryDatabase.selectBooksByISBN(searchTextField.getText());
                     default -> null;
                 };
 
@@ -908,12 +910,12 @@ public class MainWindowForm {
 
                 String searchBy = searchByComboBox.getSelectedItem().toString();
                 List<Member> membersList = switch (searchBy) {
-                    case "Name" -> this.libraryDB.selectMembersByName(searchTextField.getText());
-                    case "Surname" -> this.libraryDB.selectMembersBySurname(searchTextField.getText());
-                    case "Phone No" -> this.libraryDB.selectMembersByPhoneNo(searchTextField.getText());
-                    case "Email" -> this.libraryDB.selectMembersByEmail(searchTextField.getText());
-                    case "Address" -> this.libraryDB.selectMembersByAddress(searchTextField.getText());
-                    case "Postcode" -> this.libraryDB.selectMembersByPostcode(searchTextField.getText());
+                    case "Name" -> this.libraryDatabase.selectMembersByName(searchTextField.getText());
+                    case "Surname" -> this.libraryDatabase.selectMembersBySurname(searchTextField.getText());
+                    case "Phone No" -> this.libraryDatabase.selectMembersByPhoneNo(searchTextField.getText());
+                    case "Email" -> this.libraryDatabase.selectMembersByEmail(searchTextField.getText());
+                    case "Address" -> this.libraryDatabase.selectMembersByAddress(searchTextField.getText());
+                    case "Postcode" -> this.libraryDatabase.selectMembersByPostcode(searchTextField.getText());
                     default -> null;
                 };
 
@@ -937,13 +939,13 @@ public class MainWindowForm {
 
         try {
 
-            int bookID = this.libraryDB.getBookID(
+            int bookID = this.libraryDatabase.getBookID(
                     titleLabel.getText(),
                     authorLabel.getText(),
                     isbnLabel.getText(),
                     quantityLabel.getText()
             );
-            List<Borrower> borrowersList = this.libraryDB.selectBorrowersByBookID(bookID); // TODO: can it start off as an array instead of a model?
+            List<Borrower> borrowersList = this.libraryDatabase.selectBorrowersByBookID(bookID); // TODO: can it start off as an array instead of a model?
 
             if (borrowersList != null) {
                 Borrower[] borrowersArray = borrowersList.toArray(new Borrower[0]);
@@ -968,8 +970,8 @@ public class MainWindowForm {
 
                 String searchBy = searchByComboBox.getSelectedItem().toString();
                 List<User> usersList = switch (searchBy) {
-                    case "Username" -> this.libraryDB.selectUsersByUsername(searchTextField.getText());
-                    case "Full Name" -> this.libraryDB.selectUsersByFullName(searchTextField.getText());
+                    case "Username" -> this.libraryDatabase.selectUsersByUsername(searchTextField.getText());
+                    case "Full Name" -> this.libraryDatabase.selectUsersByFullName(searchTextField.getText());
                     default -> null;
                 };
 
@@ -991,7 +993,7 @@ public class MainWindowForm {
 
     private void updateTotalMembers() {
         try {
-            int totalMembers = this.libraryDB.countMembers();
+            int totalMembers = this.libraryDatabase.countMembers();
             totalMembersLabel.setText(String.valueOf(totalMembers));
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(
@@ -1005,7 +1007,7 @@ public class MainWindowForm {
 
     private void updateTotalBooks() {
         try {
-            int totalBooks = this.libraryDB.countBooks();
+            int totalBooks = this.libraryDatabase.countBooks();
             totalBooksLabel.setText(String.valueOf(totalBooks));
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(
@@ -1019,7 +1021,7 @@ public class MainWindowForm {
 
     private void updateNumOfBooksBorrowed() {
         try {
-            int numOfBooksBorrowed = this.libraryDB.countBorrowers();
+            int numOfBooksBorrowed = this.libraryDatabase.countBorrowers();
             numOfBooksBorrowedLabel.setText(String.valueOf(numOfBooksBorrowed));
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(
@@ -1033,8 +1035,8 @@ public class MainWindowForm {
 
     private void updateNumOfBooksAvailable() {
         try {
-            int totalBooks = this.libraryDB.countBooks();
-            int numOfBooksBorrowed = this.libraryDB.countBorrowers();
+            int totalBooks = this.libraryDatabase.countBooks();
+            int numOfBooksBorrowed = this.libraryDatabase.countBorrowers();
             numOfBooksAvailableLabel.setText(String.valueOf(totalBooks - numOfBooksBorrowed));
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(

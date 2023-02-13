@@ -1,3 +1,4 @@
+import DataAccess.LibraryDatabase;
 import Dialogs.UserDialog;
 import Forms.MainWindowForm;
 import Entities.User;
@@ -16,11 +17,11 @@ public class Main {
 
         HashGenerator hashGenerator = new Sha256HashGenerator();
         EmailAddressChecker emailAddressChecker = new RegExEmailAddressChecker();
-        MySqlLibraryDatabase libraryDB = new MySqlLibraryDatabase();
+        LibraryDatabase libraryDatabase = new MySqlLibraryDatabase();
 
         try {
 
-            if (libraryDB.noStaff()){ // if there are no users in database
+            if (libraryDatabase.noStaff()){ // if there are no users in database
 
                 User newUser = UserDialog.getUser(
                         UserDialog.DialogType.CREATE,
@@ -33,7 +34,7 @@ public class Main {
                     return; // exit from the application
                 }
 
-                libraryDB.createUser(newUser);
+                libraryDatabase.createUser(newUser);
             } else { // if there are users in database
 
                 boolean loginLoop = true;
@@ -51,7 +52,7 @@ public class Main {
                         return; // exit from application
                     }
 
-                    if (libraryDB.isValidUser(
+                    if (libraryDatabase.isValidUser(
                             user.username(),
                             user.password())
                     ) { // if username and password are correct, log in is successful
@@ -68,7 +69,7 @@ public class Main {
                     }
                 }
             }
-            MainWindowForm.showMainWindow(hashGenerator, emailAddressChecker, libraryDB);
+            MainWindowForm.showMainWindow(hashGenerator, emailAddressChecker, libraryDatabase);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(
                     null,
