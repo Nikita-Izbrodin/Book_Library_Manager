@@ -23,6 +23,7 @@ public class UserDialog extends JDialog {
     private JTextField fullNameField;
     private JTextField usernameField;
     private JLabel fullNameLabel;
+    private JLabel infoLabel;
     private User user;
 
     // dependencies
@@ -49,15 +50,18 @@ public class UserDialog extends JDialog {
             }
             case EDIT -> {
                 leftButton.setText("Save");
+
+                infoLabel.setText("If no change is wanted to password, leave blank.");
+
                 usernameField.setText(username);
                 fullNameField.setText(fullName);
             }
             case LOGIN -> {
                 leftButton.setText("Log In");
+
                 fullNameLabel.setVisible(false);
                 fullNameField.disable();
                 fullNameField.setVisible(false);
-                passwordField.setToolTipText(null);
             }
         }
 
@@ -100,7 +104,12 @@ public class UserDialog extends JDialog {
 
         if (
                 type == DialogType.CREATE
-                && (usernameField.getText().isBlank() || fullNameField.getText().isBlank() || passwordField.getText().isBlank()))
+                && (
+                        usernameField.getText().isBlank()
+                        || fullNameField.getText().isBlank()
+                        || passwordField.getText().isBlank()
+                )
+        )
         {
             return;
         } else if (

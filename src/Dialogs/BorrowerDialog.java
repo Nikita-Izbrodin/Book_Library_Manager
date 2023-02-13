@@ -33,7 +33,11 @@ public class BorrowerDialog extends JDialog {
         EDIT
     }
 
-    public BorrowerDialog(DialogType type, int memberID, LocalDate returnDate, int bookID, LibraryDatabase libraryDatabase) {
+    public BorrowerDialog(
+            DialogType type,
+            int memberID, LocalDate returnDate, int bookID,
+            LibraryDatabase libraryDatabase
+    ) {
 
         this.libraryDatabase = libraryDatabase;
 
@@ -47,6 +51,7 @@ public class BorrowerDialog extends JDialog {
             }
             case EDIT -> {
                 leftButton.setText("Save");
+
                 memberIDField.setText(String.valueOf(memberID));
                 returnDateField.setText(String.valueOf(returnDate));
             }
@@ -75,13 +80,16 @@ public class BorrowerDialog extends JDialog {
             int memberID, LocalDate returnDate, int bookID,
             LibraryDatabase libraryDatabase
     ) {
+
         BorrowerDialog borrowerDialog = new BorrowerDialog(type, memberID, returnDate, bookID, libraryDatabase);
         borrowerDialog.pack();
         borrowerDialog.setLocationRelativeTo(null);
+
         switch (type) {
             case CREATE -> borrowerDialog.setTitle("Create borrower");
             case EDIT -> borrowerDialog.setTitle("Edit borrower");
         }
+
         borrowerDialog.show();
         return borrowerDialog.borrower;
     }
@@ -121,6 +129,7 @@ public class BorrowerDialog extends JDialog {
             }
 
             borrower = new Borrower(bookID, memberID, null, returnDate);
+
             dispose();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(

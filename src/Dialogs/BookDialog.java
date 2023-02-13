@@ -40,6 +40,7 @@ public class BookDialog extends JDialog {
             }
             case EDIT -> {
                 leftButton.setText("Save");
+
                 titleField.setText(title);
                 authorField.setText(author);
                 isbnField.setText(isbn);
@@ -66,18 +67,22 @@ public class BookDialog extends JDialog {
     }
 
     public static Book getBook(DialogType type, String title, String author, String isbn, String quantity) {
+
         BookDialog bookDialog = new BookDialog(type, title, author, isbn, quantity);
         bookDialog.pack();
         bookDialog.setLocationRelativeTo(null);
+
         switch (type) {
             case CREATE -> bookDialog.setTitle("Create book");
             case EDIT -> bookDialog.setTitle("Edit book");
         }
+
         bookDialog.show();
         return bookDialog.book;
     }
 
     private void onOK() {
+
         try {
 
             if (
@@ -93,8 +98,8 @@ public class BookDialog extends JDialog {
             String author = authorField.getText();
             String isbn = isbnField.getText();
             int quantity = Integer.parseInt(quantityField.getText());
-
             book = new Book(title, author, isbn, quantity);
+
             dispose();
         } catch (NumberFormatException nfe) {
             JOptionPane.showMessageDialog(

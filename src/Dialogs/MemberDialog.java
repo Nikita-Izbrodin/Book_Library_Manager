@@ -91,7 +91,8 @@ public class MemberDialog extends JDialog {
     ) {
 
         MemberDialog memberDialog = new MemberDialog(
-                type, id, name, surname, phone, email, address, postcode,
+                type,
+                id, name, surname, phone, email, address, postcode,
                 emailAddressChecker, libraryDatabase
         );
         memberDialog.pack();
@@ -112,18 +113,22 @@ public class MemberDialog extends JDialog {
 
             if (
                     idTextField.getText().isBlank()
-                            || nameTextField.getText().isBlank()
-                            || surnameTextField.getText().isBlank()
-                            || addressTextField.getText().isBlank()
-                            || postcodeTextField.getText().isBlank())
-            { // phone num and email not checked because some members may not have one
+                    || nameTextField.getText().isBlank()
+                    || surnameTextField.getText().isBlank()
+                    || phoneNoTextField.getText().isBlank()
+                    || emailTextField.getText().isBlank()
+                    || addressTextField.getText().isBlank()
+                    || postcodeTextField.getText().isBlank()
+            )
+            {
                 return;
             }
 
             if (!emailAddressChecker.isValidEmailAddress(emailTextField.getText())) {
                 JOptionPane.showMessageDialog(
                         null,
-                        emailTextField.getText() + " doesn't look like a valid email address.\n\nPlease check and correct.",
+                        emailTextField.getText() +
+                        " doesn't look like a valid email address.\n\nPlease check and correct.", // TODO: remove /n/n to just /n
                         "Invalid email address",
                         JOptionPane.ERROR_MESSAGE);
                 return;
@@ -156,8 +161,8 @@ public class MemberDialog extends JDialog {
             String email = emailTextField.getText();
             String address = addressTextField.getText();
             String postcode = postcodeTextField.getText();
-
             member = new Member(id, name, surname, phoneNo, email, address, postcode);
+
             dispose();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(

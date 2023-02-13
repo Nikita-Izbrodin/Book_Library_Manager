@@ -133,51 +133,50 @@ public class MainWindowForm {
 
             try {
 
-                if (titleLabel.getText().isBlank()) { // if nothing is selected
-                    return;
-                }
+                if (!titleLabel.getText().isBlank()) { // if a book is selected
 
-                if (libraryDatabase.noMembers()) {
-                    JOptionPane.showMessageDialog(
-                            null,
-                            "There are no members in the database.",
-                            "Cannot add borrower",
-                            JOptionPane.INFORMATION_MESSAGE
+                    if (libraryDatabase.noMembers()) {
+                        JOptionPane.showMessageDialog(
+                                null,
+                                "There are no members in the database.",
+                                "Cannot add borrower",
+                                JOptionPane.INFORMATION_MESSAGE
+                        );
+                        return;
+                    }
+
+                    if (Integer.parseInt(quantityLabel.getText()) - borrowerList.getModel().getSize() == 0) {
+                        JOptionPane.showMessageDialog(
+                                null,
+                                "There are no available books.",
+                                "Cannot add borrower",
+                                JOptionPane.ERROR_MESSAGE
+                        );
+                        return;
+                    }
+
+                    int bookID =  libraryDatabase.getBookID(
+                            titleLabel.getText(),
+                            authorLabel.getText(),
+                            isbnLabel.getText(),
+                            quantityLabel.getText()
                     );
-                    return;
-                }
 
-                if (Integer.parseInt(quantityLabel.getText()) - borrowerList.getModel().getSize() == 0) {
-                    JOptionPane.showMessageDialog(
+                    Borrower newBorrower = BorrowerDialog.getBorrower(
+                            BorrowerDialog.DialogType.CREATE,
+                            -1,
                             null,
-                            "There are no available books.",
-                            "Cannot add borrower",
-                            JOptionPane.ERROR_MESSAGE
+                            bookID,
+                            libraryDatabase
                     );
-                    return;
-                }
 
-                int bookID =  libraryDatabase.getBookID(
-                        titleLabel.getText(),
-                        authorLabel.getText(),
-                        isbnLabel.getText(),
-                        quantityLabel.getText()
-                );
+                    if (newBorrower != null) { // can be null if cancel pressed on BorrowerDialog
+                        libraryDatabase.createBorrower(newBorrower);
 
-                Borrower newBorrower = BorrowerDialog.getBorrower(
-                        BorrowerDialog.DialogType.CREATE,
-                        -1,
-                        null,
-                        bookID,
-                        libraryDatabase
-                );
-
-                if (newBorrower != null) { // can be null if cancel pressed on BorrowerDialog
-                    libraryDatabase.createBorrower(newBorrower);
-
-                    displayBorrowers();
-                    updateNumOfBooksBorrowed();
-                    updateNumOfBooksAvailable();
+                        displayBorrowers();
+                        updateNumOfBooksBorrowed();
+                        updateNumOfBooksAvailable();
+                    }
                 }
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(
@@ -781,7 +780,7 @@ public class MainWindowForm {
                     null,
                     null,
                     this.hashGenerator
-            ); // TODO: "get" for other entities
+            );
 
             if (newUser != null) { // can be null if cancel pressed on UserDialog
 
