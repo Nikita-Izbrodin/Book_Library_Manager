@@ -789,7 +789,7 @@ public class MainWindowForm {
                 JOptionPane.showMessageDialog(
                         null,
                         "User created successfully.",
-                        "User create",
+                        "Create user",
                         JOptionPane.INFORMATION_MESSAGE
                 );
 
@@ -829,7 +829,7 @@ public class MainWindowForm {
                 JOptionPane.showMessageDialog(
                         null,
                         "Member created successfully.",
-                        "Member create",
+                        "Create member",
                         JOptionPane.INFORMATION_MESSAGE
                 );
 
@@ -865,7 +865,7 @@ public class MainWindowForm {
                 JOptionPane.showMessageDialog(
                         null,
                         "Book created successfully.",
-                        "Book create",
+                        "Create book",
                         JOptionPane.INFORMATION_MESSAGE
                 );
 
