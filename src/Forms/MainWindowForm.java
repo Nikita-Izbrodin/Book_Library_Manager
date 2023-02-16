@@ -552,16 +552,16 @@ public class MainWindowForm {
                 super.mouseClicked(e);
                 if (borrowerList.getSelectedValue() != null) {
 
-                    String[] options = {"Edit", "Book returned"};
+                    String[] options = {"Edit", "Book returned", "Cancel"};
                     int answer = JOptionPane.showOptionDialog(
                             null,
                             "Choose an option",
                             "Edit / Returned",
                             JOptionPane.YES_NO_OPTION,
-                            JOptionPane.WARNING_MESSAGE,
+                            JOptionPane.QUESTION_MESSAGE,
                             null,
                             options, // adds custom buttons
-                            options[1] // stated default button
+                            options[2] // stated default button
                     );
 
                     switch (answer) {
@@ -569,6 +569,8 @@ public class MainWindowForm {
                                 editBorrower();
                         case 1 ->  // if "Book returned" pressed
                                 returnBook();
+                        case 2 -> // if "Cancel" pressed
+                                {} // does nothing and dialog is closed
                     }
                 }
             }
