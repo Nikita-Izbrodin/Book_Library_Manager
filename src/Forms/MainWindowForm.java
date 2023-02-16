@@ -81,6 +81,8 @@ public class MainWindowForm {
     private JLabel totalBooksLabel;
     private JLabel numOfBooksAvailableLabel;
     private JLabel numOfBooksBorrowedLabel;
+    private JLabel numOfSelectedBookAvailable;
+    private JLabel numOfSelectedBookBorrowed;
 
     // dependencies
     private final HashGenerator hashGenerator;
@@ -176,6 +178,7 @@ public class MainWindowForm {
                         libraryDatabase.createBorrower(newBorrower);
 
                         displayBorrowers();
+                        updateStatisticsOnSelectedBook(this.libraryDatabase);
                         updateNumOfBooksBorrowed();
                         updateNumOfBooksAvailable();
                     }
@@ -226,6 +229,7 @@ public class MainWindowForm {
                         isbnLabel.setText(String.valueOf(editedBook.isbn()));
                         quantityLabel.setText(String.valueOf(editedBook.quantity()));
 
+                        updateStatisticsOnSelectedBook(this.libraryDatabase);
                         selectBooksBy();
                         updateTotalBooks();
                         updateNumOfBooksAvailable();
@@ -499,12 +503,20 @@ public class MainWindowForm {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                if (bookList.getSelectedValue() != null) {
-                    titleLabel.setText(bookList.getSelectedValue().title());
-                    authorLabel.setText(bookList.getSelectedValue().author());
-                    isbnLabel.setText(bookList.getSelectedValue().isbn());
-                    quantityLabel.setText(String.valueOf(bookList.getSelectedValue().quantity()));
-                    displayBorrowers();
+                try {
+                    if (bookList.getSelectedValue() != null) {
+
+                        titleLabel.setText(bookList.getSelectedValue().title());
+                        authorLabel.setText(bookList.getSelectedValue().author());
+                        isbnLabel.setText(bookList.getSelectedValue().isbn());
+                        quantityLabel.setText(String.valueOf(bookList.getSelectedValue().quantity()));
+
+                        updateStatisticsOnSelectedBook(libraryDatabase);
+
+                        displayBorrowers();
+                    }
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
                 }
             }
         });
@@ -711,6 +723,8 @@ public class MainWindowForm {
                 displayBorrowers();
                 updateNumOfBooksBorrowed();
                 updateNumOfBooksAvailable();
+
+                updateStatisticsOnSelectedBook(libraryDatabase);
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(
@@ -719,6 +733,22 @@ public class MainWindowForm {
                     JOptionPane.ERROR_MESSAGE
             );
         }
+    }
+
+    private void updateStatisticsOnSelectedBook(LibraryDatabase libraryDatabase) throws SQLException {
+        int bookID = libraryDatabase.getBookID(
+                titleLabel.getText(),
+                authorLabel.getText(),
+                isbnLabel.getText()
+        );
+
+        numOfSelectedBookAvailable.setText(
+                String.valueOf(Integer.parseInt(quantityLabel.getText()) -
+                        libraryDatabase.selectBorrowersByBookID(bookID).size())
+        );
+        numOfSelectedBookBorrowed.setText(
+                String.valueOf(libraryDatabase.selectBorrowersByBookID(bookID).size())
+        );
     }
 
     private void editBorrower() {

@@ -62,7 +62,7 @@ public class BookDialog extends JDialog {
             }
         }
 
-        leftButton.addActionListener(e -> onOK());
+        leftButton.addActionListener(e -> onOK(type));
 
         cancelButton.addActionListener(e -> onCancel());
 
@@ -98,7 +98,7 @@ public class BookDialog extends JDialog {
         return bookDialog.book;
     }
 
-    private void onOK() {
+    private void onOK(DialogType type) {
 
         try {
 
@@ -111,7 +111,7 @@ public class BookDialog extends JDialog {
                 return;
             }
 
-            if (libraryDatabase.doesBookExist(titleField.getText(), authorField.getText(), isbnField.getText())) {
+            if (libraryDatabase.doesBookExist(titleField.getText(), authorField.getText(), isbnField.getText()) && type == DialogType.CREATE) {
                 JOptionPane.showMessageDialog(
                         null,
                         "This book already exists.",

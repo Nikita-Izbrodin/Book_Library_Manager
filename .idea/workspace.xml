@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Same book cannot be added.">
+    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Changed &quot;add book&quot; etc. to &quot;create book&quot;">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataAccess/MySqlLibraryDatabase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccess/MySqlLibraryDatabase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Dialogs/BorrowerDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dialogs/BorrowerDialog.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Forms/MainWindowForm.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/Forms/MainWindowForm.form" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Forms/MainWindowForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Forms/MainWindowForm.java" afterDir="false" />
     </list>
@@ -88,13 +86,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1671987914536</updated>
-    </task>
-    <task id="LOCAL-00033" summary="Updated SQL queries for member table.">
-      <created>1674681589846</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1674681589846</updated>
     </task>
     <task id="LOCAL-00034" summary="Updated SQL queries for books table.">
       <created>1674682012265</created>
@@ -432,7 +423,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676550289550</updated>
     </task>
-    <option name="localTasksCounter" value="82" />
+    <task id="LOCAL-00082" summary="Changed &quot;add book&quot; etc. to &quot;create book&quot;">
+      <created>1676564698707</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1676564698707</updated>
+    </task>
+    <option name="localTasksCounter" value="83" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -447,7 +445,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Removed redundant method." />
     <MESSAGE value="Improved getBook method in BookDialog." />
     <MESSAGE value="Improved getBook method in BorrowerDialog." />
     <MESSAGE value="Improved getMember method in MemberDialog." />
@@ -472,7 +469,8 @@
     <MESSAGE value="Changed updateMember method to require Member instead of each variable individually." />
     <MESSAGE value="Changed updateBook method to require Book instead of each variable individually." />
     <MESSAGE value="Same book cannot be added." />
-    <option name="LAST_COMMIT_MESSAGE" value="Same book cannot be added." />
+    <MESSAGE value="Changed &quot;add book&quot; etc. to &quot;create book&quot;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changed &quot;add book&quot; etc. to &quot;create book&quot;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
