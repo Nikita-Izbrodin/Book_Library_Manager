@@ -22,7 +22,7 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
     private static final String jdbcPassword = "manager7349";
 
     // books category
-    private static final String INSERT_BOOK = "INSERT INTO books (title, author, isbn, quantity) VALUES (?,?,?,?);";
+    private static final String INSERT_BOOK = "INSERT INTO books (title, author, isbn, quantity) VALUES (?,?,?,?)";
     private static final String UPDATE_BOOK = "UPDATE books SET title = ?, author = ?, isbn = ?, quantity = ? " +
                                               "WHERE book_id = ?";
     private static final String DELETE_BOOK = "DELETE FROM books WHERE book_id = ?";
@@ -36,7 +36,7 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
     // members category
     private static final String INSERT_MEMBER = "INSERT INTO members " +
                                                 "(member_id, name, surname, phone, email, address, postcode) " +
-                                                "VALUES (?,?,?,?,?,?,?);";
+                                                "VALUES (?,?,?,?,?,?,?)";
     private static final String UPDATE_MEMBER = "UPDATE members " +
                                                 "SET member_id = ?, name = ?, surname = ?, " +
                                                 "phone = ?, email = ?, address = ?, postcode = ? " +
@@ -54,7 +54,7 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
     private static final String COUNT_MEMBERS = "SELECT COUNT(*) FROM members";
 
     // borrowers category
-    private static final String INSERT_BORROWER = "INSERT INTO borrowed_books (book_id, member_id, return_date) VALUES (?,?,?);";
+    private static final String INSERT_BORROWER = "INSERT INTO borrowed_books (book_id, member_id, return_date) VALUES (?,?,?)";
     private static final String UPDATE_BORROWER = "UPDATE borrowed_books SET member_id = ?, return_date = ? " +
                                                   "WHERE book_id = ? AND member_id = ?";
     private static final String DELETE_BORROWER = "DELETE FROM borrowed_books WHERE book_id = ? AND member_id = ?";
@@ -67,7 +67,7 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
     private static final String COUNT_BORROWERS = "SELECT COUNT(*) FROM borrowed_books";
 
     // users category
-    private static final String INSERT_USER = "INSERT INTO users" + " (username, full_name, password) VALUES " + " (?,?,?);";
+    private static final String INSERT_USER = "INSERT INTO users" + " (username, full_name, password) VALUES " + " (?,?,?)";
     private static final String UPDATE_USER = "UPDATE users SET username = ?, full_name = ?, password = ? WHERE username = ?";
     private static final String DELETE_USER = "DELETE FROM users WHERE username = ?";
     private static final String SELECT_ALL_USERS = "SELECT * FROM users";
