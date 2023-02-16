@@ -9,13 +9,22 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * An interface for interacting with a database.
+ */
 public interface LibraryDatabase {
     //
     // start of book commands
     //
     void createBook(Book newBook) throws SQLException;
 
-    void updateBook(String newTitle, String newAuthor, String newISBN, String newQuantity, int book_id) throws SQLException;
+    void updateBook(
+            String newTitle,
+            String newAuthor,
+            String newISBN,
+            String newQuantity,
+            int book_id
+    ) throws SQLException;
 
     void deleteBook(int book_id) throws SQLException;
 

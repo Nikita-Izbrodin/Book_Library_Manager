@@ -11,6 +11,11 @@ import Utils.Sha256HashGenerator;
 import javax.swing.JOptionPane;
 import java.sql.SQLException;
 
+/**
+ * A class for login and signup (creating a user).
+ * Determines whether to show login or signup dialog when the application is run.
+ * Login contains an algorithm to weaken brute-force attacks.
+ */
 public class Main {
 
     public static void main(String[] args) {

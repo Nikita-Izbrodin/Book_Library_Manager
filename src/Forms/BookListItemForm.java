@@ -6,6 +6,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.Color;
 
+/**
+ * A class for handling the GUI of a cell in a JList of displaying books.
+ */
 public class BookListItemForm {
 
     private JPanel bookItemPanel;

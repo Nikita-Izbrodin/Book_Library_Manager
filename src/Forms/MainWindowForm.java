@@ -35,6 +35,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * A class responsible for displaying the main window and handling the majority of interactions with the user.
+ */
 public class MainWindowForm {
 
     private JComboBox menuComboBox;

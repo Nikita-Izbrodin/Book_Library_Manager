@@ -15,6 +15,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+/**
+ * A class for showing a user related dialog.
+ * Returns data from the fields in the dialog in the form of User.
+ */
 public class UserDialog extends JDialog {
     private JPanel mainPanel;
     private JButton leftButton;

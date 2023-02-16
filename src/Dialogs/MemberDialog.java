@@ -16,6 +16,10 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 
+/**
+ * A class for showing a member related dialog.
+ * Returns data from the fields in the dialog in the form of Member.
+ */
 public class MemberDialog extends JDialog {
     private JPanel contentPane;
     private JButton leftButton;

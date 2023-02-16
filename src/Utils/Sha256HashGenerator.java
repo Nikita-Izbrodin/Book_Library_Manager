@@ -5,8 +5,12 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-// The SHA-256 algorithm generates an almost unique, fixed-size 256-bit (32-byte) hash.
-// This is a one-way function, so the result cannot be decrypted back to the original value.
+/**
+ * A class for hashing strings.
+ * Implemented using the SHA 256 algorithm.
+ * The SHA-256 algorithm generates an almost unique, fixed-size 256-bit (32-byte) hash.
+ * This is a one-way function, so the result cannot be decrypted back to the original value.
+ */
 public class Sha256HashGenerator implements HashGenerator {
 
     public String getHashValueOf(String originalString) {

@@ -7,6 +7,9 @@ import javax.swing.JPanel;
 import java.awt.Color;
 import java.time.LocalDate;
 
+/**
+ * A class for handling the GUI of a cell in a JList of displaying borrowers.
+ */
 public class BorrowerListItemForm {
     private JLabel borrowerIDLabel;
     private JLabel returnDateLabel;

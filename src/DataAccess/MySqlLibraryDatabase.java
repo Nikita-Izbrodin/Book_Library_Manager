@@ -15,6 +15,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A class for connecting to and interacting with a MySQL database.
+ * Interacts with the database by executing SQL statements.
+ */
 public class MySqlLibraryDatabase implements LibraryDatabase {
 
     private static final String jdbcURL = "jdbc:mysql://localhost:3306/booklibrary";

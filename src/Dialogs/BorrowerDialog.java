@@ -17,6 +17,10 @@ import java.sql.SQLException;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 
+/**
+ * A class for showing a borrower related dialog.
+ * Returns data from the fields in the dialog in the form of Borrower.
+ */
 public class BorrowerDialog extends JDialog {
     private JPanel contentPane;
     private JTextField memberIDField;

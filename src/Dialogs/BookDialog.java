@@ -13,6 +13,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+/**
+ * A class for showing a book related dialog.
+ * Returns data from the fields in the dialog in the form of Book.
+ */
 public class BookDialog extends JDialog {
     private JPanel contentPane;
     private JButton leftButton;
