@@ -31,10 +31,10 @@ public class Sha256HashGenerator implements HashGenerator {
         assert messageDigest != null;
 
         byte[] hashedString = messageDigest.digest(originalString.getBytes(StandardCharsets.UTF_8));
-        return bytesToHex(hashedString);
+        return bytesToHexConverter(hashedString);
     }
 
-    private String bytesToHex(byte[] hashedString) {
+    private String bytesToHexConverter(byte[] hashedString) {
 
         StringBuilder hexadecimalString = new StringBuilder(2 * hashedString.length);
 

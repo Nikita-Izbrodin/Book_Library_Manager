@@ -104,9 +104,6 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
 
     @Override
     public void updateBook(Book book, int book_id) throws SQLException {
-
-        // TODO: executeUpdate(UPDATE_BOOK, new Object[]{newTitle, newAuthor,...});
-
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_BOOK);
         preparedStatement.setString(1, book.title());
@@ -134,9 +131,9 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BOOK_BY_TITLE);
         preparedStatement.setString(1, "%"+title+"%");
-        ResultSet rs = preparedStatement.executeQuery();
-        List<Book> books = getBookList(rs);
-        rs.close();
+        ResultSet resultSet = preparedStatement.executeQuery();
+        List<Book> books = getBookList(resultSet);
+        resultSet.close();
         preparedStatement.close();
         connection.close();
         return books;
@@ -147,9 +144,9 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BOOK_BY_AUTHOR);
         preparedStatement.setString(1, "%"+author+"%");
-        ResultSet rs = preparedStatement.executeQuery();
-        List<Book> books = getBookList(rs);
-        rs.close();
+        ResultSet resultSet = preparedStatement.executeQuery();
+        List<Book> books = getBookList(resultSet);
+        resultSet.close();
         preparedStatement.close();
         connection.close();
         return books;
@@ -160,9 +157,9 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BOOK_BY_ISBN);
         preparedStatement.setString(1, "%"+isbn+"%");
-        ResultSet rs = preparedStatement.executeQuery();
-        List<Book> books = getBookList(rs);
-        rs.close();
+        ResultSet resultSet = preparedStatement.executeQuery();
+        List<Book> books = getBookList(resultSet);
+        resultSet.close();
         preparedStatement.close();
         connection.close();
         return books;
@@ -175,12 +172,12 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         preparedStatement.setString(1, title);
         preparedStatement.setString(2, author);
         preparedStatement.setString(3, isbn);
-        ResultSet rs = preparedStatement.executeQuery();
+        ResultSet resultSet = preparedStatement.executeQuery();
         int bookID = -1;
-        if (rs.next()) { // to check is rs is empty
-            bookID = rs.getInt("book_id");
+        if (resultSet.next()) {
+            bookID = resultSet.getInt("book_id");
         }
-        rs.close();
+        resultSet.close();
         preparedStatement.close();
         connection.close();
         return bookID;
@@ -193,18 +190,18 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         preparedStatement.setString(1, title);
         preparedStatement.setString(2, author);
         preparedStatement.setString(3, isbn);
-        ResultSet rs = preparedStatement.executeQuery();
-        return rs.next();
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return resultSet.next();
     }
 
     @Override
     public int countBooks() throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(COUNT_BOOKS);
-        ResultSet rs = preparedStatement.executeQuery();
-        rs.next();
-        int totalBooks = rs.getInt(1);
-        rs.close();
+        ResultSet resultSet = preparedStatement.executeQuery();
+        resultSet.next();
+        int totalBooks = resultSet.getInt(1);
+        resultSet.close();
         preparedStatement.close();
         connection.close();
         return totalBooks;
@@ -263,9 +260,9 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
     public boolean noMembers() throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_MEMBERS);
-        ResultSet rs = preparedStatement.executeQuery();
-        boolean isEmptyResultSet = !rs.next();
-        rs.close();
+        ResultSet resultSet = preparedStatement.executeQuery();
+        boolean isEmptyResultSet = !resultSet.next();
+        resultSet.close();
         preparedStatement.close();
         connection.close();
         return isEmptyResultSet;
@@ -276,9 +273,9 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_MEMBER_BY_NAME);
         preparedStatement.setString(1, "%"+name+"%");
-        ResultSet rs = preparedStatement.executeQuery();
-        List<Member> members = getMemberList(rs);
-        rs.close();
+        ResultSet resultSet = preparedStatement.executeQuery();
+        List<Member> members = getMemberList(resultSet);
+        resultSet.close();
         preparedStatement.close();
         connection.close();
         return members;
@@ -289,9 +286,9 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_MEMBER_BY_SURNAME);
         preparedStatement.setString(1, "%"+surname+"%");
-        ResultSet rs = preparedStatement.executeQuery();
-        List<Member> members = getMemberList(rs);
-        rs.close();
+        ResultSet resultSet = preparedStatement.executeQuery();
+        List<Member> members = getMemberList(resultSet);
+        resultSet.close();
         preparedStatement.close();
         connection.close();
         return members;
@@ -302,9 +299,9 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_MEMBER_BY_PHONENO);
         preparedStatement.setString(1, "%"+phoneNo+"%");
-        ResultSet rs = preparedStatement.executeQuery();
-        List<Member> members = getMemberList(rs);
-        rs.close();
+        ResultSet resultSet = preparedStatement.executeQuery();
+        List<Member> members = getMemberList(resultSet);
+        resultSet.close();
         preparedStatement.close();
         connection.close();
         return members;
@@ -315,9 +312,9 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_MEMBER_BY_EMAIL);
         preparedStatement.setString(1, "%"+email+"%");
-        ResultSet rs = preparedStatement.executeQuery();
-        List<Member> members = getMemberList(rs);
-        rs.close();
+        ResultSet resultSet = preparedStatement.executeQuery();
+        List<Member> members = getMemberList(resultSet);
+        resultSet.close();
         preparedStatement.close();
         connection.close();
         return members;
@@ -328,9 +325,9 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_MEMBER_BY_EMAIL);
         preparedStatement.setString(1, email);
-        ResultSet rs = preparedStatement.executeQuery();
-        List<Member> members = getMemberList(rs);
-        rs.close();
+        ResultSet resultSet = preparedStatement.executeQuery();
+        List<Member> members = getMemberList(resultSet);
+        resultSet.close();
         preparedStatement.close();
         connection.close();
         return !members.isEmpty();
@@ -341,9 +338,9 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_MEMBER_BY_ADDRESS);
         preparedStatement.setString(1, "%"+address+"%");
-        ResultSet rs = preparedStatement.executeQuery();
-        List<Member> members = getMemberList(rs);
-        rs.close();
+        ResultSet resultSet = preparedStatement.executeQuery();
+        List<Member> members = getMemberList(resultSet);
+        resultSet.close();
         preparedStatement.close();
         connection.close();
         return members;
@@ -354,9 +351,9 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_MEMBER_BY_POSTCODE);
         preparedStatement.setString(1, "%"+postcode+"%");
-        ResultSet rs = preparedStatement.executeQuery();
-        List<Member> members = getMemberList(rs);
-        rs.close();
+        ResultSet resultSet = preparedStatement.executeQuery();
+        List<Member> members = getMemberList(resultSet);
+        resultSet.close();
         preparedStatement.close();
         connection.close();
         return members;
@@ -367,14 +364,14 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_MEMBER_NAME_AND_SURNAME_BY_MEMBER_ID);
         preparedStatement.setInt(1, memberID);
-        ResultSet rs = preparedStatement.executeQuery();
+        ResultSet resultSet = preparedStatement.executeQuery();
         String name = null;
         String surname = null;
-        if (rs.next()) { // to check is rs is empty
-            name = rs.getString("name");
-            surname = rs.getString("surname");
+        if (resultSet.next()) {
+            name = resultSet.getString("name");
+            surname = resultSet.getString("surname");
         }
-        rs.close();
+        resultSet.close();
         preparedStatement.close();
         connection.close();
         return name+" "+surname;
@@ -384,10 +381,10 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
     public int countMembers() throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(COUNT_MEMBERS);
-        ResultSet rs = preparedStatement.executeQuery();
-        rs.next();
-        int totalMembers = rs.getInt(1);
-        rs.close();
+        ResultSet resultSet = preparedStatement.executeQuery();
+        resultSet.next();
+        int totalMembers = resultSet.getInt(1);
+        resultSet.close();
         preparedStatement.close();
         connection.close();
         return totalMembers;
@@ -459,15 +456,15 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BORROWERS_BY_BOOK_ID);
         preparedStatement.setInt(1, bookID);
-        ResultSet rs = preparedStatement.executeQuery();
+        ResultSet resultSet = preparedStatement.executeQuery();
         List<Borrower> borrowers = new ArrayList<>();
-        while (rs.next()) {
-            int memberID = rs.getInt("member_id");
-            LocalDate returnDate = rs.getDate("return_date").toLocalDate();
-            String fullName = rs.getString("name") + " " + rs.getString("surname");
+        while (resultSet.next()) {
+            int memberID = resultSet.getInt("member_id");
+            LocalDate returnDate = resultSet.getDate("return_date").toLocalDate();
+            String fullName = resultSet.getString("name") + " " + resultSet.getString("surname");
             borrowers.add(new Borrower(bookID, memberID, fullName, returnDate));
         }
-        rs.close();
+        resultSet.close();
         preparedStatement.close();
         connection.close();
         return borrowers;
@@ -479,9 +476,9 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BORROWERS_BY_BOOK_ID_AND_MEMBER_ID);
         preparedStatement.setInt(1, bookID);
         preparedStatement.setInt(2, memberID);
-        ResultSet rs = preparedStatement.executeQuery();
-        boolean isBorrowed = rs.next();
-        rs.close();
+        ResultSet resultSet = preparedStatement.executeQuery();
+        boolean isBorrowed = resultSet.next();
+        resultSet.close();
         preparedStatement.close();
         connection.close();
         return isBorrowed;
@@ -491,10 +488,10 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
     public int countBorrowers() throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(COUNT_BORROWERS);
-        ResultSet rs = preparedStatement.executeQuery();
-        rs.next();
-        int numOfBooksBorrowed = rs.getInt(1);
-        rs.close();
+        ResultSet resultSet = preparedStatement.executeQuery();
+        resultSet.next();
+        int numOfBooksBorrowed = resultSet.getInt(1);
+        resultSet.close();
         preparedStatement.close();
         connection.close();
         return numOfBooksBorrowed;
@@ -550,9 +547,9 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
     public boolean noStaff() throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_USERS);
-        ResultSet rs = preparedStatement.executeQuery();
-        boolean isEmptyResultSet = !rs.next();
-        rs.close();
+        ResultSet resultSet = preparedStatement.executeQuery();
+        boolean isEmptyResultSet = !resultSet.next();
+        resultSet.close();
         preparedStatement.close();
         connection.close();
         return isEmptyResultSet;
@@ -563,9 +560,9 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_USERNAME);
         preparedStatement.setString(1, "%"+username+"%");
-        ResultSet rs = preparedStatement.executeQuery();
-        List<User> users =  getUserList(rs);
-        rs.close();
+        ResultSet resultSet = preparedStatement.executeQuery();
+        List<User> users =  getUserList(resultSet);
+        resultSet.close();
         preparedStatement.close();
         connection.close();
         return users;
@@ -577,9 +574,9 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_USERNAME_AND_PASSWORD);
         preparedStatement.setString(1, username);
         preparedStatement.setString(2, password);
-        ResultSet rs = preparedStatement.executeQuery();
-        List<User> users =  getUserList(rs);
-        rs.close();
+        ResultSet resultSet = preparedStatement.executeQuery();
+        List<User> users =  getUserList(resultSet);
+        resultSet.close();
         preparedStatement.close();
         connection.close();
         return !users.isEmpty(); // found
@@ -591,9 +588,9 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_FULLNAME);
         preparedStatement.setString(1, "%"+fullName+"%");
-        ResultSet rs = preparedStatement.executeQuery();
-        List<User> users =  getUserList(rs);
-        rs.close();
+        ResultSet resultSet = preparedStatement.executeQuery();
+        List<User> users =  getUserList(resultSet);
+        resultSet.close();
         preparedStatement.close();
         connection.close();
         return users;
@@ -605,39 +602,39 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
     //
     // start of list getters
     //
-    private static List<Book> getBookList(ResultSet rs) throws SQLException {
+    private static List<Book> getBookList(ResultSet resultSet) throws SQLException {
         List<Book> books = new ArrayList<>();
-        while (rs.next()) {
-            String title = rs.getString("title");
-            String author = rs.getString("author");
-            String isbn = rs.getString("isbn");
-            int quantity = rs.getInt("quantity");
+        while (resultSet.next()) {
+            String title = resultSet.getString("title");
+            String author = resultSet.getString("author");
+            String isbn = resultSet.getString("isbn");
+            int quantity = resultSet.getInt("quantity");
             books.add(new Book(title, author, isbn, quantity));
         }
         return books;
     }
 
-    private static List<Member> getMemberList(ResultSet rs) throws SQLException {
+    private static List<Member> getMemberList(ResultSet resultSet) throws SQLException {
         List<Member> members = new ArrayList<>();
-        while (rs.next()) {
-            int id = rs.getInt("member_id");
-            String name = rs.getString("name");
-            String surname = rs.getString("surname");
-            String phoneNo = rs.getString("phone");
-            String email = rs.getString("email");
-            String address = rs.getString("address");
-            String postcode = rs.getString("postcode");
+        while (resultSet.next()) {
+            int id = resultSet.getInt("member_id");
+            String name = resultSet.getString("name");
+            String surname = resultSet.getString("surname");
+            String phoneNo = resultSet.getString("phone");
+            String email = resultSet.getString("email");
+            String address = resultSet.getString("address");
+            String postcode = resultSet.getString("postcode");
             members.add(new Member(id, name, surname, phoneNo, email, address, postcode));
         }
         return members;
     }
 
-    private static List<User> getUserList(ResultSet rs) throws SQLException {
+    private static List<User> getUserList(ResultSet resultSet) throws SQLException {
         List<User> users = new ArrayList<>();
-        while (rs.next()) {
-            String username = rs.getString("username");
-            String fullName = rs.getString("full_name");
-            String password = rs.getString("password");
+        while (resultSet.next()) {
+            String username = resultSet.getString("username");
+            String fullName = resultSet.getString("full_name");
+            String password = resultSet.getString("password");
             users.add(new User(username, fullName, password));
         }
         return users;

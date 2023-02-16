@@ -9,7 +9,6 @@ import java.util.regex.Pattern;
  */
 public class RegExEmailAddressChecker implements EmailAddressChecker {
 
-    // TODO: detailed explanation what does this regex do!
     private final Pattern pattern;
 
     public RegExEmailAddressChecker() {

@@ -132,7 +132,7 @@ public class MemberDialog extends JDialog {
                 JOptionPane.showMessageDialog(
                         null,
                         emailTextField.getText() +
-                        " doesn't look like a valid email address.\n\nPlease check and correct.", // TODO: remove /n/n to just /n
+                        " doesn't look like a valid email address.\nPlease check and correct.",
                         "Invalid email address",
                         JOptionPane.ERROR_MESSAGE);
                 return;
