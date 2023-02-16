@@ -18,13 +18,7 @@ public interface LibraryDatabase {
     //
     void createBook(Book newBook) throws SQLException;
 
-    void updateBook(
-            String newTitle,
-            String newAuthor,
-            String newISBN,
-            String newQuantity,
-            int book_id
-    ) throws SQLException;
+    void updateBook(Book book, int book_id) throws SQLException;
 
     void deleteBook(int book_id) throws SQLException;
 
@@ -41,7 +35,7 @@ public interface LibraryDatabase {
     //
     // start of member commands
     //
-    void createMember(Member newMember) throws SQLException;
+    void createMember(Member member) throws SQLException;
 
     void updateMember(Member member, int oldID) throws SQLException;
 

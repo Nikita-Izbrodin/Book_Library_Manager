@@ -103,22 +103,16 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
     }
 
     @Override
-    public void updateBook(
-            String newTitle,
-            String newAuthor,
-            String newISBN,
-            String newQuantity,
-            int book_id
-    ) throws SQLException {
+    public void updateBook(Book book, int book_id) throws SQLException {
 
         // TODO: executeUpdate(UPDATE_BOOK, new Object[]{newTitle, newAuthor,...});
 
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_BOOK);
-        preparedStatement.setString(1, newTitle);
-        preparedStatement.setString(2, newAuthor);
-        preparedStatement.setString(3, newISBN);
-        preparedStatement.setString(4, newQuantity);
+        preparedStatement.setString(1, book.title());
+        preparedStatement.setString(2, book.author());
+        preparedStatement.setString(3, book.isbn());
+        preparedStatement.setInt(4, book.quantity());
         preparedStatement.setInt(5, book_id);
         assert preparedStatement.executeUpdate() == 1 : "A single row is expected to be updated in the books table.";
         preparedStatement.close();
@@ -213,16 +207,16 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
     // start of member commands
     //
     @Override
-    public void createMember(Member newMember) throws SQLException {
+    public void createMember(Member member) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(INSERT_MEMBER);
-        preparedStatement.setInt(1, newMember.id());
-        preparedStatement.setString(2, newMember.name());
-        preparedStatement.setString(3, newMember.surname());
-        preparedStatement.setString(4, newMember.phoneNo());
-        preparedStatement.setString(5, newMember.email());
-        preparedStatement.setString(6, newMember.address());
-        preparedStatement.setString(7, newMember.postcode());
+        preparedStatement.setInt(1, member.id());
+        preparedStatement.setString(2, member.name());
+        preparedStatement.setString(3, member.surname());
+        preparedStatement.setString(4, member.phoneNo());
+        preparedStatement.setString(5, member.email());
+        preparedStatement.setString(6, member.address());
+        preparedStatement.setString(7, member.postcode());
         assert preparedStatement.executeUpdate() == 1 : "A single row is expected to be updated in the members table.";
         preparedStatement.close();
         connection.close();

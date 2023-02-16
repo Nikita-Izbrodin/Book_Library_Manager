@@ -206,10 +206,7 @@ public class MainWindowForm {
 
                     if (editedBook != null) { // can be null if cancel pressed on BookDialog
                         libraryDatabase.updateBook(
-                                editedBook.title(),
-                                editedBook.author(),
-                                String.valueOf(editedBook.isbn()),
-                                String.valueOf(editedBook.quantity()),
+                                editedBook,
                                 libraryDatabase.getBookID(titleLabel.getText(),
                                         authorLabel.getText(),
                                         isbnLabel.getText(),
