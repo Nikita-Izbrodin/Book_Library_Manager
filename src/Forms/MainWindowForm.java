@@ -263,16 +263,7 @@ public class MainWindowForm {
                     );
 
                     if (editedMember != null) { // can be null if cancel pressed on MemberDialog
-                        libraryDatabase.updateMember(
-                                editedMember.id(),
-                                editedMember.name(),
-                                editedMember.surname(),
-                                editedMember.phoneNo(),
-                                editedMember.email(),
-                                editedMember.address(),
-                                editedMember.postcode(),
-                                Integer.parseInt(idLabel.getText())
-                        );
+                        libraryDatabase.updateMember(editedMember, Integer.parseInt(idLabel.getText()));
 
                         JOptionPane.showMessageDialog(
                                 null,

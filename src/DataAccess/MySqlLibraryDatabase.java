@@ -229,25 +229,16 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
     }
 
     @Override
-    public void updateMember(
-            int newID,
-            String newName,
-            String newSurname,
-            String newPhoneNo,
-            String newEmail,
-            String newAddress,
-            String newPostcode,
-            int oldID
-    ) throws SQLException {
+    public void updateMember(Member member, int oldID) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_MEMBER);
-        preparedStatement.setInt(1, newID);
-        preparedStatement.setString(2, newName);
-        preparedStatement.setString(3, newSurname);
-        preparedStatement.setString(4, newPhoneNo);
-        preparedStatement.setString(5, newEmail);
-        preparedStatement.setString(6, newAddress);
-        preparedStatement.setString(7, newPostcode);
+        preparedStatement.setInt(1, member.id());
+        preparedStatement.setString(2, member.name());
+        preparedStatement.setString(3, member.surname());
+        preparedStatement.setString(4, member.phoneNo());
+        preparedStatement.setString(5, member.email());
+        preparedStatement.setString(6, member.address());
+        preparedStatement.setString(7, member.postcode());
         preparedStatement.setInt(8, oldID);
         assert preparedStatement.executeUpdate() == 1 : "A single row is expected to be updated in the members table.";
         preparedStatement.close();

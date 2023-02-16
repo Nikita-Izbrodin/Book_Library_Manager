@@ -1,32 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Added 'Cancel' button to dialog that appears when a borrower is selected.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CellRenderers/BookCellRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CellRenderers/BookCellRenderer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CellRenderers/BorrowerCellRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CellRenderers/BorrowerCellRenderer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CellRenderers/MemberCellRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CellRenderers/MemberCellRenderer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CellRenderers/UserCellRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CellRenderers/UserCellRenderer.java" afterDir="false" />
+    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Added class comments.">
       <change beforePath="$PROJECT_DIR$/src/DataAccess/LibraryDatabase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccess/LibraryDatabase.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DataAccess/MySqlLibraryDatabase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccess/MySqlLibraryDatabase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Dialogs/BookDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dialogs/BookDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Dialogs/BorrowerDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dialogs/BorrowerDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Dialogs/MemberDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dialogs/MemberDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Dialogs/UserDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dialogs/UserDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entities/Book.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entities/Book.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entities/Borrower.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entities/Borrower.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entities/Member.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entities/Member.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entities/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entities/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Forms/BookListItemForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Forms/BookListItemForm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Forms/BorrowerListItemForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Forms/BorrowerListItemForm.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Forms/MainWindowForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Forms/MainWindowForm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Forms/MemberListItemForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Forms/MemberListItemForm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Forms/UserListItemForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Forms/UserListItemForm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Utils/EmailAddressChecker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Utils/EmailAddressChecker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Utils/HashGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Utils/HashGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Utils/RegExEmailAddressChecker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Utils/RegExEmailAddressChecker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Utils/Sha256HashGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Utils/Sha256HashGenerator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,13 +86,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1671987914536</updated>
-    </task>
-    <task id="LOCAL-00029" summary="Book cannot be borrowed if no books are available.">
-      <created>1674516266760</created>
-      <option name="number" value="00029" />
-      <option name="presentableId" value="LOCAL-00029" />
-      <option name="project" value="LOCAL" />
-      <updated>1674516266760</updated>
     </task>
     <task id="LOCAL-00030" summary="Same member cannot borrow same book more than once.">
       <created>1674517969034</created>
@@ -452,7 +423,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676541055377</updated>
     </task>
-    <option name="localTasksCounter" value="78" />
+    <task id="LOCAL-00078" summary="Added class comments.">
+      <created>1676546121133</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1676546121133</updated>
+    </task>
+    <option name="localTasksCounter" value="79" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -467,7 +445,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Removed redundant changes to full name in log in as it is invisible." />
     <MESSAGE value="Change titled of UserDialog depending on its type." />
     <MESSAGE value="Made ISBN not null." />
     <MESSAGE value="Displayed date format on return date label for borrowers." />
@@ -492,7 +469,8 @@
     <MESSAGE value="Minor changes to GUI." />
     <MESSAGE value="Minor changes to SQL statements. Function of statements is unchanged." />
     <MESSAGE value="Added 'Cancel' button to dialog that appears when a borrower is selected." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added 'Cancel' button to dialog that appears when a borrower is selected." />
+    <MESSAGE value="Added class comments." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added class comments." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
