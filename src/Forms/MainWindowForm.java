@@ -915,9 +915,7 @@ public class MainWindowForm {
     private void selectBooksBy() { // updates list of displayed books
 
         try {
-
-            if (searchByComboBox.getSelectedItem() != null) { // TODO: maybe change to assert
-
+            if (searchByComboBox.getSelectedItem() != null) {
                 String searchBy = searchByComboBox.getSelectedItem().toString();
                 List<Book> booksList = switch (searchBy) {
                     case "Title" -> this.libraryDatabase.selectBooksByTitle(searchTextField.getText());
@@ -984,7 +982,7 @@ public class MainWindowForm {
                     authorLabel.getText(),
                     isbnLabel.getText()
             );
-            List<Borrower> borrowersList = this.libraryDatabase.selectBorrowersByBookID(bookID); // TODO: can it start off as an array instead of a model?
+            List<Borrower> borrowersList = this.libraryDatabase.selectBorrowersByBookID(bookID);
 
             if (borrowersList != null) {
                 Borrower[] borrowersArray = borrowersList.toArray(new Borrower[0]);
