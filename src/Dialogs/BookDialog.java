@@ -1,5 +1,6 @@
 package Dialogs;
 
+import DataAccess.LibraryDatabase;
 import Entities.Book;
 
 import javax.swing.JButton;
@@ -12,6 +13,7 @@ import javax.swing.KeyStroke;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.SQLException;
 
 /**
  * A class for showing a book related dialog.
@@ -27,12 +29,20 @@ public class BookDialog extends JDialog {
     private JTextField isbnField;
     private Book book;
 
+    // dependencies
+    private final LibraryDatabase libraryDatabase;
+
     public enum DialogType {
         CREATE,
         EDIT
     }
 
-    public BookDialog(DialogType type, String title, String author, String isbn, String quantity) {
+    public BookDialog(DialogType type,
+                      String title, String author, String isbn, String quantity,
+                      LibraryDatabase libraryDatabase
+    ) {
+
+        this.libraryDatabase = libraryDatabase;
 
         setContentPane(contentPane);
         setModal(true);
@@ -70,9 +80,12 @@ public class BookDialog extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
-    public static Book getBook(DialogType type, String title, String author, String isbn, String quantity) {
+    public static Book getBook(DialogType type,
+                               String title, String author, String isbn, String quantity,
+                               LibraryDatabase libraryDatabase
+    ) {
 
-        BookDialog bookDialog = new BookDialog(type, title, author, isbn, quantity);
+        BookDialog bookDialog = new BookDialog(type, title, author, isbn, quantity, libraryDatabase);
         bookDialog.pack();
         bookDialog.setLocationRelativeTo(null);
 
@@ -98,6 +111,16 @@ public class BookDialog extends JDialog {
                 return;
             }
 
+            if (libraryDatabase.doesBookExist(titleField.getText(), authorField.getText(), isbnField.getText())) {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "This book already exists.",
+                        "Invalid book",
+                        JOptionPane.ERROR_MESSAGE
+                );
+                return;
+            }
+
             String title = titleField.getText();
             String author = authorField.getText();
             String isbn = isbnField.getText();
@@ -110,6 +133,13 @@ public class BookDialog extends JDialog {
                     null,
                     "Quantity must be a number.",
                     "Invalid quantity",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    ("Database error\n\nDetails:\n" + ex),
+                    "Error",
                     JOptionPane.ERROR_MESSAGE
             );
         }

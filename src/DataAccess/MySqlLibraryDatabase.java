@@ -33,8 +33,7 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
     private static final String SELECT_BOOK_BY_TITLE = "SELECT * FROM books WHERE title LIKE ?";
     private static final String SELECT_BOOK_BY_AUTHOR = "SELECT * FROM books WHERE author LIKE ?";
     private static final String SELECT_BOOK_BY_ISBN = "SELECT * FROM books WHERE isbn LIKE ?";
-    private static final String SELECT_BOOK_ID = "SELECT book_id FROM books " +
-                                                 "WHERE title = ? AND author = ? AND isbn = ? AND quantity = ?";
+    private static final String SELECT_BOOK_ID = "SELECT book_id FROM books WHERE title = ? AND author = ? AND isbn = ?";
     private static final String COUNT_BOOKS = "SELECT SUM(quantity) FROM books";
 
     // members category
@@ -169,13 +168,12 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
     }
 
     @Override
-    public int getBookID(String title, String author, String isbn, String quantity) throws SQLException {
+    public int getBookID(String title, String author, String isbn) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BOOK_ID);
         preparedStatement.setString(1, title);
         preparedStatement.setString(2, author);
         preparedStatement.setString(3, isbn);
-        preparedStatement.setString(4, quantity);
         ResultSet rs = preparedStatement.executeQuery();
         int bookID = -1;
         if (rs.next()) { // to check is rs is empty
@@ -185,6 +183,20 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         preparedStatement.close();
         connection.close();
         return bookID;
+    }
+
+    @Override
+    public boolean doesBookExist(String title, String author, String isbn) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BOOK_ID);
+        preparedStatement.setString(1, title);
+        preparedStatement.setString(2, author);
+        preparedStatement.setString(3, isbn);
+        ResultSet rs = preparedStatement.executeQuery();
+        if (rs.next()) {
+            return true;
+        }
+        return false;
     }
 
     @Override

@@ -28,7 +28,9 @@ public interface LibraryDatabase {
 
     List<Book> selectBooksByISBN(String isbn) throws SQLException;
 
-    int getBookID(String title, String author, String isbn, String quantity) throws SQLException;
+    int getBookID(String title, String author, String isbn) throws SQLException;
+
+    boolean doesBookExist(String title, String author, String isbn) throws SQLException;
 
     int countBooks() throws SQLException;
 

@@ -161,8 +161,7 @@ public class MainWindowForm {
                     int bookID =  libraryDatabase.getBookID(
                             titleLabel.getText(),
                             authorLabel.getText(),
-                            isbnLabel.getText(),
-                            quantityLabel.getText()
+                            isbnLabel.getText()
                     );
 
                     Borrower newBorrower = BorrowerDialog.getBorrower(
@@ -201,16 +200,18 @@ public class MainWindowForm {
                             titleLabel.getText(),
                             authorLabel.getText(),
                             isbnLabel.getText(),
-                            quantityLabel.getText()
+                            quantityLabel.getText(),
+                            libraryDatabase
                     );
 
                     if (editedBook != null) { // can be null if cancel pressed on BookDialog
                         libraryDatabase.updateBook(
                                 editedBook,
-                                libraryDatabase.getBookID(titleLabel.getText(),
+                                libraryDatabase.getBookID(
+                                        titleLabel.getText(),
                                         authorLabel.getText(),
-                                        isbnLabel.getText(),
-                                        quantityLabel.getText())
+                                        isbnLabel.getText()
+                                )
                         );
 
                         JOptionPane.showMessageDialog(
@@ -367,8 +368,7 @@ public class MainWindowForm {
                         int bookID = libraryDatabase.getBookID(
                                 titleLabel.getText(),
                                 authorLabel.getText(),
-                                isbnLabel.getText(),
-                                quantityLabel.getText()
+                                isbnLabel.getText()
                         );
 
                         if (libraryDatabase.selectBorrowersByBookID(bookID).isEmpty()) { // if this book is not being borrowed
@@ -377,8 +377,7 @@ public class MainWindowForm {
                                     libraryDatabase.getBookID(
                                             titleLabel.getText(),
                                             authorLabel.getText(),
-                                            isbnLabel.getText(),
-                                            quantityLabel.getText()
+                                            isbnLabel.getText()
                                     )
                             );
 
@@ -725,8 +724,7 @@ public class MainWindowForm {
                     this.libraryDatabase.getBookID(
                             titleLabel.getText(),
                             authorLabel.getText(),
-                            isbnLabel.getText(),
-                            quantityLabel.getText()
+                            isbnLabel.getText()
                     ),
                     this.libraryDatabase
             );
@@ -739,8 +737,7 @@ public class MainWindowForm {
                         this.libraryDatabase.getBookID(
                                 titleLabel.getText(),
                                 authorLabel.getText(),
-                                isbnLabel.getText(),
-                                quantityLabel.getText()
+                                isbnLabel.getText()
                         ),
                         borrowerList.getSelectedValue().memberID()
                 );
@@ -848,7 +845,8 @@ public class MainWindowForm {
                     null,
                     null,
                     null,
-                    null
+                    null,
+                    libraryDatabase
             );
 
             if (newBook != null) { // can be null if cancel pressed on BookDialog
@@ -947,8 +945,7 @@ public class MainWindowForm {
             int bookID = this.libraryDatabase.getBookID(
                     titleLabel.getText(),
                     authorLabel.getText(),
-                    isbnLabel.getText(),
-                    quantityLabel.getText()
+                    isbnLabel.getText()
             );
             List<Borrower> borrowersList = this.libraryDatabase.selectBorrowersByBookID(bookID); // TODO: can it start off as an array instead of a model?
 
