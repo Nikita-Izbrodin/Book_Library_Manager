@@ -51,7 +51,7 @@ public class BorrowerDialog extends JDialog {
 
         switch (type) {
             case CREATE -> {
-                leftButton.setText("Add Borrower");
+                leftButton.setText("Create");
             }
             case EDIT -> {
                 leftButton.setText("Save");
@@ -152,7 +152,7 @@ public class BorrowerDialog extends JDialog {
         } catch (DateTimeException ex) {
             JOptionPane.showMessageDialog(
                     null,
-                    "Return date must be in the following format:\nYYYY-MM-DD",
+                    "Invalid date or date format.",
                     "Invalid return date",
                     JOptionPane.ERROR_MESSAGE
             );

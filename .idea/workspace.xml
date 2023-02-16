@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Changed updateBook method to require Book instead of each variable individually.">
+    <list default="true" id="a83da8bb-331b-4c40-9f8e-57fb8dc07837" name="Changes" comment="Same book cannot be added.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataAccess/LibraryDatabase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccess/LibraryDatabase.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DataAccess/MySqlLibraryDatabase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataAccess/MySqlLibraryDatabase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Dialogs/BookDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dialogs/BookDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Dialogs/BorrowerDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dialogs/BorrowerDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Forms/MainWindowForm.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/Forms/MainWindowForm.form" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Forms/MainWindowForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Forms/MainWindowForm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,13 +88,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1671987914536</updated>
-    </task>
-    <task id="LOCAL-00032" summary="Implemented log in. Fixed adding borrowers.">
-      <created>1674647113670</created>
-      <option name="number" value="00032" />
-      <option name="presentableId" value="LOCAL-00032" />
-      <option name="project" value="LOCAL" />
-      <updated>1674647113670</updated>
     </task>
     <task id="LOCAL-00033" summary="Updated SQL queries for member table.">
       <created>1674681589846</created>
@@ -433,7 +425,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676548925247</updated>
     </task>
-    <option name="localTasksCounter" value="81" />
+    <task id="LOCAL-00081" summary="Same book cannot be added.">
+      <created>1676550289550</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1676550289550</updated>
+    </task>
+    <option name="localTasksCounter" value="82" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -448,7 +447,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Displayed date format on return date label for borrowers." />
     <MESSAGE value="Removed redundant method." />
     <MESSAGE value="Improved getBook method in BookDialog." />
     <MESSAGE value="Improved getBook method in BorrowerDialog." />
@@ -473,7 +471,8 @@
     <MESSAGE value="Added class comments." />
     <MESSAGE value="Changed updateMember method to require Member instead of each variable individually." />
     <MESSAGE value="Changed updateBook method to require Book instead of each variable individually." />
-    <option name="LAST_COMMIT_MESSAGE" value="Changed updateBook method to require Book instead of each variable individually." />
+    <MESSAGE value="Same book cannot be added." />
+    <option name="LAST_COMMIT_MESSAGE" value="Same book cannot be added." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

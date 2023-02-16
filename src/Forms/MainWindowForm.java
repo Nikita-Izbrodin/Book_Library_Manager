@@ -42,7 +42,7 @@ public class MainWindowForm {
 
     private JComboBox menuComboBox;
     private JPanel mainPanel;
-    private JButton addNewButton;
+    private JButton CreateNewButton;
     private JComboBox searchByComboBox;
     private JTextField searchTextField;
     private JList<Book> bookList;
@@ -70,7 +70,7 @@ public class MainWindowForm {
     private JPanel userSearchCardPanel;
     private JList<Member> memberList;
     private JList<Borrower> borrowerList;
-    private JButton addBorrowerButton;
+    private JButton createBorrowerButton;
     private JLabel idLabel;
     private JButton deleteUserButton;
     private JButton editUserButton;
@@ -122,7 +122,7 @@ public class MainWindowForm {
         updateNumOfBooksBorrowed();
         updateNumOfBooksAvailable();
 
-        addNewButton.addActionListener(e -> {
+        CreateNewButton.addActionListener(e -> {
             if (menuComboBox.getSelectedItem() != null) {
                 switch (menuComboBox.getSelectedItem().toString()) {
                     case "Books" -> createNewBook();
@@ -132,7 +132,7 @@ public class MainWindowForm {
             }
         });
 
-        addBorrowerButton.addActionListener(e -> {
+        createBorrowerButton.addActionListener(e -> {
 
             try {
 
@@ -142,7 +142,7 @@ public class MainWindowForm {
                         JOptionPane.showMessageDialog(
                                 null,
                                 "There are no members in the database.",
-                                "Cannot add borrower",
+                                "Cannot create borrower",
                                 JOptionPane.INFORMATION_MESSAGE
                         );
                         return;
@@ -152,7 +152,7 @@ public class MainWindowForm {
                         JOptionPane.showMessageDialog(
                                 null,
                                 "There are no available books.",
-                                "Cannot add borrower",
+                                "Cannot create borrower",
                                 JOptionPane.ERROR_MESSAGE
                         );
                         return;
@@ -589,11 +589,19 @@ public class MainWindowForm {
 
                 String menuOption = menuComboBox.getSelectedItem().toString();
                 switch (menuOption) {
-                    case "Books" -> showBookCardPanel();
-                    case "Members" -> showMemberCardPanel();
-                    case "Users" -> showUserCardPanel();
+                    case "Books" -> {
+                        showBookCardPanel();
+                        CreateNewButton.setText("Create New Book");
+                    }
+                    case "Members" -> {
+                        showMemberCardPanel();
+                        CreateNewButton.setText("Create New Member");
+                    }
+                    case "Users" -> {
+                        showUserCardPanel();
+                        CreateNewButton.setText("Create New User");
+                    }
                 }
-
                 selectedParentCardPanel.repaint();
                 selectedParentCardPanel.revalidate();
             }
@@ -873,7 +881,6 @@ public class MainWindowForm {
             );
         }
     }
-
 
     private void selectBooksBy() { // updates list of displayed books
 

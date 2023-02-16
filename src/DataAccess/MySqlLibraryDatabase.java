@@ -28,12 +28,13 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
     // books category
     private static final String INSERT_BOOK = "INSERT INTO books (title, author, isbn, quantity) VALUES (?,?,?,?)";
     private static final String UPDATE_BOOK = "UPDATE books SET title = ?, author = ?, isbn = ?, quantity = ? " +
-                                              "WHERE book_id = ?";
+                                              "WHERE book_id = BINARY ?";
     private static final String DELETE_BOOK = "DELETE FROM books WHERE book_id = ?";
     private static final String SELECT_BOOK_BY_TITLE = "SELECT * FROM books WHERE title LIKE ?";
     private static final String SELECT_BOOK_BY_AUTHOR = "SELECT * FROM books WHERE author LIKE ?";
     private static final String SELECT_BOOK_BY_ISBN = "SELECT * FROM books WHERE isbn LIKE ?";
-    private static final String SELECT_BOOK_ID = "SELECT book_id FROM books WHERE title = ? AND author = ? AND isbn = ?";
+    private static final String SELECT_BOOK_ID = "SELECT book_id FROM books " +
+                                                 "WHERE title = BINARY ? AND author = BINARY ? AND isbn = BINARY ?";
     private static final String COUNT_BOOKS = "SELECT SUM(quantity) FROM books";
 
     // members category
@@ -71,8 +72,8 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
 
     // users category
     private static final String INSERT_USER = "INSERT INTO users" + " (username, full_name, password) VALUES " + " (?,?,?)";
-    private static final String UPDATE_USER = "UPDATE users SET username = ?, full_name = ?, password = ? WHERE username = ?";
-    private static final String DELETE_USER = "DELETE FROM users WHERE username = ?";
+    private static final String UPDATE_USER = "UPDATE users SET username = ?, full_name = ?, password = ? WHERE username = BINARY ?";
+    private static final String DELETE_USER = "DELETE FROM users WHERE username = BINARY ?";
     private static final String SELECT_ALL_USERS = "SELECT * FROM users";
     private static final String SELECT_USER_BY_USERNAME = "SELECT * FROM users WHERE username LIKE ?";
     private static final String SELECT_USER_BY_USERNAME_AND_PASSWORD = "SELECT * FROM users " +
@@ -193,10 +194,7 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         preparedStatement.setString(2, author);
         preparedStatement.setString(3, isbn);
         ResultSet rs = preparedStatement.executeQuery();
-        if (rs.next()) {
-            return true;
-        }
-        return false;
+        return rs.next();
     }
 
     @Override
