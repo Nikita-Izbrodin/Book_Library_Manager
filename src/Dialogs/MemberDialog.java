@@ -70,7 +70,7 @@ public class MemberDialog extends JDialog {
             postcodeTextField.setText(postcode);
         }
 
-        leftButton.addActionListener(e -> onOK(type, email));
+        leftButton.addActionListener(e -> onOK(type));
 
         buttonCancel.addActionListener(e -> onCancel());
 
@@ -111,7 +111,7 @@ public class MemberDialog extends JDialog {
         return memberDialog.member;
     }
 
-    private void onOK(DialogType type, String oldEmail) {
+    private void onOK(DialogType type) {
 
         try {
 
@@ -128,32 +128,21 @@ public class MemberDialog extends JDialog {
                 return;
             }
 
+            if (libraryDatabase.isMemberIDUsed(Integer.parseInt(idTextField.getText())) && type == DialogType.CREATE) {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "A member with this ID already exists.",
+                        "Invalid ID",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
             if (!emailAddressChecker.isValidEmailAddress(emailTextField.getText())) {
                 JOptionPane.showMessageDialog(
                         null,
                         emailTextField.getText() +
                         " doesn't look like a valid email address.\nPlease check and correct.",
                         "Invalid email address",
-                        JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            if (libraryDatabase.isEmailUsed(emailTextField.getText()) && type == DialogType.CREATE) {
-                JOptionPane.showMessageDialog(
-                        null,
-                        "A member with this email already exists.",
-                        "Invalid email", JOptionPane.ERROR_MESSAGE
-                );
-                return;
-            } else if (
-                    !emailTextField.getText().equals(oldEmail)
-                    && libraryDatabase.isEmailUsed(emailTextField.getText())
-                    && type == DialogType.EDIT)
-            {
-                JOptionPane.showMessageDialog(
-                        null,
-                        "A member with this email already exists.",
-                        "Invalid email",
                         JOptionPane.ERROR_MESSAGE);
                 return;
             }

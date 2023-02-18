@@ -111,11 +111,24 @@ public class BookDialog extends JDialog {
                 return;
             }
 
-            if (libraryDatabase.doesBookExist(titleField.getText(), authorField.getText(), isbnField.getText()) && type == DialogType.CREATE) {
+            if (
+                    libraryDatabase.doesBookExist(titleField.getText(), authorField.getText(), isbnField.getText())
+                    && type == DialogType.CREATE
+            ) {
                 JOptionPane.showMessageDialog(
                         null,
                         "This book already exists.",
                         "Invalid book",
+                        JOptionPane.ERROR_MESSAGE
+                );
+                return;
+            }
+
+            if (Integer.parseInt(quantityField.getText()) < 0 ) {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Quantity must be a whole positive number.",
+                        "Invalid quantity",
                         JOptionPane.ERROR_MESSAGE
                 );
                 return;
@@ -131,7 +144,7 @@ public class BookDialog extends JDialog {
         } catch (NumberFormatException nfe) {
             JOptionPane.showMessageDialog(
                     null,
-                    "Quantity must be a number.",
+                    "Quantity must be a whole positive number.",
                     "Invalid quantity",
                     JOptionPane.ERROR_MESSAGE
             );

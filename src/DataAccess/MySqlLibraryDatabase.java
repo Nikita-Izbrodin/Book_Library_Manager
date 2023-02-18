@@ -21,14 +21,14 @@ import java.util.List;
  */
 public class MySqlLibraryDatabase implements LibraryDatabase {
 
-    private static final String jdbcURL = "jdbc:mysql://localhost:3306/booklibrary";
-    private static final String jdbcUsername = "dbmanager";
-    private static final String jdbcPassword = "manager7349";
+    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/booklibrary";
+    private static final String JDBC_USERNAME = "dbmanager";
+    private static final String JDBC_PASSWORD = "manager7349";
 
     // books category
     private static final String INSERT_BOOK = "INSERT INTO books (title, author, isbn, quantity) VALUES (?,?,?,?)";
     private static final String UPDATE_BOOK = "UPDATE books SET title = ?, author = ?, isbn = ?, quantity = ? " +
-                                              "WHERE book_id = BINARY ?";
+                                              "WHERE book_id = ?";
     private static final String DELETE_BOOK = "DELETE FROM books WHERE book_id = ?";
     private static final String SELECT_BOOK_BY_TITLE = "SELECT * FROM books WHERE title LIKE ?";
     private static final String SELECT_BOOK_BY_AUTHOR = "SELECT * FROM books WHERE author LIKE ?";
@@ -47,18 +47,20 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
                                                 "WHERE member_id = ?";
     private static final String DELETE_MEMBER = "DELETE FROM members WHERE member_id = ?";
     private static final String SELECT_ALL_MEMBERS = "SELECT * FROM members";
+    private static final String SELECT_MEMBER_BY_ID = "SELECT * FROM members WHERE member_id = ?";
     private static final String SELECT_MEMBER_BY_NAME = "SELECT * FROM members WHERE name LIKE ?";
     private static final String SELECT_MEMBER_BY_SURNAME = "SELECT * FROM members WHERE surname LIKE ?";
+    private static final String SELECT_MEMBER_NAME_AND_SURNAME_BY_MEMBER_ID = "SELECT name, surname FROM members " +
+                                                                              "WHERE member_id = ?";
     private static final String SELECT_MEMBER_BY_PHONENO = "SELECT * FROM members WHERE phone LIKE ?";
     private static final String SELECT_MEMBER_BY_EMAIL = "SELECT * FROM members WHERE email LIKE ?";
     private static final String SELECT_MEMBER_BY_ADDRESS = "SELECT * FROM members WHERE address LIKE ?";
     private static final String SELECT_MEMBER_BY_POSTCODE = "SELECT * FROM members WHERE postcode LIKE ?";
-    private static final String SELECT_MEMBER_NAME_AND_SURNAME_BY_MEMBER_ID = "SELECT name, surname FROM members " +
-                                                                              "WHERE member_id = ?";
     private static final String COUNT_MEMBERS = "SELECT COUNT(*) FROM members";
 
     // borrowers category
-    private static final String INSERT_BORROWER = "INSERT INTO borrowed_books (book_id, member_id, return_date) VALUES (?,?,?)";
+    private static final String INSERT_BORROWER = "INSERT INTO borrowed_books (book_id, member_id, return_date) " +
+                                                  "VALUES (?,?,?)";
     private static final String UPDATE_BORROWER = "UPDATE borrowed_books SET member_id = ?, return_date = ? " +
                                                   "WHERE book_id = ? AND member_id = ?";
     private static final String DELETE_BORROWER = "DELETE FROM borrowed_books WHERE book_id = ? AND member_id = ?";
@@ -71,17 +73,20 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
     private static final String COUNT_BORROWERS = "SELECT COUNT(*) FROM borrowed_books";
 
     // users category
-    private static final String INSERT_USER = "INSERT INTO users" + " (username, full_name, password) VALUES " + " (?,?,?)";
-    private static final String UPDATE_USER = "UPDATE users SET username = ?, full_name = ?, password = ? WHERE username = BINARY ?";
+    private static final String INSERT_USER = "INSERT INTO users" +
+                                              " (username, full_name, password) VALUES " + " (?,?,?)";
+    private static final String UPDATE_USER = "UPDATE users SET username = ?, full_name = ?, password = ? " +
+                                              "WHERE username = BINARY ?";
     private static final String DELETE_USER = "DELETE FROM users WHERE username = BINARY ?";
     private static final String SELECT_ALL_USERS = "SELECT * FROM users";
     private static final String SELECT_USER_BY_USERNAME = "SELECT * FROM users WHERE username LIKE ?";
     private static final String SELECT_USER_BY_USERNAME_AND_PASSWORD = "SELECT * FROM users " +
-                                                                       "WHERE username = BINARY ? AND password = BINARY ?";
+                                                                       "WHERE username = BINARY ? " +
+                                                                       "AND password = BINARY ?";
     private static final String SELECT_USER_BY_FULLNAME = "SELECT * FROM users WHERE full_name LIKE ?";
 
     protected Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
+        return DriverManager.getConnection(JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD);
     }
 
     // Methods are in the following order of categories: books, members, borrowers, users
@@ -269,6 +274,37 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
     }
 
     @Override
+    public boolean isMemberIDUsed(int memberID) throws  SQLException {
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_MEMBER_BY_ID);
+        preparedStatement.setInt(1, memberID);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        boolean isEmptyResultSet = resultSet.next();
+        resultSet.close();
+        preparedStatement.close();
+        connection.close();
+        return isEmptyResultSet;
+    }
+
+    @Override
+    public String selectMemberNameSurnameByMemberID(int memberID) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_MEMBER_NAME_AND_SURNAME_BY_MEMBER_ID);
+        preparedStatement.setInt(1, memberID);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        String name = null;
+        String surname = null;
+        if (resultSet.next()) {
+            name = resultSet.getString("name");
+            surname = resultSet.getString("surname");
+        }
+        resultSet.close();
+        preparedStatement.close();
+        connection.close();
+        return name+" "+surname;
+    }
+
+    @Override
     public List<Member> selectMembersByName(String name) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_MEMBER_BY_NAME);
@@ -321,19 +357,6 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
     }
 
     @Override
-    public boolean isEmailUsed(String email) throws SQLException {
-        Connection connection = getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_MEMBER_BY_EMAIL);
-        preparedStatement.setString(1, email);
-        ResultSet resultSet = preparedStatement.executeQuery();
-        List<Member> members = getMemberList(resultSet);
-        resultSet.close();
-        preparedStatement.close();
-        connection.close();
-        return !members.isEmpty();
-    }
-
-    @Override
     public List<Member> selectMembersByAddress(String address) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_MEMBER_BY_ADDRESS);
@@ -357,24 +380,6 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         preparedStatement.close();
         connection.close();
         return members;
-    }
-
-    @Override
-    public String selectMemberNameSurnameByMemberID(int memberID) throws SQLException {
-        Connection connection = getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_MEMBER_NAME_AND_SURNAME_BY_MEMBER_ID);
-        preparedStatement.setInt(1, memberID);
-        ResultSet resultSet = preparedStatement.executeQuery();
-        String name = null;
-        String surname = null;
-        if (resultSet.next()) {
-            name = resultSet.getString("name");
-            surname = resultSet.getString("surname");
-        }
-        resultSet.close();
-        preparedStatement.close();
-        connection.close();
-        return name+" "+surname;
     }
 
     @Override
@@ -403,7 +408,8 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         preparedStatement.setInt(1, newBorrower.bookID());
         preparedStatement.setInt(2, newBorrower.memberID());
         preparedStatement.setDate(3, Date.valueOf(newBorrower.returnDate()));
-        assert preparedStatement.executeUpdate() == 1 : "A single row is expected to be updated in the borrowed_books table.";
+        assert preparedStatement.executeUpdate() == 1 :
+                "A single row is expected to be updated in the borrowed_books table.";
         preparedStatement.close();
         connection.close();
     }
@@ -421,8 +427,8 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         preparedStatement.setDate(2, Date.valueOf(newReturnDate));
         preparedStatement.setInt(3, bookID);
         preparedStatement.setInt(4, oldMemberID);
-        int updatedRowCount = preparedStatement.executeUpdate();
-        assert updatedRowCount == 1 : "A single row is expected to be updated in the borrowed_books table.";
+        assert preparedStatement.executeUpdate() == 1 :
+                "A single row is expected to be updated in the borrowed_books table.";
         preparedStatement.close();
         connection.close();
     }
@@ -433,7 +439,8 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         PreparedStatement preparedStatement = connection.prepareStatement(DELETE_BORROWER);
         preparedStatement.setInt(1, bookID);
         preparedStatement.setInt(2, memberID);
-        assert preparedStatement.executeUpdate() == 1 : "A single row is expected to be updated in the borrowed_books table.";
+        assert preparedStatement.executeUpdate() == 1 :
+                "A single row is expected to be updated in the borrowed_books table.";
         preparedStatement.close();
         connection.close();
     }

@@ -53,11 +53,11 @@ public interface LibraryDatabase {
 
     List<Member> selectMembersByEmail(String email) throws SQLException;
 
-    boolean isEmailUsed(String email) throws SQLException;
-
     List<Member> selectMembersByAddress(String address) throws SQLException;
 
     List<Member> selectMembersByPostcode(String postcode) throws SQLException;
+
+    boolean isMemberIDUsed(int memberID) throws  SQLException;
 
     String selectMemberNameSurnameByMemberID(int memberID) throws SQLException;
 
