@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `booklibrary`.`books` (
   `quantity` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`book_id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 61
+AUTO_INCREMENT = 64
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -50,9 +50,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `booklibrary`.`borrowed_books`
+-- Table `booklibrary`.`borrowers`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `booklibrary`.`borrowed_books` (
+CREATE TABLE IF NOT EXISTS `booklibrary`.`borrowers` (
   `book_id` INT NOT NULL,
   `member_id` INT NOT NULL,
   `return_date` DATE NOT NULL,

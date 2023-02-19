@@ -25,7 +25,7 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
     private static final String JDBC_USERNAME = "dbmanager";
     private static final String JDBC_PASSWORD = "manager7349";
 
-    // books category
+    // book related SQL
     private static final String INSERT_BOOK = "INSERT INTO books (title, author, isbn, quantity) VALUES (?,?,?,?)";
     private static final String UPDATE_BOOK = "UPDATE books SET title = ?, author = ?, isbn = ?, quantity = ? " +
                                               "WHERE book_id = ?";
@@ -37,7 +37,7 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
                                                  "WHERE title = BINARY ? AND author = BINARY ? AND isbn = BINARY ?";
     private static final String COUNT_BOOKS = "SELECT SUM(quantity) FROM books";
 
-    // members category
+    // member related SQL
     private static final String INSERT_MEMBER = "INSERT INTO members " +
                                                 "(member_id, name, surname, phone, email, address, postcode) " +
                                                 "VALUES (?,?,?,?,?,?,?)";
@@ -58,21 +58,21 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
     private static final String SELECT_MEMBER_BY_POSTCODE = "SELECT * FROM members WHERE postcode LIKE ?";
     private static final String COUNT_MEMBERS = "SELECT COUNT(*) FROM members";
 
-    // borrowers category
-    private static final String INSERT_BORROWER = "INSERT INTO borrowed_books (book_id, member_id, return_date) " +
+    // borrowers
+    private static final String INSERT_BORROWER = "INSERT INTO borrowers (book_id, member_id, return_date) " +
                                                   "VALUES (?,?,?)";
-    private static final String UPDATE_BORROWER = "UPDATE borrowed_books SET member_id = ?, return_date = ? " +
+    private static final String UPDATE_BORROWER = "UPDATE borrowers SET member_id = ?, return_date = ? " +
                                                   "WHERE book_id = ? AND member_id = ?";
-    private static final String DELETE_BORROWER = "DELETE FROM borrowed_books WHERE book_id = ? AND member_id = ?";
-    private static final String SELECT_BORROWERS_BY_MEMBER_ID = "SELECT * FROM borrowed_books WHERE member_id = ?";
+    private static final String DELETE_BORROWER = "DELETE FROM borrowers WHERE book_id = ? AND member_id = ?";
+    private static final String SELECT_BORROWERS_BY_MEMBER_ID = "SELECT * FROM borrowers WHERE member_id = ?";
     private static final String SELECT_BORROWERS_BY_BOOK_ID =
-            "SELECT book_id, borrowed_books.member_id, return_date, members.name, members.surname " +
-            "FROM borrowed_books INNER JOIN members ON borrowed_books.member_id = members.member_id WHERE book_id = ?";
-    private static final String SELECT_BORROWERS_BY_BOOK_ID_AND_MEMBER_ID = "SELECT * FROM borrowed_books " +
+            "SELECT book_id, borrowers.member_id, return_date, members.name, members.surname " +
+            "FROM borrowers INNER JOIN members ON borrowers.member_id = members.member_id WHERE book_id = ?";
+    private static final String SELECT_BORROWERS_BY_BOOK_ID_AND_MEMBER_ID = "SELECT * FROM borrowers " +
                                                                             "WHERE book_id = ? AND member_id = ?";
-    private static final String COUNT_BORROWERS = "SELECT COUNT(*) FROM borrowed_books";
+    private static final String COUNT_BORROWERS = "SELECT COUNT(*) FROM borrowers";
 
-    // users category
+    // user related SQL
     private static final String INSERT_USER = "INSERT INTO users" +
                                               " (username, full_name, password) VALUES " + " (?,?,?)";
     private static final String UPDATE_USER = "UPDATE users SET username = ?, full_name = ?, password = ? " +
@@ -89,22 +89,22 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         return DriverManager.getConnection(JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD);
     }
 
-    // Methods are in the following order of categories: books, members, borrowers, users
+    // methods are in the following order: books, members, borrowers, users, list getters
 
     //
-    // start of book commands
+    // book methods
     //
+
     @Override
-    public void createBook(Book newBook) throws SQLException {
+    public void createBook(Book book) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(INSERT_BOOK);
-        preparedStatement.setString(1, newBook.title());
-        preparedStatement.setString(2, newBook.author());
-        preparedStatement.setString(3, newBook.isbn());
-        preparedStatement.setInt(4, newBook.quantity());
+        preparedStatement.setString(1, book.title());
+        preparedStatement.setString(2, book.author());
+        preparedStatement.setString(3, book.isbn());
+        preparedStatement.setInt(4, book.quantity());
         assert preparedStatement.executeUpdate() == 1 : "A single row is expected to be updated in the books table.";
-        preparedStatement.close();
-        connection.close();
+        closeConnection(connection, preparedStatement);
     }
 
     @Override
@@ -117,8 +117,7 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         preparedStatement.setInt(4, book.quantity());
         preparedStatement.setInt(5, book_id);
         assert preparedStatement.executeUpdate() == 1 : "A single row is expected to be updated in the books table.";
-        preparedStatement.close();
-        connection.close();
+        closeConnection(connection, preparedStatement);
     }
 
     @Override
@@ -127,9 +126,10 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         PreparedStatement preparedStatement = connection.prepareStatement(DELETE_BOOK);
         preparedStatement.setInt(1, book_id);
         assert preparedStatement.executeUpdate() == 1 : "A single row is expected to be updated in the books table.";
-        preparedStatement.close();
-        connection.close();
+        closeConnection(connection, preparedStatement);
     }
+
+
 
     @Override
     public List<Book> selectBooksByTitle(String title) throws SQLException {
@@ -138,9 +138,7 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         preparedStatement.setString(1, "%"+title+"%");
         ResultSet resultSet = preparedStatement.executeQuery();
         List<Book> books = getBookList(resultSet);
-        resultSet.close();
-        preparedStatement.close();
-        connection.close();
+        closeConnection(connection, preparedStatement, resultSet);
         return books;
     }
 
@@ -151,9 +149,7 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         preparedStatement.setString(1, "%"+author+"%");
         ResultSet resultSet = preparedStatement.executeQuery();
         List<Book> books = getBookList(resultSet);
-        resultSet.close();
-        preparedStatement.close();
-        connection.close();
+        closeConnection(connection, preparedStatement, resultSet);
         return books;
     }
 
@@ -164,9 +160,7 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         preparedStatement.setString(1, "%"+isbn+"%");
         ResultSet resultSet = preparedStatement.executeQuery();
         List<Book> books = getBookList(resultSet);
-        resultSet.close();
-        preparedStatement.close();
-        connection.close();
+        closeConnection(connection, preparedStatement, resultSet);
         return books;
     }
 
@@ -182,9 +176,7 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         if (resultSet.next()) {
             bookID = resultSet.getInt("book_id");
         }
-        resultSet.close();
-        preparedStatement.close();
-        connection.close();
+        closeConnection(connection, preparedStatement, resultSet);
         return bookID;
     }
 
@@ -196,7 +188,9 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         preparedStatement.setString(2, author);
         preparedStatement.setString(3, isbn);
         ResultSet resultSet = preparedStatement.executeQuery();
-        return resultSet.next();
+        boolean bookExists = resultSet.next();
+        closeConnection(connection, preparedStatement, resultSet);
+        return bookExists;
     }
 
     @Override
@@ -206,18 +200,14 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         ResultSet resultSet = preparedStatement.executeQuery();
         resultSet.next();
         int totalBooks = resultSet.getInt(1);
-        resultSet.close();
-        preparedStatement.close();
-        connection.close();
+        closeConnection(connection, preparedStatement, resultSet);
         return totalBooks;
     }
-    //
-    // end of book commands
-    //
 
     //
-    // start of member commands
+    // member methods
     //
+
     @Override
     public void createMember(Member member) throws SQLException {
         Connection connection = getConnection();
@@ -230,8 +220,7 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         preparedStatement.setString(6, member.address());
         preparedStatement.setString(7, member.postcode());
         assert preparedStatement.executeUpdate() == 1 : "A single row is expected to be updated in the members table.";
-        preparedStatement.close();
-        connection.close();
+        closeConnection(connection, preparedStatement);
     }
 
     @Override
@@ -247,8 +236,7 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         preparedStatement.setString(7, member.postcode());
         preparedStatement.setInt(8, oldID);
         assert preparedStatement.executeUpdate() == 1 : "A single row is expected to be updated in the members table.";
-        preparedStatement.close();
-        connection.close();
+        closeConnection(connection, preparedStatement);
     }
 
     @Override
@@ -257,8 +245,7 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         PreparedStatement preparedStatement = connection.prepareStatement(DELETE_MEMBER);
         preparedStatement.setInt(1, id);
         assert preparedStatement.executeUpdate() == 1 : "A single row is expected to be updated in the members table.";
-        preparedStatement.close();
-        connection.close();
+        closeConnection(connection, preparedStatement);
     }
 
     @Override
@@ -266,11 +253,9 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_MEMBERS);
         ResultSet resultSet = preparedStatement.executeQuery();
-        boolean isEmptyResultSet = !resultSet.next();
-        resultSet.close();
-        preparedStatement.close();
-        connection.close();
-        return isEmptyResultSet;
+        boolean noMembers = !resultSet.next();
+        closeConnection(connection, preparedStatement, resultSet);
+        return noMembers;
     }
 
     @Override
@@ -279,11 +264,31 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_MEMBER_BY_ID);
         preparedStatement.setInt(1, memberID);
         ResultSet resultSet = preparedStatement.executeQuery();
-        boolean isEmptyResultSet = resultSet.next();
-        resultSet.close();
-        preparedStatement.close();
-        connection.close();
-        return isEmptyResultSet;
+        boolean isMemberIDUsed = resultSet.next();
+        closeConnection(connection, preparedStatement, resultSet);
+        return isMemberIDUsed;
+    }
+
+    @Override
+    public List<Member> selectMembersByName(String name) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_MEMBER_BY_NAME);
+        preparedStatement.setString(1, "%"+name+"%");
+        ResultSet resultSet = preparedStatement.executeQuery();
+        List<Member> members = getMemberList(resultSet);
+        closeConnection(connection, preparedStatement, resultSet);
+        return members;
+    }
+
+    @Override
+    public List<Member> selectMembersBySurname(String surname) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_MEMBER_BY_SURNAME);
+        preparedStatement.setString(1, "%"+surname+"%");
+        ResultSet resultSet = preparedStatement.executeQuery();
+        List<Member> members = getMemberList(resultSet);
+        closeConnection(connection, preparedStatement, resultSet);
+        return members;
     }
 
     @Override
@@ -298,36 +303,8 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
             name = resultSet.getString("name");
             surname = resultSet.getString("surname");
         }
-        resultSet.close();
-        preparedStatement.close();
-        connection.close();
+        closeConnection(connection, preparedStatement, resultSet);
         return name+" "+surname;
-    }
-
-    @Override
-    public List<Member> selectMembersByName(String name) throws SQLException {
-        Connection connection = getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_MEMBER_BY_NAME);
-        preparedStatement.setString(1, "%"+name+"%");
-        ResultSet resultSet = preparedStatement.executeQuery();
-        List<Member> members = getMemberList(resultSet);
-        resultSet.close();
-        preparedStatement.close();
-        connection.close();
-        return members;
-    }
-
-    @Override
-    public List<Member> selectMembersBySurname(String surname) throws SQLException {
-        Connection connection = getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_MEMBER_BY_SURNAME);
-        preparedStatement.setString(1, "%"+surname+"%");
-        ResultSet resultSet = preparedStatement.executeQuery();
-        List<Member> members = getMemberList(resultSet);
-        resultSet.close();
-        preparedStatement.close();
-        connection.close();
-        return members;
     }
 
     @Override
@@ -337,9 +314,7 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         preparedStatement.setString(1, "%"+phoneNo+"%");
         ResultSet resultSet = preparedStatement.executeQuery();
         List<Member> members = getMemberList(resultSet);
-        resultSet.close();
-        preparedStatement.close();
-        connection.close();
+        closeConnection(connection, preparedStatement, resultSet);
         return members;
     }
 
@@ -350,9 +325,7 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         preparedStatement.setString(1, "%"+email+"%");
         ResultSet resultSet = preparedStatement.executeQuery();
         List<Member> members = getMemberList(resultSet);
-        resultSet.close();
-        preparedStatement.close();
-        connection.close();
+        closeConnection(connection, preparedStatement, resultSet);
         return members;
     }
 
@@ -363,9 +336,7 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         preparedStatement.setString(1, "%"+address+"%");
         ResultSet resultSet = preparedStatement.executeQuery();
         List<Member> members = getMemberList(resultSet);
-        resultSet.close();
-        preparedStatement.close();
-        connection.close();
+        closeConnection(connection, preparedStatement, resultSet);
         return members;
     }
 
@@ -376,9 +347,7 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         preparedStatement.setString(1, "%"+postcode+"%");
         ResultSet resultSet = preparedStatement.executeQuery();
         List<Member> members = getMemberList(resultSet);
-        resultSet.close();
-        preparedStatement.close();
-        connection.close();
+        closeConnection(connection, preparedStatement, resultSet);
         return members;
     }
 
@@ -389,18 +358,14 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         ResultSet resultSet = preparedStatement.executeQuery();
         resultSet.next();
         int totalMembers = resultSet.getInt(1);
-        resultSet.close();
-        preparedStatement.close();
-        connection.close();
+        closeConnection(connection, preparedStatement, resultSet);
         return totalMembers;
     }
-    //
-    // end of member commands
-    //
 
     //
-    // start of borrower commands
+    // borrower methods
     //
+
     @Override
     public void createBorrower(Borrower newBorrower) throws SQLException {
         Connection connection = getConnection();
@@ -409,9 +374,8 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         preparedStatement.setInt(2, newBorrower.memberID());
         preparedStatement.setDate(3, Date.valueOf(newBorrower.returnDate()));
         assert preparedStatement.executeUpdate() == 1 :
-                "A single row is expected to be updated in the borrowed_books table.";
-        preparedStatement.close();
-        connection.close();
+                "A single row is expected to be updated in the borrowers table.";
+        closeConnection(connection, preparedStatement);
     }
 
     @Override
@@ -428,9 +392,8 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         preparedStatement.setInt(3, bookID);
         preparedStatement.setInt(4, oldMemberID);
         assert preparedStatement.executeUpdate() == 1 :
-                "A single row is expected to be updated in the borrowed_books table.";
-        preparedStatement.close();
-        connection.close();
+                "A single row is expected to be updated in the borrowers table.";
+        closeConnection(connection, preparedStatement);
     }
 
     @Override
@@ -440,21 +403,18 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         preparedStatement.setInt(1, bookID);
         preparedStatement.setInt(2, memberID);
         assert preparedStatement.executeUpdate() == 1 :
-                "A single row is expected to be updated in the borrowed_books table.";
-        preparedStatement.close();
-        connection.close();
+                "A single row is expected to be updated in the borrowers table.";
+        closeConnection(connection, preparedStatement);
     }
 
     @Override
-    public boolean hasMemberBorrowedBook(int memberID) throws SQLException {
+    public boolean isBorrower(int memberID) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BORROWERS_BY_MEMBER_ID);
         preparedStatement.setInt(1, memberID);
         ResultSet resultSet = preparedStatement.executeQuery();
         boolean isBorrower = resultSet.next();
-        resultSet.close();
-        preparedStatement.close();
-        connection.close();
+        closeConnection(connection, preparedStatement, resultSet);
         return isBorrower;
     }
 
@@ -471,9 +431,7 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
             String fullName = resultSet.getString("name") + " " + resultSet.getString("surname");
             borrowers.add(new Borrower(bookID, memberID, fullName, returnDate));
         }
-        resultSet.close();
-        preparedStatement.close();
-        connection.close();
+        closeConnection(connection, preparedStatement, resultSet);
         return borrowers;
     }
 
@@ -485,9 +443,7 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         preparedStatement.setInt(2, memberID);
         ResultSet resultSet = preparedStatement.executeQuery();
         boolean isBorrowed = resultSet.next();
-        resultSet.close();
-        preparedStatement.close();
-        connection.close();
+        closeConnection(connection, preparedStatement, resultSet);
         return isBorrowed;
     }
 
@@ -498,18 +454,14 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         ResultSet resultSet = preparedStatement.executeQuery();
         resultSet.next();
         int numOfBooksBorrowed = resultSet.getInt(1);
-        resultSet.close();
-        preparedStatement.close();
-        connection.close();
+        closeConnection(connection, preparedStatement, resultSet);
         return numOfBooksBorrowed;
     }
-    //
-    // end of borrower commands
-    //
 
     //
-    // start of user commands
+    // user methods
     //
+
     @Override
     public void createUser(User user) throws SQLException {
         Connection connection = getConnection();
@@ -518,8 +470,7 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         preparedStatement.setString(2, user.fullName());
         preparedStatement.setString(3, user.password());
         assert preparedStatement.executeUpdate() == 1 : "A single row is expected to be updated in the users table.";
-        preparedStatement.close();
-        connection.close();
+        closeConnection(connection, preparedStatement);
     }
 
     @Override
@@ -536,8 +487,7 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         preparedStatement.setString(3, newPassword);
         preparedStatement.setString(4, oldUsername);
         assert preparedStatement.executeUpdate() == 1 : "A single row is expected to be updated in the users table.";
-        preparedStatement.close();
-        connection.close();
+        closeConnection(connection, preparedStatement);
     }
 
     @Override
@@ -546,20 +496,17 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         PreparedStatement preparedStatement = connection.prepareStatement(DELETE_USER);
         preparedStatement.setString(1, username);
         assert preparedStatement.executeUpdate() == 1 : "A single row is expected to be updated in the users table.";
-        preparedStatement.close();
-        connection.close();
+        closeConnection(connection, preparedStatement);
     }
 
     @Override
-    public boolean noStaff() throws SQLException {
+    public boolean noUsers() throws SQLException {
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_USERS);
         ResultSet resultSet = preparedStatement.executeQuery();
-        boolean isEmptyResultSet = !resultSet.next();
-        resultSet.close();
-        preparedStatement.close();
-        connection.close();
-        return isEmptyResultSet;
+        boolean noUsers = !resultSet.next();
+        closeConnection(connection, preparedStatement, resultSet);
+        return noUsers;
     }
 
     @Override
@@ -569,9 +516,7 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         preparedStatement.setString(1, "%"+username+"%");
         ResultSet resultSet = preparedStatement.executeQuery();
         List<User> users =  getUserList(resultSet);
-        resultSet.close();
-        preparedStatement.close();
-        connection.close();
+        closeConnection(connection, preparedStatement, resultSet);
         return users;
     }
 
@@ -583,10 +528,9 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         preparedStatement.setString(2, password);
         ResultSet resultSet = preparedStatement.executeQuery();
         List<User> users =  getUserList(resultSet);
-        resultSet.close();
-        preparedStatement.close();
-        connection.close();
-        return !users.isEmpty(); // found
+        boolean valid = !users.isEmpty();
+        closeConnection(connection, preparedStatement, resultSet);
+        return valid;
     }
 
 
@@ -597,18 +541,14 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         preparedStatement.setString(1, "%"+fullName+"%");
         ResultSet resultSet = preparedStatement.executeQuery();
         List<User> users =  getUserList(resultSet);
-        resultSet.close();
-        preparedStatement.close();
-        connection.close();
+        closeConnection(connection, preparedStatement, resultSet);
         return users;
     }
-    //
-    // end of user commands
-    //
 
     //
-    // start of list getters
+    // list getters
     //
+
     private static List<Book> getBookList(ResultSet resultSet) throws SQLException {
         List<Book> books = new ArrayList<>();
         while (resultSet.next()) {
@@ -646,7 +586,18 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
         }
         return users;
     }
+
     //
-    // end of list getters
+    // connection closers
     //
+
+    private static void closeConnection(Connection connection, PreparedStatement preparedStatement, ResultSet resultSet) throws SQLException {
+        resultSet.close();
+        closeConnection(connection, preparedStatement);
+    }
+
+    private static void closeConnection(Connection connection, PreparedStatement preparedStatement) throws SQLException {
+        preparedStatement.close();
+        connection.close();
+    }
 }

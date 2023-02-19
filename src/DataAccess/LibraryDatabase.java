@@ -13,8 +13,9 @@ import java.util.List;
  * An interface for interacting with a database.
  */
 public interface LibraryDatabase {
+
     //
-    // start of book commands
+    // book methods
     //
     void createBook(Book newBook) throws SQLException;
 
@@ -35,7 +36,7 @@ public interface LibraryDatabase {
     int countBooks() throws SQLException;
 
     //
-    // start of member commands
+    // member methods
     //
     void createMember(Member member) throws SQLException;
 
@@ -64,7 +65,7 @@ public interface LibraryDatabase {
     int countMembers() throws SQLException;
 
     //
-    // start of borrower commands
+    // borrower methods
     //
     void createBorrower(Borrower newBorrower) throws SQLException;
 
@@ -72,7 +73,7 @@ public interface LibraryDatabase {
 
     void deleteBorrower(int bookID, int memberID) throws SQLException;
 
-    boolean hasMemberBorrowedBook(int memberID) throws SQLException;
+    boolean isBorrower(int memberID) throws SQLException;
 
     List<Borrower> selectBorrowersByBookID(int bookID) throws SQLException;
 
@@ -81,7 +82,7 @@ public interface LibraryDatabase {
     int countBorrowers() throws SQLException;
 
     //
-    // start of user commands
+    // user methods
     //
     void createUser(User user) throws SQLException;
 
@@ -89,7 +90,7 @@ public interface LibraryDatabase {
 
     void deleteUser(String username) throws SQLException;
 
-    boolean noStaff() throws SQLException;
+    boolean noUsers() throws SQLException;
 
     List<User> selectUsersByUsername(String username) throws SQLException;
 

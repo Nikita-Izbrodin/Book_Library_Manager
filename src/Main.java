@@ -26,7 +26,7 @@ public class Main {
 
         try {
 
-            if (libraryDatabase.noStaff()){ // if there are no users in database
+            if (libraryDatabase.noUsers()){ // if there are no users in database
 
                 User newUser = UserDialog.getUser(
                         UserDialog.DialogType.CREATE,

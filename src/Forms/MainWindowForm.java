@@ -118,18 +118,22 @@ public class MainWindowForm {
         this.emailAddressChecker = emailAddressChecker;
         this.libraryDatabase = libraryDatabase;
 
-        selectBooksBy();
+        updateBookList();
         updateTotalMembers();
         updateTotalBooks();
         updateNumOfBooksBorrowed();
         updateNumOfBooksAvailable();
 
+        //
+        // create action listeners
+        //
+
         CreateNewButton.addActionListener(e -> {
             if (menuComboBox.getSelectedItem() != null) {
                 switch (menuComboBox.getSelectedItem().toString()) {
-                    case "Books" -> createNewBook();
-                    case "Members" -> createNewMember();
-                    case "Users" -> createNewUser();
+                    case "Books" -> createBook();
+                    case "Members" -> createMember();
+                    case "Users" -> createUser();
                 }
             }
         });
@@ -177,7 +181,7 @@ public class MainWindowForm {
                     if (newBorrower != null) { // can be null if cancel pressed on BorrowerDialog
                         libraryDatabase.createBorrower(newBorrower);
 
-                        displayBorrowers();
+                        updateBorrowerList();
                         updateStatisticsOnSelectedBook(this.libraryDatabase);
                         updateNumOfBooksBorrowed();
                         updateNumOfBooksAvailable();
@@ -192,6 +196,10 @@ public class MainWindowForm {
                 );
             }
         });
+
+        //
+        // edit action listeners (except borrowers)
+        //
 
         editBookButton.addActionListener(e -> {
 
@@ -230,7 +238,7 @@ public class MainWindowForm {
                         quantityLabel.setText(String.valueOf(editedBook.quantity()));
 
                         updateStatisticsOnSelectedBook(this.libraryDatabase);
-                        selectBooksBy();
+                        updateBookList();
                         updateTotalBooks();
                         updateNumOfBooksAvailable();
                     }
@@ -282,7 +290,7 @@ public class MainWindowForm {
                         addressLabel.setText(editedMember.address());
                         postcodeLabel.setText(editedMember.postcode());
 
-                        selectMembersBy();
+                        updateMemberList();
                     }
                 }
             } catch (SQLException ex) {
@@ -339,7 +347,7 @@ public class MainWindowForm {
                         usernameLabel.setText(editedUser.username());
                         fullNameLabel.setText(editedUser.fullName());
 
-                        selectUsersBy();
+                        updateUserList();
                     }
                 }
             } catch (SQLException ex) {
@@ -351,6 +359,10 @@ public class MainWindowForm {
                 );
             }
         });
+
+        //
+        // delete action listeners (except borrowers)
+        //
 
         deleteBookButton.addActionListener(e -> {
 
@@ -390,8 +402,10 @@ public class MainWindowForm {
                             isbnLabel.setText("");
                             quantityLabel.setText("");
 
-                            selectBooksBy();
-                            displayBorrowers();
+                            numOfSelectedBookAvailable.setText("");
+                            numOfSelectedBookBorrowed.setText("");
+                            updateBookList();
+                            updateBorrowerList();
                             updateTotalBooks();
                             updateNumOfBooksAvailable();
                         } else {
@@ -434,7 +448,7 @@ public class MainWindowForm {
                     );
 
                     if (answer == 0) { // if yes pressed
-                        if (libraryDatabase.hasMemberBorrowedBook(Integer.parseInt(idLabel.getText()))) {
+                        if (libraryDatabase.isBorrower(Integer.parseInt(idLabel.getText()))) {
                             JOptionPane.showMessageDialog(
                                     null,
                                     "Cannot delete this member." +
@@ -453,7 +467,7 @@ public class MainWindowForm {
                             addressLabel.setText("");
                             postcodeLabel.setText("");
 
-                            selectMembersBy();
+                            updateMemberList();
                             updateTotalMembers();
                         }
                     }
@@ -487,7 +501,7 @@ public class MainWindowForm {
                         usernameLabel.setText("");
                         fullNameLabel.setText("");
 
-                        selectUsersBy();
+                        updateUserList();
                     }
                 }
             } catch (SQLException ex) {
@@ -498,6 +512,10 @@ public class MainWindowForm {
                 );
             }
         });
+
+        //
+        // list mouse listeners (borrower list includes edit borrower & delete borrower)
+        //
 
         bookList.addMouseListener(new MouseAdapter() { // when item in book list is selected with cursor
             @Override
@@ -513,7 +531,7 @@ public class MainWindowForm {
 
                         updateStatisticsOnSelectedBook(libraryDatabase);
 
-                        displayBorrowers();
+                        updateBorrowerList();
                     }
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
@@ -578,18 +596,9 @@ public class MainWindowForm {
             }
         });
 
-        searchByComboBox.addActionListener(e -> { // updates list when the searchByComboBox value is changed
-
-            assert menuComboBox.getSelectedItem() != null; /* method invocation 'toString' in switch expression
-                                                              may produce NullPointerException if
-                                                              menuComboBox.getSelectedItem() is null */
-            switch (menuComboBox.getSelectedItem().toString()) {
-                case "Books" -> selectBooksBy();
-                case "Members" -> selectMembersBy();
-                case "Users" -> selectUsersBy();
-            }
-        });
-
+        //
+        // combo box action listeners
+        //
 
         menuComboBox.addActionListener(e -> { /* sets specific values in model of searchByComboBox
                                                  when menuComboBox value is changed & changes type of list displayed */
@@ -619,40 +628,60 @@ public class MainWindowForm {
             }
         });
 
+        searchByComboBox.addActionListener(e -> { // updates list when the searchByComboBox value is changed
+
+            assert menuComboBox.getSelectedItem() != null; /* method invocation 'toString' in switch expression
+                                                              may produce NullPointerException if
+                                                              menuComboBox.getSelectedItem() is null */
+            switch (menuComboBox.getSelectedItem().toString()) {
+                case "Books" -> updateBookList();
+                case "Members" -> updateMemberList();
+                case "Users" -> updateUserList();
+            }
+        });
+
+        //
+        // search bar ket listener
+        //
+
         searchTextField.addKeyListener(new KeyAdapter() { // updates list when user types in search bar
             @Override
             public void keyTyped(KeyEvent e) {
                 super.keyTyped(e);
 
-                assert menuComboBox.getSelectedItem() != null; /* method invocation 'toString' in switch expression
-                                                              may produce NullPointerException if
-                                                              menuComboBox.getSelectedItem() is null */
+                assert menuComboBox.getSelectedItem() != null;
+
                 switch (menuComboBox.getSelectedItem().toString()) {
-                    case "Books" -> selectBooksBy();
-                    case "Members" -> selectMembersBy();
-                    case "Users" -> selectUsersBy();
+                    case "Books" -> updateBookList();
+                    case "Members" -> updateMemberList();
+                    case "Users" -> updateUserList();
                 }
             }
         });
     }
 
-    private void showUserCardPanel() {
+    //
+    // show card panel methods
+    //
 
-        selectedParentCardPanel.add(userCardPanel);
-        searchResultsParentCardPanel.add(userSearchCardPanel);
+    private void showBookCardPanel() {
 
-        DefaultComboBoxModel userModel = (DefaultComboBoxModel) searchByComboBox.getModel();
-        userModel.removeAllElements();
+        selectedParentCardPanel.add(bookCardPanel);
+        searchResultsParentCardPanel.add(bookSearchCardPanel);
+
+        DefaultComboBoxModel bookModel = (DefaultComboBoxModel) searchByComboBox.getModel();
+        bookModel.removeAllElements();
         ArrayList<String> types = new ArrayList<>(Arrays.asList(
-                "Username",
-                "Full Name"
+                "Title",
+                "Author",
+                "ISBN"
         ));
         for (String type : types) {
-            userModel.addElement(type);
+            bookModel.addElement(type);
         }
-        searchByComboBox.setModel(userModel);
+        searchByComboBox.setModel(bookModel);
 
-        selectUsersBy();
+        updateBookList();
     }
 
     private void showMemberCardPanel() {
@@ -675,81 +704,31 @@ public class MainWindowForm {
         }
         searchByComboBox.setModel(memberModel);
 
-        selectMembersBy();
+        updateMemberList();
     }
 
-    private void showBookCardPanel() {
+    private void showUserCardPanel() {
 
-        selectedParentCardPanel.add(bookCardPanel);
-        searchResultsParentCardPanel.add(bookSearchCardPanel);
+        selectedParentCardPanel.add(userCardPanel);
+        searchResultsParentCardPanel.add(userSearchCardPanel);
 
-        DefaultComboBoxModel bookModel = (DefaultComboBoxModel) searchByComboBox.getModel();
-        bookModel.removeAllElements();
+        DefaultComboBoxModel userModel = (DefaultComboBoxModel) searchByComboBox.getModel();
+        userModel.removeAllElements();
         ArrayList<String> types = new ArrayList<>(Arrays.asList(
-                "Title",
-                "Author",
-                "ISBN"
+                "Username",
+                "Full Name"
         ));
         for (String type : types) {
-            bookModel.addElement(type);
+            userModel.addElement(type);
         }
-        searchByComboBox.setModel(bookModel);
+        searchByComboBox.setModel(userModel);
 
-        selectBooksBy();
+        updateUserList();
     }
 
-    private void returnBook() {
-
-        try {
-
-            String fullName = this.libraryDatabase.selectMemberNameSurnameByMemberID(
-                    borrowerList.getSelectedValue().memberID()
-            );
-
-            int bookReturned = JOptionPane.showConfirmDialog(
-                    null,
-                    "Has "+fullName+" returned "+titleLabel.getText()+"?",
-                    "Book returned",
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.QUESTION_MESSAGE);
-
-            if (bookReturned == 0) { // if yes pressed
-
-                this.libraryDatabase.deleteBorrower(
-                        borrowerList.getSelectedValue().bookID(),
-                        borrowerList.getSelectedValue().memberID()
-                );
-
-                displayBorrowers();
-                updateNumOfBooksBorrowed();
-                updateNumOfBooksAvailable();
-
-                updateStatisticsOnSelectedBook(libraryDatabase);
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(
-                    null,("Database error\n\nDetails:\n" + ex),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE
-            );
-        }
-    }
-
-    private void updateStatisticsOnSelectedBook(LibraryDatabase libraryDatabase) throws SQLException {
-        int bookID = libraryDatabase.getBookID(
-                titleLabel.getText(),
-                authorLabel.getText(),
-                isbnLabel.getText()
-        );
-
-        numOfSelectedBookAvailable.setText(
-                String.valueOf(Integer.parseInt(quantityLabel.getText()) -
-                        libraryDatabase.selectBorrowersByBookID(bookID).size())
-        );
-        numOfSelectedBookBorrowed.setText(
-                String.valueOf(libraryDatabase.selectBorrowersByBookID(bookID).size())
-        );
-    }
+    //
+    // borrower methods (includes edit and delete)
+    //
 
     private void editBorrower() {
 
@@ -787,7 +766,7 @@ public class MainWindowForm {
                         JOptionPane.INFORMATION_MESSAGE
                 );
 
-                displayBorrowers();
+                updateBorrowerList();
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(
@@ -799,41 +778,86 @@ public class MainWindowForm {
         }
     }
 
-    private void createNewUser() {
+    private void returnBook() { // delete borrower
 
         try {
 
-            User newUser = UserDialog.getUser(
-                    UserDialog.DialogType.CREATE,
-                    null,
-                    null,
-                    this.hashGenerator
+            String fullName = this.libraryDatabase.selectMemberNameSurnameByMemberID(
+                    borrowerList.getSelectedValue().memberID()
             );
 
-            if (newUser != null) { // can be null if cancel pressed on UserDialog
+            int bookReturned = JOptionPane.showConfirmDialog(
+                    null,
+                    "Has "+fullName+" returned "+titleLabel.getText()+"?",
+                    "Book returned",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE);
 
-                this.libraryDatabase.createUser(newUser);
+            if (bookReturned == 0) { // if yes pressed
 
-                JOptionPane.showMessageDialog(
-                        null,
-                        "User created successfully.",
-                        "Create user",
-                        JOptionPane.INFORMATION_MESSAGE
+                this.libraryDatabase.deleteBorrower(
+                        borrowerList.getSelectedValue().bookID(),
+                        borrowerList.getSelectedValue().memberID()
                 );
 
-                selectUsersBy();
+                updateBorrowerList();
+                updateNumOfBooksBorrowed();
+                updateNumOfBooksAvailable();
+
+                updateStatisticsOnSelectedBook(libraryDatabase);
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(
-                null,
-                ("Database error\n\nDetails:\n" + ex),
-                "Error",
-                JOptionPane.ERROR_MESSAGE
+                    null,("Database error\n\nDetails:\n" + ex),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
             );
         }
     }
 
-    private void createNewMember() {
+    //
+    // 'create' methods (does not include borrower)
+    //
+
+    private void createBook() {
+
+        try {
+
+            Book newBook = BookDialog.getBook(
+                    BookDialog.DialogType.CREATE,
+                    null,
+                    null,
+                    null,
+                    null,
+                    libraryDatabase
+            );
+
+            if (newBook != null) { // can be null if cancel pressed on BookDialog
+
+                libraryDatabase.createBook(newBook);
+
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Book created successfully.",
+                        "Create book",
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+
+                updateBookList();
+                updateTotalBooks();
+                updateNumOfBooksAvailable();
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    ("Database error\n\nDetails:\n" + ex),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+
+    private void createMember() {
 
         try {
 
@@ -861,7 +885,7 @@ public class MainWindowForm {
                         JOptionPane.INFORMATION_MESSAGE
                 );
 
-                selectMembersBy();
+                updateMemberList();
                 updateTotalMembers();
             }
         } catch (SQLException ex) {
@@ -874,33 +898,29 @@ public class MainWindowForm {
         }
     }
 
-    private void createNewBook() {
+    private void createUser() {
 
         try {
 
-            Book newBook = BookDialog.getBook(
-                    BookDialog.DialogType.CREATE,
+            User newUser = UserDialog.getUser(
+                    UserDialog.DialogType.CREATE,
                     null,
                     null,
-                    null,
-                    null,
-                    libraryDatabase
+                    this.hashGenerator
             );
 
-            if (newBook != null) { // can be null if cancel pressed on BookDialog
+            if (newUser != null) { // can be null if cancel pressed on UserDialog
 
-                libraryDatabase.createBook(newBook);
+                this.libraryDatabase.createUser(newUser);
 
                 JOptionPane.showMessageDialog(
                         null,
-                        "Book created successfully.",
-                        "Create book",
+                        "User created successfully.",
+                        "Create user",
                         JOptionPane.INFORMATION_MESSAGE
                 );
 
-                selectBooksBy();
-                updateTotalBooks();
-                updateNumOfBooksAvailable();
+                updateUserList();
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(
@@ -912,7 +932,11 @@ public class MainWindowForm {
         }
     }
 
-    private void selectBooksBy() { // updates list of displayed books
+    //
+    // update list methods
+    //
+
+    private void updateBookList() {
 
         try {
             if (searchByComboBox.getSelectedItem() != null) {
@@ -940,7 +964,7 @@ public class MainWindowForm {
         }
     }
 
-    private void selectMembersBy() { // updates list of displayed members
+    private void updateMemberList() {
 
         try {
 
@@ -973,7 +997,7 @@ public class MainWindowForm {
         }
     }
 
-    private void displayBorrowers() { // updates list of displayed borrowers
+    private void updateBorrowerList() {
 
         try {
 
@@ -999,7 +1023,7 @@ public class MainWindowForm {
         }
     }
 
-    private void selectUsersBy() { // updates list of displayed users
+    private void updateUserList() {
 
         try {
 
@@ -1027,6 +1051,10 @@ public class MainWindowForm {
             );
         }
     }
+
+    //
+    // statistics methods
+    //
 
     private void updateTotalMembers() {
         try {
@@ -1083,5 +1111,21 @@ public class MainWindowForm {
                     JOptionPane.ERROR_MESSAGE
             );
         }
+    }
+
+    private void updateStatisticsOnSelectedBook(LibraryDatabase libraryDatabase) throws SQLException {
+        int bookID = libraryDatabase.getBookID(
+                titleLabel.getText(),
+                authorLabel.getText(),
+                isbnLabel.getText()
+        );
+
+        numOfSelectedBookAvailable.setText(
+                String.valueOf(Integer.parseInt(quantityLabel.getText()) -
+                        libraryDatabase.selectBorrowersByBookID(bookID).size())
+        );
+        numOfSelectedBookBorrowed.setText(
+                String.valueOf(libraryDatabase.selectBorrowersByBookID(bookID).size())
+        );
     }
 }
