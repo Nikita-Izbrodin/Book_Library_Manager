@@ -591,12 +591,16 @@ public class MySqlLibraryDatabase implements LibraryDatabase {
     // connection closers
     //
 
-    private static void closeConnection(Connection connection, PreparedStatement preparedStatement, ResultSet resultSet) throws SQLException {
+    private static void closeConnection(
+            Connection connection, PreparedStatement preparedStatement, ResultSet resultSet
+    ) throws SQLException {
         resultSet.close();
         closeConnection(connection, preparedStatement);
     }
 
-    private static void closeConnection(Connection connection, PreparedStatement preparedStatement) throws SQLException {
+    private static void closeConnection(
+            Connection connection, PreparedStatement preparedStatement
+    ) throws SQLException {
         preparedStatement.close();
         connection.close();
     }
