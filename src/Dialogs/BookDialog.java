@@ -37,7 +37,7 @@ public class BookDialog extends JDialog {
         EDIT
     }
 
-    public BookDialog(DialogType type,
+    private BookDialog(DialogType type,
                       String title, String author, String isbn, String quantity,
                       LibraryDatabase libraryDatabase
     ) {

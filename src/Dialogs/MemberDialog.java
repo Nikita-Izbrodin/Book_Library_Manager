@@ -42,7 +42,7 @@ public class MemberDialog extends JDialog {
         EDIT
     }
 
-    public MemberDialog(
+    private MemberDialog(
             DialogType type,
             int id, String name, String surname, String phone, String email, String address, String postcode,
             EmailAddressChecker emailAddressChecker, LibraryDatabase libraryDatabase

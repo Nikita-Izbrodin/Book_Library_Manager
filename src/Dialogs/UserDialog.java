@@ -39,7 +39,7 @@ public class UserDialog extends JDialog {
         EDIT
     }
 
-    public UserDialog(DialogType type, String username, String fullName, HashGenerator hashGenerator) {
+    private UserDialog(DialogType type, String username, String fullName, HashGenerator hashGenerator) {
 
         assert hashGenerator != null;
         this.hashGenerator = hashGenerator;

@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 /**
  * A class for validation of an email address.
- * Implemented using a regular expression.
+ * Implemented using Regular Expression.
  */
 public class RegExEmailAddressChecker implements EmailAddressChecker {
 
@@ -13,7 +13,7 @@ public class RegExEmailAddressChecker implements EmailAddressChecker {
 
     public RegExEmailAddressChecker() {
         /*
-         * The following regular expression defines a pattern that matches any string that follows these rules:
+         * The following Regular Expression defines a pattern that matches any string that follows these rules:
          * - has one '@'
          * - all characters permitted by RFC-5322 are allowed (https://www.rfc-editor.org/rfc/rfc5322)
          * - the domain name must include at least one dot

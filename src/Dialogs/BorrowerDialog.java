@@ -37,7 +37,7 @@ public class BorrowerDialog extends JDialog {
         EDIT
     }
 
-    public BorrowerDialog(
+    private BorrowerDialog(
             DialogType type,
             int memberID, LocalDate returnDate, int bookID,
             LibraryDatabase libraryDatabase
