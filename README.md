@@ -1,1 +1,1 @@
-IntelliJ IDEA and MySQL.
+Used IntelliJ IDEA and MySQL.
