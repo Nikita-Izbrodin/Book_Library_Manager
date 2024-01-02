@@ -1,1 +1,1 @@
-This project used IntelliJ IDEA and MySQL.
+This project was made with IntelliJ IDEA and MySQL.
